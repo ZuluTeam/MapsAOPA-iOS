@@ -13,13 +13,16 @@ import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView : MKMapView?
+    @IBOutlet weak var detailsView : UIView?
+    
+    @IBOutlet var changingConstraints : [DependentLayoutConstraint]!
     
     private var fetchRequest = NSFetchRequest(entityName: "Point")
     private var fetchedResultsController : NSFetchedResultsController
     
     private var selectedAnnotation : PointAnnotation? {
         didSet {
-            self.showPointInfo(selectedAnnotation?.point)
+            self.showPointInfo(selectedAnnotation?.point, animated: true)
         }
     }
     
@@ -74,7 +77,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let mapRegion = Config.mapRegion(withDefaultCoordinate: mapLocation)
             self?.mapView?.setRegion(mapRegion, animated: true)
         })
+        
+        self.showPointInfo(self.selectedAnnotation?.point, animated: false)
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    // MARK: - Private
     
     private func reloadPoints()
     {
@@ -128,12 +139,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.mapView?.addAnnotation(annotation)
             }
         }
-        print(self.mapView?.annotations.count)
     }
     
-    private func showPointInfo(point: Point?)
+    private func showPointInfo(point: Point?, animated: Bool)
     {
-        
+        if let point = point
+        {
+            self.detailsView?.hidden = false
+        }
+        UIView.animateWithDuration(0.25 * NSTimeInterval(animated), animations: {
+            for constraint in self.changingConstraints
+            {
+                constraint.constant = -(CGFloat(nil == point) * (constraint.valueConstraint?.constant ?? 0.0))
+            }
+            self.view.layoutIfNeeded()
+        }) { completed in self.detailsView?.hidden = nil == point }
     }
 
     // MARK: - MKMapViewDelegate
@@ -162,6 +182,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         {
             self.selectedAnnotation = annotation
         }
+    }
+    
+    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
+        self.selectedAnnotation = nil
     }
 }
 

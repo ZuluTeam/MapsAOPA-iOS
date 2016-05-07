@@ -25,6 +25,7 @@
 		B563E2221CC1B98900480DA2 /* PointDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2181CC1B98900480DA2 /* PointDetails.swift */; };
 		B563E2251CC1C8BB00480DA2 /* NSXMLParser+ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2241CC1C8BB00480DA2 /* NSXMLParser+ReactiveCocoa.swift */; };
 		B563F6471CD12DF80059A5B8 /* NetworkConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B563F6461CD12DF80059A5B8 /* NetworkConfig.plist */; };
+		B56E5C081CDDD33B00CCDB39 /* DependentLayoutContstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E5C071CDDD33B00CCDB39 /* DependentLayoutContstraint.swift */; };
 		B5D1C6A61CC00C11001E3294 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D1C6A51CC00C11001E3294 /* MapKit.framework */; };
 		B5D1C6B81CC00DB7001E3294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */; };
 		B5D1C6B91CC00DB7001E3294 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AD1CC00DB7001E3294 /* MapViewController.swift */; };
@@ -68,7 +69,8 @@
 		B563E2181CC1B98900480DA2 /* PointDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointDetails.swift; path = Entities/PointDetails.swift; sourceTree = "<group>"; };
 		B563E2241CC1C8BB00480DA2 /* NSXMLParser+ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSXMLParser+ReactiveCocoa.swift"; sourceTree = "<group>"; };
 		B563F6461CD12DF80059A5B8 /* NetworkConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NetworkConfig.plist; path = MapsAOPA/Resourses/NetworkConfig.plist; sourceTree = SOURCE_ROOT; };
-		B5D1C68D1CC00B08001E3294 /* MapsAOPA.temp_caseinsensitive_rename.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapsAOPA.temp_caseinsensitive_rename.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B56E5C071CDDD33B00CCDB39 /* DependentLayoutContstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DependentLayoutContstraint.swift; path = MapsAOPA/Classes/DependentLayoutContstraint.swift; sourceTree = SOURCE_ROOT; };
+		B5D1C68D1CC00B08001E3294 /* MapsAOPA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapsAOPA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D1C6A51CC00C11001E3294 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5D1C6AD1CC00DB7001E3294 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -194,7 +196,7 @@
 		B5D1C68E1CC00B08001E3294 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B5D1C68D1CC00B08001E3294 /* MapsAOPA.temp_caseinsensitive_rename.app */,
+				B5D1C68D1CC00B08001E3294 /* MapsAOPA.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -269,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				B5DC77601CC7EF3200226660 /* MultipleStatesBarButtonItem.swift */,
+				B56E5C071CDDD33B00CCDB39 /* DependentLayoutContstraint.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -293,7 +296,7 @@
 			);
 			name = MapsAOPA;
 			productName = MapsAopa;
-			productReference = B5D1C68D1CC00B08001E3294 /* MapsAOPA.temp_caseinsensitive_rename.app */;
+			productReference = B5D1C68D1CC00B08001E3294 /* MapsAOPA.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -411,6 +414,7 @@
 				B5DC77611CC7EF3200226660 /* MultipleStatesBarButtonItem.swift in Sources */,
 				B563E2211CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift in Sources */,
 				B563E2251CC1C8BB00480DA2 /* NSXMLParser+ReactiveCocoa.swift in Sources */,
+				B56E5C081CDDD33B00CCDB39 /* DependentLayoutContstraint.swift in Sources */,
 				B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */,
 				B563E21F1CC1B98900480DA2 /* Fuel+CoreDataProperties.swift in Sources */,
 				B5447D381CC12A3C0041B579 /* AFXMLDictionaryResponseSerializer.m in Sources */,
@@ -535,8 +539,8 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAopa;
-				PRODUCT_NAME = MapsAOPA.temp_caseinsensitive_rename;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAOPA;
+				PRODUCT_NAME = MapsAOPA;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapsAOPA/Classes/MapsAOPA-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -551,8 +555,8 @@
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAopa;
-				PRODUCT_NAME = MapsAOPA.temp_caseinsensitive_rename;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAOPA;
+				PRODUCT_NAME = MapsAOPA;
 				SWIFT_OBJC_BRIDGING_HEADER = "MapsAOPA/Classes/MapsAOPA-Bridging-Header.h";
 			};
 			name = Release;
