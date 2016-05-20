@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F138DC4BC7C7417280B2611 /* Pods_MapsAOPA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A9ADAFDD635304642DC695 /* Pods_MapsAOPA.framework */; };
 		9516996FE8614879BE297560 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 759E18A16619C4DE65F04C3A /* Pods.framework */; };
 		B5447D351CC1278E0041B579 /* AFCSVResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = B5447D341CC1278E0041B579 /* AFCSVResponseSerializer.m */; };
 		B5447D381CC12A3C0041B579 /* AFXMLDictionaryResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = B5447D371CC12A3C0041B579 /* AFXMLDictionaryResponseSerializer.m */; };
@@ -46,6 +47,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		30A9ADAFDD635304642DC695 /* Pods_MapsAOPA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsAOPA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		759E18A16619C4DE65F04C3A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD2030E45BD01B9F49FE2848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		B5447D321CC1278D0041B579 /* MapsAOPA-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapsAOPA-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -89,6 +91,8 @@
 		B5FB20A51CC1D9AC007DA15E /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		B5FB20A71CC1DA3A007DA15E /* aopa-points-export.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "aopa-points-export.xml"; sourceTree = "<group>"; };
 		B5FE0EB31CC1503F0077CD83 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		C71CCB9FDC6925FB5DE01122 /* Pods-MapsAOPA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsAOPA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA.debug.xcconfig"; sourceTree = "<group>"; };
+		D12A077CA80221766059DD31 /* Pods-MapsAOPA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsAOPA.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA.release.xcconfig"; sourceTree = "<group>"; };
 		E60AB314535F6C0137E03FCB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -99,6 +103,7 @@
 			files = (
 				B5D1C6A61CC00C11001E3294 /* MapKit.framework in Frameworks */,
 				9516996FE8614879BE297560 /* Pods.framework in Frameworks */,
+				3F138DC4BC7C7417280B2611 /* Pods_MapsAOPA.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,6 +115,8 @@
 			children = (
 				E60AB314535F6C0137E03FCB /* Pods.debug.xcconfig */,
 				AD2030E45BD01B9F49FE2848 /* Pods.release.xcconfig */,
+				C71CCB9FDC6925FB5DE01122 /* Pods-MapsAOPA.debug.xcconfig */,
+				D12A077CA80221766059DD31 /* Pods-MapsAOPA.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -217,6 +224,7 @@
 			children = (
 				B5D1C6A51CC00C11001E3294 /* MapKit.framework */,
 				759E18A16619C4DE65F04C3A /* Pods.framework */,
+				30A9ADAFDD635304642DC695 /* Pods_MapsAOPA.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -283,12 +291,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5D1C6A21CC00B08001E3294 /* Build configuration list for PBXNativeTarget "MapsAOPA" */;
 			buildPhases = (
-				3F92612B291A31F38FFD9F4E /* Check Pods Manifest.lock */,
+				3F92612B291A31F38FFD9F4E /* 📦 Check Pods Manifest.lock */,
 				B5D1C6891CC00B08001E3294 /* Sources */,
 				B5D1C68A1CC00B08001E3294 /* Frameworks */,
 				B5D1C68B1CC00B08001E3294 /* Resources */,
-				88CC3B778FA06E0CA2EF787B /* Embed Pods Frameworks */,
-				78F327ED5D4F0916A636446C /* Copy Pods Resources */,
+				88CC3B778FA06E0CA2EF787B /* 📦 Embed Pods Frameworks */,
+				78F327ED5D4F0916A636446C /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -349,14 +357,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3F92612B291A31F38FFD9F4E /* Check Pods Manifest.lock */ = {
+		3F92612B291A31F38FFD9F4E /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,34 +372,34 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		78F327ED5D4F0916A636446C /* Copy Pods Resources */ = {
+		78F327ED5D4F0916A636446C /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		88CC3B778FA06E0CA2EF787B /* Embed Pods Frameworks */ = {
+		88CC3B778FA06E0CA2EF787B /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -532,7 +540,7 @@
 		};
 		B5D1C6A31CC00B08001E3294 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E60AB314535F6C0137E03FCB /* Pods.debug.xcconfig */;
+			baseConfigurationReference = C71CCB9FDC6925FB5DE01122 /* Pods-MapsAOPA.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
@@ -548,7 +556,7 @@
 		};
 		B5D1C6A41CC00B08001E3294 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AD2030E45BD01B9F49FE2848 /* Pods.release.xcconfig */;
+			baseConfigurationReference = D12A077CA80221766059DD31 /* Pods-MapsAOPA.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
