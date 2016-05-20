@@ -20,11 +20,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     private var fetchRequest = NSFetchRequest(entityName: "Point")
     private var fetchedResultsController : NSFetchedResultsController
     
-    private var selectedAnnotation : PointAnnotation? {
-        didSet {
-            self.showPointInfo(selectedAnnotation?.point, animated: true)
-        }
-    }
+    private var animationsQueue = NSOperationQueue.mainQueue()
     
     required init?(coder aDecoder: NSCoder) {
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "index", ascending: true) ]
@@ -78,7 +74,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             self?.mapView?.setRegion(mapRegion, animated: true)
         })
         
-        self.showPointInfo(self.selectedAnnotation?.point, animated: false)
+        self.showPointInfo((mapView?.selectedAnnotations.first as? PointAnnotation)?.point, animated: false)
     }
     
     override func viewDidLayoutSubviews() {
@@ -124,6 +120,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     points.removeAtIndex(index)
                     return false
                 }
+                return point.index != (mapView?.selectedAnnotations.first as? PointAnnotation)?.point.index
             }
             return true
         })
@@ -146,14 +143,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if let point = point
         {
             self.detailsView?.hidden = false
+            print(point.index)
         }
-        UIView.animateWithDuration(0.25 * NSTimeInterval(animated), animations: {
-            for constraint in self.changingConstraints
-            {
-                constraint.constant = -(CGFloat(nil == point) * (constraint.valueConstraint?.constant ?? 0.0))
-            }
-            self.view.layoutIfNeeded()
-        }) { completed in self.detailsView?.hidden = nil == point }
+        self.animationsQueue.cancelAllOperations()
+        let operation = NSBlockOperation { 
+            UIView.animateWithDuration(0.25 * NSTimeInterval(animated), animations: {
+                for constraint in self.changingConstraints
+                {
+                    constraint.constant = -(CGFloat(nil == point) * (constraint.valueConstraint?.constant ?? 0.0))
+                }
+                self.view.layoutIfNeeded()
+            }) { completed in self.detailsView?.hidden = self.mapView?.selectedAnnotations.count <= 0 }
+        }
+        
+        self.animationsQueue.addOperation(operation)
     }
 
     // MARK: - MKMapViewDelegate
@@ -178,14 +181,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        if let annotation = view.annotation as? PointAnnotation
-        {
-            self.selectedAnnotation = annotation
-        }
+        self.showPointInfo((mapView.selectedAnnotations.first as? PointAnnotation)?.point, animated: true)
     }
     
     func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
-        self.selectedAnnotation = nil
+        self.showPointInfo((mapView.selectedAnnotations.first as? PointAnnotation)?.point, animated: true)
     }
 }
 
