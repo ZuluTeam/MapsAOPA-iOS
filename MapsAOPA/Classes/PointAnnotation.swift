@@ -36,6 +36,7 @@ class PointAnnotationView : MKAnnotationView
     private static let lineWidthPercent : CGFloat = 0.05
     private static let pinPercent : CGFloat = 0.1
     private static let crossWidthPercent : CGFloat = 0.2
+    private static let textPercent : CGFloat = 0.5
     
     private static let militaryColor : UIColor = UIColor(hex: 0xFF1123)
     private static let civilColor : UIColor = UIColor(hex: 0x00C2FE)
@@ -141,6 +142,16 @@ class PointAnnotationView : MKAnnotationView
         CGContextBeginPath(context)
         CGContextAddEllipseInRect(context, pointRect)
         CGContextDrawPath(context, .Stroke)
+        
+        if PointType.Heliport.rawValue == point?.type
+        {
+            let textMaxWidth = ceil(rect.width * self.dynamicType.textPercent)
+            let textMaxHeight = ceil(rect.height * self.dynamicType.textPercent)
+            let text : NSString = "H"
+            let textRect = text.boundingRectWithSize(CGSize(width: textMaxWidth, height: textMaxHeight), options: NSStringDrawingOptions(), attributes: nil, context: nil)
+            let textSize = CGSize(width: ceil(textRect.width), height: ceil(textRect.height))
+            text.drawInRect(CGRect(x: ceil((rect.width - textSize.width) * 0.5), y: ceil((rect.height - textSize.height) * 0.5), width: textSize.width, height: textSize.height), withAttributes: nil)
+        }
         
     }
 }

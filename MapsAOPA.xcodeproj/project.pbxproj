@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F138DC4BC7C7417280B2611 /* Pods_MapsAOPA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A9ADAFDD635304642DC695 /* Pods_MapsAOPA.framework */; };
-		9516996FE8614879BE297560 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 759E18A16619C4DE65F04C3A /* Pods.framework */; };
 		B5447D351CC1278E0041B579 /* AFCSVResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = B5447D341CC1278E0041B579 /* AFCSVResponseSerializer.m */; };
 		B5447D381CC12A3C0041B579 /* AFXMLDictionaryResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = B5447D371CC12A3C0041B579 /* AFXMLDictionaryResponseSerializer.m */; };
 		B5447D3B1CC12A8B0041B579 /* AFXMLDictionaryRequestSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = B5447D3A1CC12A8B0041B579 /* AFXMLDictionaryRequestSerializer.m */; };
@@ -16,6 +14,7 @@
 		B5447D431CC137A30041B579 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D421CC137A30041B579 /* Database.swift */; };
 		B5447D461CC13DB60041B579 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D451CC13DB60041B579 /* Extensions.swift */; };
 		B5447D481CC14DDE0041B579 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D471CC14DDE0041B579 /* Segue.swift */; };
+		B553A7421CF4B09F00D341D4 /* NetworkConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B553A7411CF4B09F00D341D4 /* NetworkConfig.plist */; };
 		B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */; };
 		B563E21A1CC1B98900480DA2 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2101CC1B98900480DA2 /* Point.swift */; };
 		B563E21B1CC1B98900480DA2 /* Runway+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2111CC1B98900480DA2 /* Runway+CoreDataProperties.swift */; };
@@ -25,7 +24,6 @@
 		B563E2211CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */; };
 		B563E2221CC1B98900480DA2 /* PointDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2181CC1B98900480DA2 /* PointDetails.swift */; };
 		B563E2251CC1C8BB00480DA2 /* NSXMLParser+ReactiveCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2241CC1C8BB00480DA2 /* NSXMLParser+ReactiveCocoa.swift */; };
-		B563F6471CD12DF80059A5B8 /* NetworkConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B563F6461CD12DF80059A5B8 /* NetworkConfig.plist */; };
 		B56E5C081CDDD33B00CCDB39 /* DependentLayoutContstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56E5C071CDDD33B00CCDB39 /* DependentLayoutContstraint.swift */; };
 		B5D1C6A61CC00C11001E3294 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D1C6A51CC00C11001E3294 /* MapKit.framework */; };
 		B5D1C6B81CC00DB7001E3294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */; };
@@ -44,12 +42,14 @@
 		B5FB20A61CC1D9AC007DA15E /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FB20A51CC1D9AC007DA15E /* LoginViewModel.swift */; };
 		B5FB20A81CC1DA3A007DA15E /* aopa-points-export.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FB20A71CC1DA3A007DA15E /* aopa-points-export.xml */; };
 		B5FE0EB41CC1503F0077CD83 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FE0EB31CC1503F0077CD83 /* Error.swift */; };
+		D6CE83C5E41FDC50FF7A8D20 /* Pods_MapsAOPA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7BCF0BB8DB91F229929E579 /* Pods_MapsAOPA.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		30A9ADAFDD635304642DC695 /* Pods_MapsAOPA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsAOPA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		03D1AA5B04CFD7602072BBC1 /* Pods-MapsAOPA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsAOPA.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA.release.xcconfig"; sourceTree = "<group>"; };
+		28AD4BCEEE7C2D17A6CDDEAA /* Pods-MapsAOPA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsAOPA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA.debug.xcconfig"; sourceTree = "<group>"; };
 		759E18A16619C4DE65F04C3A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AD2030E45BD01B9F49FE2848 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		A7BCF0BB8DB91F229929E579 /* Pods_MapsAOPA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsAOPA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5447D321CC1278D0041B579 /* MapsAOPA-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapsAOPA-Bridging-Header.h"; sourceTree = "<group>"; };
 		B5447D331CC1278E0041B579 /* AFCSVResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFCSVResponseSerializer.h; sourceTree = "<group>"; };
 		B5447D341CC1278E0041B579 /* AFCSVResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFCSVResponseSerializer.m; sourceTree = "<group>"; };
@@ -61,6 +61,7 @@
 		B5447D421CC137A30041B579 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		B5447D451CC13DB60041B579 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B5447D471CC14DDE0041B579 /* Segue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
+		B553A7411CF4B09F00D341D4 /* NetworkConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NetworkConfig.plist; path = MapsAOPA/Resourses/NetworkConfig.plist; sourceTree = SOURCE_ROOT; };
 		B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Point+CoreDataProperties.swift"; path = "Entities/Point+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2101CC1B98900480DA2 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = Entities/Point.swift; sourceTree = "<group>"; };
 		B563E2111CC1B98900480DA2 /* Runway+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Runway+CoreDataProperties.swift"; path = "Entities/Runway+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -70,7 +71,6 @@
 		B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PointDetails+CoreDataProperties.swift"; path = "Entities/PointDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2181CC1B98900480DA2 /* PointDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointDetails.swift; path = Entities/PointDetails.swift; sourceTree = "<group>"; };
 		B563E2241CC1C8BB00480DA2 /* NSXMLParser+ReactiveCocoa.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSXMLParser+ReactiveCocoa.swift"; sourceTree = "<group>"; };
-		B563F6461CD12DF80059A5B8 /* NetworkConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NetworkConfig.plist; path = MapsAOPA/Resourses/NetworkConfig.plist; sourceTree = SOURCE_ROOT; };
 		B56E5C071CDDD33B00CCDB39 /* DependentLayoutContstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DependentLayoutContstraint.swift; path = MapsAOPA/Classes/DependentLayoutContstraint.swift; sourceTree = SOURCE_ROOT; };
 		B5D1C68D1CC00B08001E3294 /* MapsAOPA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapsAOPA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D1C6A51CC00C11001E3294 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -91,9 +91,6 @@
 		B5FB20A51CC1D9AC007DA15E /* LoginViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		B5FB20A71CC1DA3A007DA15E /* aopa-points-export.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "aopa-points-export.xml"; sourceTree = "<group>"; };
 		B5FE0EB31CC1503F0077CD83 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		C71CCB9FDC6925FB5DE01122 /* Pods-MapsAOPA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsAOPA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA.debug.xcconfig"; sourceTree = "<group>"; };
-		D12A077CA80221766059DD31 /* Pods-MapsAOPA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsAOPA.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA.release.xcconfig"; sourceTree = "<group>"; };
-		E60AB314535F6C0137E03FCB /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,21 +99,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5D1C6A61CC00C11001E3294 /* MapKit.framework in Frameworks */,
-				9516996FE8614879BE297560 /* Pods.framework in Frameworks */,
-				3F138DC4BC7C7417280B2611 /* Pods_MapsAOPA.framework in Frameworks */,
+				D6CE83C5E41FDC50FF7A8D20 /* Pods_MapsAOPA.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		60752914626B9D4EFDC397FC /* Pods */ = {
+		43DD57A7A4ACDA32A7B18F68 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E60AB314535F6C0137E03FCB /* Pods.debug.xcconfig */,
-				AD2030E45BD01B9F49FE2848 /* Pods.release.xcconfig */,
-				C71CCB9FDC6925FB5DE01122 /* Pods-MapsAOPA.debug.xcconfig */,
-				D12A077CA80221766059DD31 /* Pods-MapsAOPA.release.xcconfig */,
+				28AD4BCEEE7C2D17A6CDDEAA /* Pods-MapsAOPA.debug.xcconfig */,
+				03D1AA5B04CFD7602072BBC1 /* Pods-MapsAOPA.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -196,7 +190,7 @@
 				B5D1C6A71CC00D48001E3294 /* Frameworks */,
 				B5D1C68F1CC00B08001E3294 /* MapsAOPA */,
 				B5D1C68E1CC00B08001E3294 /* Products */,
-				60752914626B9D4EFDC397FC /* Pods */,
+				43DD57A7A4ACDA32A7B18F68 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -224,7 +218,7 @@
 			children = (
 				B5D1C6A51CC00C11001E3294 /* MapKit.framework */,
 				759E18A16619C4DE65F04C3A /* Pods.framework */,
-				30A9ADAFDD635304642DC695 /* Pods_MapsAOPA.framework */,
+				A7BCF0BB8DB91F229929E579 /* Pods_MapsAOPA.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -253,7 +247,7 @@
 				B5D1C6C41CC01020001E3294 /* LaunchScreen.storyboard */,
 				B5D1C6C51CC01020001E3294 /* Main.storyboard */,
 				B5447D411CC12ECA0041B579 /* Localizable.strings */,
-				B563F6461CD12DF80059A5B8 /* NetworkConfig.plist */,
+				B553A7411CF4B09F00D341D4 /* NetworkConfig.plist */,
 			);
 			path = Resourses;
 			sourceTree = "<group>";
@@ -291,12 +285,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5D1C6A21CC00B08001E3294 /* Build configuration list for PBXNativeTarget "MapsAOPA" */;
 			buildPhases = (
-				3F92612B291A31F38FFD9F4E /* 📦 Check Pods Manifest.lock */,
+				FE2A670C6B2A132749909B4E /* 📦 Check Pods Manifest.lock */,
 				B5D1C6891CC00B08001E3294 /* Sources */,
 				B5D1C68A1CC00B08001E3294 /* Frameworks */,
 				B5D1C68B1CC00B08001E3294 /* Resources */,
-				88CC3B778FA06E0CA2EF787B /* 📦 Embed Pods Frameworks */,
-				78F327ED5D4F0916A636446C /* 📦 Copy Pods Resources */,
+				7F37F72441DFF58226E08F05 /* 📦 Embed Pods Frameworks */,
+				5784F0BD41E812C2279DCFFB /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -344,7 +338,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B563F6471CD12DF80059A5B8 /* NetworkConfig.plist in Resources */,
+				B553A7421CF4B09F00D341D4 /* NetworkConfig.plist in Resources */,
 				B5E6E5211CC91B5C00B175FD /* PointAnnotationView.xib in Resources */,
 				B5FB20A81CC1DA3A007DA15E /* aopa-points-export.xml in Resources */,
 				B5D1C6C61CC01020001E3294 /* LaunchScreen.storyboard in Resources */,
@@ -357,22 +351,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3F92612B291A31F38FFD9F4E /* 📦 Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "📦 Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		78F327ED5D4F0916A636446C /* 📦 Copy Pods Resources */ = {
+		5784F0BD41E812C2279DCFFB /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -387,7 +366,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		88CC3B778FA06E0CA2EF787B /* 📦 Embed Pods Frameworks */ = {
+		7F37F72441DFF58226E08F05 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -400,6 +379,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE2A670C6B2A132749909B4E /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -540,7 +534,7 @@
 		};
 		B5D1C6A31CC00B08001E3294 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C71CCB9FDC6925FB5DE01122 /* Pods-MapsAOPA.debug.xcconfig */;
+			baseConfigurationReference = 28AD4BCEEE7C2D17A6CDDEAA /* Pods-MapsAOPA.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
@@ -556,7 +550,7 @@
 		};
 		B5D1C6A41CC00B08001E3294 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D12A077CA80221766059DD31 /* Pods-MapsAOPA.release.xcconfig */;
+			baseConfigurationReference = 03D1AA5B04CFD7602072BBC1 /* Pods-MapsAOPA.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
