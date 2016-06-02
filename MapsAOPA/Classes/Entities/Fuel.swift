@@ -26,7 +26,18 @@ enum FuelType : Int
         case "4": self = Jet
         default: return nil
         }
-        
+    }
+    
+    func description() -> String
+    {
+        switch self
+        {
+        case G100LL: return "100LL"
+        case G92: return "AI-92"
+        case G95: return "AI-95"
+        case Jet: return "TC-1"
+        default: return ""
+        }
     }
 }
 

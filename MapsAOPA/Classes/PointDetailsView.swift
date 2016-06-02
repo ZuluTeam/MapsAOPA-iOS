@@ -17,7 +17,7 @@ class PointDetailsView: UIView
     @IBOutlet weak var callButton : UIButton?
     @IBOutlet weak var websiteButton : UIButton?
     @IBOutlet weak var emailButton : UIButton?
-    @IBOutlet weak var fuelView : UIView?
+    @IBOutlet weak var fuelLabel : UILabel?
     @IBOutlet weak var frequenciesButton : UIButton?
     @IBOutlet weak var frequencyLabel : UILabel?
     
@@ -44,8 +44,19 @@ class PointDetailsView: UIView
             self.frequenciesButton?.hidden = 1 == frequencies.count
             if let freq = frequencies.first
             {
-                self.frequencyLabel?.text = "\(freq["callsign"] ?? "") : \(freq["freq"] ?? "")MHz"
+                self.frequencyLabel?.text = "📻: \(freq["callsign"] ?? "") \(freq["freq"] ?? "")MHz"
             }
+        }
+        self.fuelLabel?.hidden = true
+        if let fuels = point?.fuel as? Set<Fuel> where fuels.count > 0
+        {
+            self.fuelLabel?.hidden = false
+            let fuelString = Array(fuels)
+                .sort({ $0.type?.longValue ?? 0 < $1.type?.longValue ?? 0 })
+                .map({ FuelType(rawValue: $0.type?.longValue ?? 0)?.description() ?? "" })
+                .filter({ $0.length > 0 })
+                .joinWithSeparator(", ")
+            self.fuelLabel?.text = "⛽️: " + fuelString
         }
     }
 }
