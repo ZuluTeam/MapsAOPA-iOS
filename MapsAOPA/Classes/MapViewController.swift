@@ -13,10 +13,24 @@ import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView : MKMapView?
-    @IBOutlet weak var detailsView : UIView?
+    @IBOutlet weak var detailsView : PointDetailsView?
+    @IBOutlet weak var loadingIndicator : UIActivityIndicatorView?
     
     @IBOutlet var changingConstraints : [DependentLayoutConstraint]!
     
+    private lazy var viewModel = MapViewModel()
+    private var loading : Bool = false {
+        didSet {
+            if loading
+            {
+                self.loadingIndicator?.startAnimating()
+            }
+            else
+            {
+                self.loadingIndicator?.stopAnimating()
+            }
+        }
+    }
     private var fetchRequest = NSFetchRequest(entityName: "Point")
     private var fetchedResultsController : NSFetchedResultsController
     
@@ -26,10 +40,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "index", ascending: true) ]
         self.fetchedResultsController = NSFetchedResultsController(fetchRequest: self.fetchRequest, managedObjectContext: Database.sharedDatabase.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         super.init(coder: aDecoder)
+        self.loadData()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if self.loading
+        {
+            self.loadingIndicator?.startAnimating()
+        }
+        else
+        {
+            self.loadingIndicator?.stopAnimating()
+        }
         
         let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
         let mapStyleItem = MultipleStatesBarButtonItem(states: ["Sch", "Hyb", "Sat" ], currentState: 0) { [ weak self] (state) in
@@ -83,6 +107,58 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Private
     
+    private func loadData()
+    {
+        viewModel.loadSignal().on(
+            started: {
+                [weak self] in self?.loading = true
+            },
+            completed: {
+                [weak self] in self?.reloadPoints(); self?.loading = false
+            },
+            failed: { [weak self] error in
+                self?.loading = false
+                print(error)
+                if error.domain == Error.domain
+                {
+                    if let errorCode = Error(rawValue: error.code)
+                    {
+                        switch errorCode
+                        {
+                        case .ApiKeyRequired:
+                            let alertController = UIAlertController(title: "title_api_key_required".localized(), message: "message_api_key_required".localized(), preferredStyle: .Alert)
+                            let saveAction = UIAlertAction(title: "button_save".localized(), style: UIAlertActionStyle.Default, handler: { (action) in
+                                if let textField = alertController.textFields?.first
+                                {
+                                    let text = textField.text ?? ""
+                                    DataLoader.apiKey = text
+                                    self?.loadData()
+                                }
+                            })
+                            saveAction.enabled = false
+                            alertController.addAction(saveAction)
+                            alertController.addAction(UIAlertAction(title: "button_cancel".localized(), style: .Cancel, handler: { (action) in
+                                // TODO: show reload button
+                                alertController.dismissViewControllerAnimated(true, completion: nil)
+                            }))
+                            alertController.addTextFieldWithConfigurationHandler({ [weak saveAction] (textField : UITextField) in
+                                textField.rac_textSignal().toSignalProducer().startWithNext({ (text) in
+                                    saveAction?.enabled = ((text as? String)?.length ?? 0) > 0
+                                })
+                                })
+                            self?.presentViewController(alertController, animated: true, completion: nil)
+                        default: break
+                        }
+                    }
+                }
+                else
+                {
+                    let alert = UIAlertView(title: "title_error", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "button_ok".localized())
+                    alert.show()
+                }
+            }).start()
+    }
+    
     private func reloadPoints()
     {
         if let mapView = self.mapView
@@ -109,7 +185,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         })
     }
     
-    private func refreshPoints( points : [Point])
+    private func refreshPoints(points : [Point])
     {
         var points = points
         let annotationsToRemove = self.mapView?.annotations.filter({ annotation in
@@ -143,7 +219,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if let point = point
         {
             self.detailsView?.hidden = false
-            print(point.index)
+            self.detailsView?.point = point
+        }
+        else
+        {
+            self.reloadPoints()
         }
         self.animationsQueue.cancelAllOperations()
         let operation = NSBlockOperation { 
@@ -172,7 +252,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             var view = mapView.dequeueReusableAnnotationViewWithIdentifier("PointAnnotation") as? PointAnnotationView
             if nil == view
             {
-                view = PointAnnotationView.view(withAnnotation: annotation)
+                view = PointAnnotationView(annotation: annotation)
             }
             view?.annotation = annotation
             return view
@@ -186,6 +266,48 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
         self.showPointInfo((mapView.selectedAnnotations.first as? PointAnnotation)?.point, animated: true)
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func emailAction(sender: AnyObject?)
+    {
+//        if let email = point?.details?.email
+//        {
+//            if MFMailComposeViewController.canSendMail()
+//            {
+//                let controller = MFMailComposeViewController()
+//                controller.setToRecipients([ email ])
+//                //            self.presentViewController(controller, animated: true, completion: nil)
+//            }
+//            else
+//            {
+//                if let url = NSURL(string: "mailto:?to=\(email)") where UIApplication.sharedApplication().canOpenURL(url)
+//                {
+//                    UIApplication.sharedApplication().openURL(url)
+//                }
+//            }
+//        }
+    }
+    
+    @IBAction func websiteAction(sender: AnyObject?)
+    {
+//        if var website = point?.details?.website
+//        {
+//            if(!website.hasPrefix("http://") && !website.hasPrefix("https://"))
+//            {
+//                website = "http://" + website
+//            }
+//            if let url = NSURL(string: website) where UIApplication.sharedApplication().canOpenURL(url)
+//            {
+//                UIApplication.sharedApplication().openURL(url)
+//            }
+//        }
+    }
+    
+    @IBAction func contactsAction(sender: AnyObject?)
+    {
+        
     }
 }
 

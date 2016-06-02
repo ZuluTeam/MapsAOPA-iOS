@@ -15,6 +15,12 @@ extension String {
     {
         return NSLocalizedString(self, comment: comment)
     }
+    
+    var length : Int {
+        get {
+            return (self as NSString).length
+        }
+    }
 }
 
 struct AssociationKey {

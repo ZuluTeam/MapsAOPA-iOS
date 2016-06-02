@@ -43,6 +43,8 @@ class PointAnnotationView : MKAnnotationView
     private static let inactiveColor : UIColor = UIColor(hex: 0xC2C2C2)
     private static let selectedColor : UIColor = UIColor(hex: 0x38FA3C)
     
+    private static let Size : CGFloat = 20.0
+    
     
     override var annotation: MKAnnotation? {
         didSet {
@@ -56,15 +58,17 @@ class PointAnnotationView : MKAnnotationView
         }
     }
     
-    class func view(withAnnotation annotaion: PointAnnotation?) -> PointAnnotationView?
+    init(annotation: PointAnnotation?)
     {
-        if let annotaion = annotaion
-        {
-            let view = NSBundle.mainBundle().loadNibNamed("PointAnnotationView", owner: nil, options: nil).first as? PointAnnotationView
-            view?.annotation = annotaion
-            return view
-        }
-        return nil
+        super.init(frame: CGRect(x: 0, y: 0, width: self.dynamicType.Size, height: self.dynamicType.Size))
+        self.backgroundColor = UIColor.clearColor()
+        self.annotation = annotation
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.backgroundColor = UIColor.clearColor()
+        self.frame = CGRect(x: 0, y: 0, width: self.dynamicType.Size, height: self.dynamicType.Size)
     }
     
     override func drawRect(rect: CGRect) {
