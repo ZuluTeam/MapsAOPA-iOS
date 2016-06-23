@@ -7,5 +7,6 @@
 //
 
 enum Segue: String {
-    case MapSegue
+    case ContactsSegue
+    case FrequenciesSegue
 }

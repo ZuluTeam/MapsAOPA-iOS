@@ -7,10 +7,11 @@
 //
 
 import UIKit
-import MessageUI
 
 class PointDetailsView: UIView
 {
+    weak var delegate : PointDetailsDelegate?
+    
     @IBOutlet weak var titleLabel : UILabel?
     @IBOutlet weak var runwaysView : RunwaysView?
     @IBOutlet weak var altitudeLabel : UILabel?
@@ -46,6 +47,10 @@ class PointDetailsView: UIView
             {
                 self.frequencyLabel?.text = "📻: \(freq["callsign"] ?? "") \(freq["freq"] ?? "")MHz"
             }
+            else
+            {
+                self.frequencyLabel?.text = "📻: unknown"
+            }
         }
         self.fuelLabel?.hidden = true
         if let fuels = point?.fuel as? Set<Fuel> where fuels.count > 0
@@ -58,5 +63,51 @@ class PointDetailsView: UIView
                 .joinWithSeparator(", ")
             self.fuelLabel?.text = "⛽️: " + fuelString
         }
+        else
+        {
+            self.fuelLabel?.text = "⛽️: unknown"
+        }
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func emailAction(sender: AnyObject?)
+    {
+        if let email = self.point?.details?.email
+        {
+            self.delegate?.sendEmail(email)
+        }
+    }
+    
+    @IBAction func frequenciesAction(sender: AnyObject?)
+    {
+        
+    }
+    
+    @IBAction func websiteAction(sender: AnyObject?)
+    {
+        if var website = point?.details?.website
+        {
+            if(!website.containsString("://"))
+            {
+                website = "http://" + website
+            }
+            if let url = NSURL(string: website) where UIApplication.sharedApplication().canOpenURL(url)
+            {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+    }
+    
+    @IBAction func runwaysAction(sender: AnyObject?)
+    {
+        
     }
 }
+
+protocol PointDetailsDelegate: class
+{
+    func sendEmail(email : String)
+}
+
+

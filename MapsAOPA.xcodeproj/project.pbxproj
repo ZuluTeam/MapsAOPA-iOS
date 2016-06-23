@@ -17,6 +17,9 @@
 		B5447D431CC137A30041B579 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D421CC137A30041B579 /* Database.swift */; };
 		B5447D461CC13DB60041B579 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D451CC13DB60041B579 /* Extensions.swift */; };
 		B5447D481CC14DDE0041B579 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D471CC14DDE0041B579 /* Segue.swift */; };
+		B5464E761D1C5771004BBDD6 /* PhoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */; };
+		B5464E781D1C57A6004BBDD6 /* DetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */; };
+		B5464E7A1D1C5DD3004BBDD6 /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */; };
 		B553A7421CF4B09F00D341D4 /* NetworkConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B553A7411CF4B09F00D341D4 /* NetworkConfig.plist */; };
 		B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */; };
 		B563E21A1CC1B98900480DA2 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2101CC1B98900480DA2 /* Point.swift */; };
@@ -64,6 +67,9 @@
 		B5447D421CC137A30041B579 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		B5447D451CC13DB60041B579 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B5447D471CC14DDE0041B579 /* Segue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
+		B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhoneTableViewCell.swift; path = MapsAOPA/Classes/PhoneTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewCell.swift; path = MapsAOPA/Classes/DetailsTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewController.swift; path = MapsAOPA/Classes/DetailsTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		B553A7411CF4B09F00D341D4 /* NetworkConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NetworkConfig.plist; path = MapsAOPA/Resourses/NetworkConfig.plist; sourceTree = SOURCE_ROOT; };
 		B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Point+CoreDataProperties.swift"; path = "Entities/Point+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2101CC1B98900480DA2 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = Entities/Point.swift; sourceTree = "<group>"; };
@@ -132,6 +138,9 @@
 			children = (
 				B53826BB1D009BB100828A95 /* PointDetailsView.swift */,
 				B53826BD1D009EEE00828A95 /* RunwaysView.swift */,
+				B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */,
+				B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */,
+				B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */,
 			);
 			name = Details;
 			sourceTree = "<group>";
@@ -418,7 +427,10 @@
 				B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */,
 				B563E21F1CC1B98900480DA2 /* Fuel+CoreDataProperties.swift in Sources */,
 				B5447D381CC12A3C0041B579 /* AFXMLDictionaryResponseSerializer.m in Sources */,
+				B5464E781D1C57A6004BBDD6 /* DetailsTableViewCell.swift in Sources */,
+				B5464E7A1D1C5DD3004BBDD6 /* DetailsTableViewController.swift in Sources */,
 				B5D1C6B81CC00DB7001E3294 /* AppDelegate.swift in Sources */,
+				B5464E761D1C5771004BBDD6 /* PhoneTableViewCell.swift in Sources */,
 				B563E21B1CC1B98900480DA2 /* Runway+CoreDataProperties.swift in Sources */,
 				B563E21C1CC1B98900480DA2 /* Runway.swift in Sources */,
 				B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */,

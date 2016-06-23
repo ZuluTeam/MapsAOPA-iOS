@@ -36,7 +36,6 @@ enum FuelType : Int
         case G92: return "AI-92"
         case G95: return "AI-95"
         case Jet: return "TC-1"
-        default: return ""
         }
     }
 }

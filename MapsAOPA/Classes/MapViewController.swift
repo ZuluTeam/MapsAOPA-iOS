@@ -10,8 +10,9 @@ import UIKit
 import MapKit
 import INTULocationManager
 import CoreData
+import MessageUI
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelegate, MFMailComposeViewControllerDelegate {
     @IBOutlet weak var mapView : MKMapView?
     @IBOutlet weak var detailsView : PointDetailsView?
     @IBOutlet weak var loadingIndicator : UIActivityIndicatorView?
@@ -45,7 +46,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.detailsView?.delegate = self
         if self.loading
         {
             self.loadingIndicator?.startAnimating()
@@ -103,6 +104,24 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        switch segue.identifier ?? "" {
+        case Segue.ContactsSegue.rawValue:
+            if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
+            {
+                destinationViewController.objects = self.detailsView?.point?.details?.contacts as? [[String:AnyObject]]
+                destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.ContactsCell.rawValue
+            }
+        case Segue.FrequenciesSegue.rawValue:
+            if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
+            {
+                destinationViewController.objects = self.detailsView?.point?.details?.frequencies as? [[String:AnyObject]]
+                destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.FrequenciesCell.rawValue
+            }
+        default: break
+        }
     }
     
     // MARK: - Private
@@ -268,46 +287,29 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.showPointInfo((mapView.selectedAnnotations.first as? PointAnnotation)?.point, animated: true)
     }
     
-    // MARK: - Actions
+    // MARK: - PointDetailsDelegate
     
-    @IBAction func emailAction(sender: AnyObject?)
-    {
-//        if let email = point?.details?.email
-//        {
-//            if MFMailComposeViewController.canSendMail()
-//            {
-//                let controller = MFMailComposeViewController()
-//                controller.setToRecipients([ email ])
-//                //            self.presentViewController(controller, animated: true, completion: nil)
-//            }
-//            else
-//            {
-//                if let url = NSURL(string: "mailto:?to=\(email)") where UIApplication.sharedApplication().canOpenURL(url)
-//                {
-//                    UIApplication.sharedApplication().openURL(url)
-//                }
-//            }
-//        }
+    func sendEmail(email: String) {
+        if MFMailComposeViewController.canSendMail()
+        {
+            let controller = MFMailComposeViewController()
+            controller.setToRecipients([ email ])
+            controller.mailComposeDelegate = self
+            self.presentViewController(controller, animated: true, completion: nil)
+        }
+        else
+        {
+            if let url = NSURL(string: "mailto:?to=\(email)") where UIApplication.sharedApplication().canOpenURL(url)
+            {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
     }
     
-    @IBAction func websiteAction(sender: AnyObject?)
-    {
-//        if var website = point?.details?.website
-//        {
-//            if(!website.hasPrefix("http://") && !website.hasPrefix("https://"))
-//            {
-//                website = "http://" + website
-//            }
-//            if let url = NSURL(string: website) where UIApplication.sharedApplication().canOpenURL(url)
-//            {
-//                UIApplication.sharedApplication().openURL(url)
-//            }
-//        }
-    }
+    // MARK: - MFMailComposeViewControllerDelegate
     
-    @IBAction func contactsAction(sender: AnyObject?)
-    {
-        
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
