@@ -111,6 +111,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         case Segue.ContactsSegue.rawValue:
             if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
             {
+                destinationViewController.title = self.detailsView?.point?.titleRu
                 destinationViewController.objects = self.detailsView?.point?.details?.contacts as? [[String:AnyObject]]
                 destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.ContactsCell
                 destinationViewController.popoverPresentationController?.delegate = self

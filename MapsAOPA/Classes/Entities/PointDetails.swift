@@ -66,7 +66,19 @@ class PointDetails: NSManagedObject {
                 {
                     if let value = contact["value"] as? String
                     {
-                        let values = value.componentsSeparatedByString(",").map({ $0.trim() }).filter({ $0.length > 0 })
+                        let separators = [ ",", ";", " " ]
+                        var values = [ value ]
+                        for separator in separators
+                        {
+                            var v : [String] = []
+                            for value in values
+                            {
+                                v.appendContentsOf(value.componentsSeparatedByString(separator))
+                            }
+                            values = v
+                        }
+                        
+                        values = values.map({ $0.trim() }).filter({ $0.length > 0 })
                         for phone in values
                         {
                             var c : [String:AnyObject] = [:]

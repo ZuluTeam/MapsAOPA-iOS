@@ -38,6 +38,10 @@ class DetailsTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return self.title
+    }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
