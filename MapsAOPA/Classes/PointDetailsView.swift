@@ -39,6 +39,7 @@ class PointDetailsView: UIView
         self.websiteButton?.hidden = nil == point?.details?.website
         self.frequencyLabel?.hidden = true
         self.frequenciesButton?.hidden = true
+        self.callButton?.hidden = ((point?.details?.contacts as? [AnyObject])?.count ?? 0) <= 0
         if let frequencies = point?.details?.frequencies as? [[String:String]]
         {
             self.frequencyLabel?.hidden = 1 < frequencies.count

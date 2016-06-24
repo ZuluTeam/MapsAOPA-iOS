@@ -72,3 +72,13 @@ extension UITextField {
         rac_text.value = self.text ?? ""
     }
 }
+
+func SwiftClassFromString(className: NSString) -> AnyClass?
+{
+    if let appName = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName") as? String
+    {
+        let classStringName = "_TtC\(appName.length)\(appName)\(className.length)\(className)"
+        return NSClassFromString(classStringName);
+    }
+    return nil
+}

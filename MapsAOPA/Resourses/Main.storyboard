@@ -179,7 +179,9 @@
                                             </mask>
                                         </variation>
                                         <connections>
-                                            <segue destination="MRN-Ny-u1C" kind="presentation" identifier="ContactsSegue" id="Qe2-7e-dDB"/>
+                                            <segue destination="MRN-Ny-u1C" kind="popoverPresentation" identifier="ContactsSegue" popoverAnchorView="43C-i3-1Bj" id="Qe2-7e-dDB">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lxx-Oi-AZO">
@@ -215,7 +217,9 @@
                                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                         </variation>
                                         <connections>
-                                            <segue destination="MRN-Ny-u1C" kind="presentation" identifier="FrequenciesSegue" id="C7L-UQ-8bz"/>
+                                            <segue destination="MRN-Ny-u1C" kind="popoverPresentation" identifier="FrequenciesSegue" popoverAnchorView="QkX-rT-Yfk" id="C7L-UQ-8bz">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fuel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5E-XH-SmJ">
@@ -614,6 +618,13 @@
                                     <outlet property="phoneLabel" destination="U6b-hn-I45" id="sDd-c0-zGq"/>
                                     <outlet property="typeLabel" destination="XVD-Qb-5rS" id="OQY-Ke-lUl"/>
                                 </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DefaultCell" id="TO3-Gq-c4T">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TO3-Gq-c4T" id="WsO-MG-7z2">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>

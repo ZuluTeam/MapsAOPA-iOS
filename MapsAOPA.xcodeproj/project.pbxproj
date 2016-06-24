@@ -295,12 +295,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B5D1C6A21CC00B08001E3294 /* Build configuration list for PBXNativeTarget "MapsAOPA" */;
 			buildPhases = (
-				FE2A670C6B2A132749909B4E /* 📦 Check Pods Manifest.lock */,
+				FE2A670C6B2A132749909B4E /* [CP] Check Pods Manifest.lock */,
 				B5D1C6891CC00B08001E3294 /* Sources */,
 				B5D1C68A1CC00B08001E3294 /* Frameworks */,
 				B5D1C68B1CC00B08001E3294 /* Resources */,
-				7F37F72441DFF58226E08F05 /* 📦 Embed Pods Frameworks */,
-				5784F0BD41E812C2279DCFFB /* 📦 Copy Pods Resources */,
+				7F37F72441DFF58226E08F05 /* [CP] Embed Pods Frameworks */,
+				5784F0BD41E812C2279DCFFB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -360,14 +360,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5784F0BD41E812C2279DCFFB /* 📦 Copy Pods Resources */ = {
+		5784F0BD41E812C2279DCFFB /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -375,14 +375,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7F37F72441DFF58226E08F05 /* 📦 Embed Pods Frameworks */ = {
+		7F37F72441DFF58226E08F05 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -390,14 +390,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FE2A670C6B2A132749909B4E /* 📦 Check Pods Manifest.lock */ = {
+		FE2A670C6B2A132749909B4E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

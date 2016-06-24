@@ -11,7 +11,7 @@ import UIKit
 protocol DetailsTableViewCell
 {
     var object : [String:AnyObject]? { get set }
-    func action()
     
+    static func action(forObject object: AnyObject)
     static func cellHeight(forObject object: AnyObject) -> CGFloat
 }

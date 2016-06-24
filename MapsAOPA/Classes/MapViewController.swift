@@ -12,7 +12,7 @@ import INTULocationManager
 import CoreData
 import MessageUI
 
-class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelegate, MFMailComposeViewControllerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelegate, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapView : MKMapView?
     @IBOutlet weak var detailsView : PointDetailsView?
     @IBOutlet weak var loadingIndicator : UIActivityIndicatorView?
@@ -112,13 +112,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
             if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
             {
                 destinationViewController.objects = self.detailsView?.point?.details?.contacts as? [[String:AnyObject]]
-                destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.ContactsCell.rawValue
+                destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.ContactsCell
+                destinationViewController.popoverPresentationController?.delegate = self
+                let height : CGFloat = destinationViewController.objects?.reduce(0.0, combine: { (result, object) -> CGFloat in
+                    return result + ((SwiftClassFromString(DetailsReuseIdentifier.ContactsCell.cellClass) as? DetailsTableViewCell.Type)?.cellHeight(forObject: object) ?? 0.0)
+                }) ?? self.view.height
+                destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
             }
         case Segue.FrequenciesSegue.rawValue:
             if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
             {
                 destinationViewController.objects = self.detailsView?.point?.details?.frequencies as? [[String:AnyObject]]
-                destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.FrequenciesCell.rawValue
+                destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.FrequenciesCell
+                destinationViewController.popoverPresentationController?.delegate = self
             }
         default: break
         }
@@ -310,6 +316,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .None
     }
 }
 

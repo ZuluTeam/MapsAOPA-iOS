@@ -32,7 +32,6 @@ class PhoneTableViewCell: UITableViewCell, DetailsTableViewCell
     
     private func updateObject()
     {
-        print(self.object)
         self.typeLabel?.text = self.object?["type"] as? String
         self.phoneLabel?.text = self.object?["value"] as? String
         self.nameLabel?.text = self.object?["fio"] as? String
@@ -48,8 +47,8 @@ class PhoneTableViewCell: UITableViewCell, DetailsTableViewCell
 
     // MARK: - DetailsTableViewCell
     
-    func action() {
-        if let phone = self.object?["value"] as? String
+    static func action(forObject object: AnyObject) {
+        if let phone = (object as? [String:AnyObject])?["value"] as? String
         {
             if let url = NSURL(string: "tel://"+phone)
             {
