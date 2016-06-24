@@ -107,31 +107,24 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        switch segue.identifier ?? "" {
-        case Segue.ContactsSegue.rawValue:
-            if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
-            {
-                destinationViewController.title = self.detailsView?.point?.titleRu
-                destinationViewController.objects = self.detailsView?.point?.details?.contacts as? [[String:AnyObject]]
-                destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.ContactsCell
-                destinationViewController.popoverPresentationController?.delegate = self
-                let height : CGFloat = destinationViewController.objects?.reduce(0.0, combine: { (result, object) -> CGFloat in
-                    return result + ((SwiftClassFromString(DetailsReuseIdentifier.ContactsCell.cellClass) as? DetailsTableViewCell.Type)?.cellHeight(forObject: object) ?? 0.0)
-                }) ?? self.view.height
-                destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
+        if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
+        {
+            switch segue.identifier ?? "" {
+            case Segue.ContactsSegue.rawValue:
+                    destinationViewController.objects = self.detailsView?.point?.details?.contacts as? [[String:AnyObject]]
+                    destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.ContactsCell
+                    destinationViewController.popoverPresentationController?.delegate = self
+            case Segue.FrequenciesSegue.rawValue:
+                    destinationViewController.objects = self.detailsView?.point?.details?.frequencies as? [[String:AnyObject]]
+                    destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.FrequenciesCell
+                    destinationViewController.popoverPresentationController?.delegate = self
+            default: break
             }
-        case Segue.FrequenciesSegue.rawValue:
-            if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
-            {
-                destinationViewController.objects = self.detailsView?.point?.details?.frequencies as? [[String:AnyObject]]
-                destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.FrequenciesCell
-                destinationViewController.popoverPresentationController?.delegate = self
-                let height : CGFloat = destinationViewController.objects?.reduce(0.0, combine: { (result, object) -> CGFloat in
-                    return result + ((SwiftClassFromString(DetailsReuseIdentifier.FrequenciesCell.cellClass) as? DetailsTableViewCell.Type)?.cellHeight(forObject: object) ?? 0.0)
-                }) ?? self.view.height
-                destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
-            }
-        default: break
+            destinationViewController.title = self.detailsView?.point?.titleRu
+            let height : CGFloat = destinationViewController.objects?.reduce(28.0, combine: { (result, object) -> CGFloat in
+                return result + ((SwiftClassFromString(destinationViewController.cellReuseIdentifier.cellClass) as? DetailsTableViewCell.Type)?.cellHeight(forObject: object) ?? 0.0)
+            }) ?? self.view.height
+            destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
         }
     }
     

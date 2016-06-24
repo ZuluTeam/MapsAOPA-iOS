@@ -66,7 +66,7 @@ class PointDetails: NSManagedObject {
                 {
                     if let value = contact["value"] as? String
                     {
-                        let separators = [ ",", ";", " " ]
+                        let separators = [ ",", ";" ]
                         var values = [ value ]
                         for separator in separators
                         {
