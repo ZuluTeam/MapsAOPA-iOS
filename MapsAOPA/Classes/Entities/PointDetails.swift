@@ -61,7 +61,24 @@ class PointDetails: NSManagedObject {
                     var contact = item
                     contact["id"] = nil
                     return contact })
-                self.contacts = contacts
+                var result : [[String:AnyObject]] = []
+                for contact in contacts
+                {
+                    if let value = contact["value"] as? String
+                    {
+                        let values = value.componentsSeparatedByString(",").map({ $0.trim() }).filter({ $0.length > 0 })
+                        for phone in values
+                        {
+                            var c : [String:AnyObject] = [:]
+                            c["fio"] = contact["fio"]
+                            c["value"] = phone
+                            c["type"] = contact["type"]
+                            c["type_id"] = contact["type_id"]
+                            result.append(c)
+                        }
+                    }
+                }
+                self.contacts = result
             }
             if let freqDicts = dictionary?["freq"] as? [[String:AnyObject]]
             {
