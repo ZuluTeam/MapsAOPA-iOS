@@ -125,6 +125,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
                 destinationViewController.objects = self.detailsView?.point?.details?.frequencies as? [[String:AnyObject]]
                 destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.FrequenciesCell
                 destinationViewController.popoverPresentationController?.delegate = self
+                let height : CGFloat = destinationViewController.objects?.reduce(0.0, combine: { (result, object) -> CGFloat in
+                    return result + ((SwiftClassFromString(DetailsReuseIdentifier.FrequenciesCell.cellClass) as? DetailsTableViewCell.Type)?.cellHeight(forObject: object) ?? 0.0)
+                }) ?? self.view.height
+                destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
             }
         default: break
         }

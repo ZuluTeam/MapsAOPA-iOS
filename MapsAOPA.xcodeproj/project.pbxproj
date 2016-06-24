@@ -20,6 +20,7 @@
 		B5464E761D1C5771004BBDD6 /* PhoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */; };
 		B5464E781D1C57A6004BBDD6 /* DetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */; };
 		B5464E7A1D1C5DD3004BBDD6 /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */; };
+		B5464E7E1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */; };
 		B553A7421CF4B09F00D341D4 /* NetworkConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = B553A7411CF4B09F00D341D4 /* NetworkConfig.plist */; };
 		B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */; };
 		B563E21A1CC1B98900480DA2 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2101CC1B98900480DA2 /* Point.swift */; };
@@ -70,6 +71,7 @@
 		B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhoneTableViewCell.swift; path = MapsAOPA/Classes/PhoneTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewCell.swift; path = MapsAOPA/Classes/DetailsTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewController.swift; path = MapsAOPA/Classes/DetailsTableViewController.swift; sourceTree = SOURCE_ROOT; };
+		B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FrequenciesTableViewCell.swift; path = MapsAOPA/Classes/FrequenciesTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B553A7411CF4B09F00D341D4 /* NetworkConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = NetworkConfig.plist; path = MapsAOPA/Resourses/NetworkConfig.plist; sourceTree = SOURCE_ROOT; };
 		B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Point+CoreDataProperties.swift"; path = "Entities/Point+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2101CC1B98900480DA2 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = Entities/Point.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 				B53826BD1D009EEE00828A95 /* RunwaysView.swift */,
 				B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */,
 				B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */,
+				B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */,
 				B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */,
 			);
 			name = Details;
@@ -435,6 +438,7 @@
 				B563E21C1CC1B98900480DA2 /* Runway.swift in Sources */,
 				B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */,
 				B563E21A1CC1B98900480DA2 /* Point.swift in Sources */,
+				B5464E7E1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift in Sources */,
 				B53826BC1D009BB100828A95 /* PointDetailsView.swift in Sources */,
 				B563E2221CC1B98900480DA2 /* PointDetails.swift in Sources */,
 				B5D1C6D11CC05989001E3294 /* Config.swift in Sources */,

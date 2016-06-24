@@ -8,13 +8,13 @@
 
 import UIKit
 
-class PhoneTableViewCell: UITableViewCell, DetailsTableViewCell
+class PhoneTableViewCell: DetailsTableViewCell
 {
     @IBOutlet weak var typeLabel : UILabel?
     @IBOutlet weak var phoneLabel : UILabel?
     @IBOutlet weak var nameLabel : UILabel?
     
-    var object : [String:AnyObject]? {
+    override var object : [String:AnyObject]? {
         didSet {
             self.updateObject()
         }
@@ -47,7 +47,7 @@ class PhoneTableViewCell: UITableViewCell, DetailsTableViewCell
 
     // MARK: - DetailsTableViewCell
     
-    static func action(forObject object: AnyObject) {
+    override static func action(forObject object: AnyObject) {
         if let phone = (object as? [String:AnyObject])?["value"] as? String
         {
             if let url = NSURL(string: "tel://"+phone)
@@ -60,7 +60,7 @@ class PhoneTableViewCell: UITableViewCell, DetailsTableViewCell
         }
     }
     
-    static func cellHeight(forObject object: AnyObject) -> CGFloat
+    override static func cellHeight(forObject object: AnyObject) -> CGFloat
     {
         if ((object as? [String:AnyObject])?["fio"]) != nil
         {

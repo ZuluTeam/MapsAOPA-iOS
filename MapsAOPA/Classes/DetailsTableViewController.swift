@@ -20,7 +20,7 @@ enum DetailsReuseIdentifier : String
         switch self {
         case .DefaultCell: return ""
         case .ContactsCell: return "PhoneTableViewCell"
-        case .FrequenciesCell: return ""
+        case .FrequenciesCell: return "FrequenciesTableViewCell"
         }
     }
 }
@@ -29,6 +29,13 @@ class DetailsTableViewController: UITableViewController {
     
     var cellReuseIdentifier : DetailsReuseIdentifier = .DefaultCell
     var objects : [[String:AnyObject]]?
+    
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        if !UIInterfaceOrientationIsPortrait(toInterfaceOrientation)
+        {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
 
     // MARK: - Table view data source
 
@@ -41,10 +48,12 @@ class DetailsTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(self.cellReuseIdentifier.rawValue, forIndexPath: indexPath) as? DetailsTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(self.cellReuseIdentifier.rawValue, forIndexPath: indexPath) as? DetailsTableViewCell
         cell?.object = self.objects?[indexPath.row]
-        return cell as! UITableViewCell
+        return cell!
     }
+    
+    // MARK: - Table view delegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

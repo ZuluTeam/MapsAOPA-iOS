@@ -8,10 +8,10 @@
 
 import UIKit
 
-protocol DetailsTableViewCell
+class DetailsTableViewCell : UITableViewCell
 {
-    var object : [String:AnyObject]? { get set }
+    var object : [String:AnyObject]?
     
-    static func action(forObject object: AnyObject)
-    static func cellHeight(forObject object: AnyObject) -> CGFloat
+    class func action(forObject object: AnyObject) {}
+    class func cellHeight(forObject object: AnyObject) -> CGFloat { return 0.0 }
 }
