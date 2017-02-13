@@ -11,16 +11,16 @@ import MapKit
 import INTULocationManager
 import CoreData
 import MessageUI
+import ReactiveSwift
+
 
 class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelegate, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapView : MKMapView?
     @IBOutlet weak var detailsView : PointDetailsView?
     @IBOutlet weak var loadingIndicator : UIActivityIndicatorView?
     
-    @IBOutlet var changingConstraints : [DependentLayoutConstraint]!
-    
-    private lazy var viewModel = MapViewModel()
-    private var loading : Bool = false {
+    fileprivate lazy var viewModel = MapViewModel()
+    fileprivate var loading : Bool = false {
         didSet {
             if loading
             {
@@ -32,10 +32,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
             }
         }
     }
-    private var fetchRequest = NSFetchRequest(entityName: "Point")
-    private var fetchedResultsController : NSFetchedResultsController
+    fileprivate var fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Point")
+    fileprivate var fetchedResultsController : NSFetchedResultsController<NSFetchRequestResult>
     
-    private var animationsQueue = NSOperationQueue.mainQueue()
+    fileprivate var animationsQueue = OperationQueue.main
     
     required init?(coder aDecoder: NSCoder) {
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "index", ascending: true) ]
@@ -57,30 +57,30 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         }
         
         let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
-        let mapStyleItem = MultipleStatesBarButtonItem(states: ["Sch", "Hyb", "Sat" ], currentState: 0) { [ weak self] (state) in
+        let mapStyleItem = MultipleStatesBarButtonItem(states: ["Sch" as AnyObject, "Hyb" as AnyObject, "Sat" as AnyObject ], currentState: 0) { [ weak self] (state) in
             switch state
             {
-            case 0: self?.mapView?.mapType = MKMapType.Standard
-            case 1: self?.mapView?.mapType = MKMapType.Hybrid
-            case 2: self?.mapView?.mapType = MKMapType.Satellite
+            case 0: self?.mapView?.mapType = MKMapType.standard
+            case 1: self?.mapView?.mapType = MKMapType.hybrid
+            case 2: self?.mapView?.mapType = MKMapType.satellite
             default: break
             }
         }
         
-        let spacerItem = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
-        let airportsFilterItem = MultipleStatesBarButtonItem(states: ["A:None", "A:Active", "A:All"],
+        let spacerItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let airportsFilterItem = MultipleStatesBarButtonItem(states: ["A:None" as AnyObject, "A:Active" as AnyObject, "A:All" as AnyObject],
                                                              currentState: Config.pointsFilter.airportsState.rawValue,
                                                              action: { [weak self] (state) -> () in
                                                                 var filter = Config.pointsFilter
-                                                                filter.airportsState = PointsFilterState(rawValue: state) ?? .Active
+                                                                filter.airportsState = PointsFilterState(rawValue: state) ?? .active
                                                                 Config.pointsFilter = filter
                                                                 self?.reloadPoints()
         })
-        let heliportsFilterItem = MultipleStatesBarButtonItem(states: ["H:None", "H:Active", "H:All"],
+        let heliportsFilterItem = MultipleStatesBarButtonItem(states: ["H:None" as AnyObject, "H:Active" as AnyObject, "H:All" as AnyObject],
                                                               currentState: Config.pointsFilter.heliportsState.rawValue,
                                                               action:  { [weak self] (state) -> () in
                                                                 var filter = Config.pointsFilter
-                                                                filter.heliportsState = PointsFilterState(rawValue: state) ?? .None
+                                                                filter.heliportsState = (PointsFilterState(rawValue: state) ?? .none)!
                                                                 Config.pointsFilter = filter
                                                                 self?.reloadPoints()
         })
@@ -88,12 +88,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         
         self.mapView?.setRegion(Config.mapRegion(withDefaultCoordinate: Config.defaultCoordinate), animated: false)
         
-        INTULocationManager.sharedInstance().requestLocationWithDesiredAccuracy(.Block, timeout: NSTimeInterval(CGFloat.max), delayUntilAuthorized: false, block: { [weak self] (location, accuracy, status) in
+        INTULocationManager.sharedInstance().requestLocation(withDesiredAccuracy: .block, timeout: TimeInterval(CGFloat.greatestFiniteMagnitude), delayUntilAuthorized: false, block: { [weak self] (location, accuracy, status) in
             var mapLocation : CLLocationCoordinate2D = Config.defaultCoordinate
-            if status == .Success
+            if status == .success
             {
                 self?.mapView?.showsUserLocation = true
-                mapLocation = location.coordinate
+                mapLocation = (location?.coordinate)!
             }
             let mapRegion = Config.mapRegion(withDefaultCoordinate: mapLocation)
             self?.mapView?.setRegion(mapRegion, animated: true)
@@ -106,8 +106,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         super.viewDidLayoutSubviews()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let destinationViewController = segue.destinationViewController as? DetailsTableViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationViewController = segue.destination as? DetailsTableViewController
         {
             switch segue.identifier ?? "" {
             case Segue.ContactsSegue.rawValue:
@@ -121,23 +121,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
             default: break
             }
             destinationViewController.title = self.detailsView?.point?.titleRu
-            let height : CGFloat = destinationViewController.objects?.reduce(28.0, combine: { (result, object) -> CGFloat in
+            let height : CGFloat = 200.0 /*destinationViewController.objects?.reduce(28.0, { (result, object) -> CGFloat in
                 return result + ((SwiftClassFromString(destinationViewController.cellReuseIdentifier.cellClass) as? DetailsTableViewCell.Type)?.cellHeight(forObject: object) ?? 0.0)
-            }) ?? self.view.height
+            }) ?? self.view.height*/
             destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
         }
     }
     
     // MARK: - Private
     
-    private func loadData()
+    fileprivate func loadData()
     {
         viewModel.loadSignal().on(
             started: {
                 [weak self] in self?.loading = true
-            },
-            completed: {
-                [weak self] in self?.reloadPoints(); self?.loading = false
             },
             failed: { [weak self] error in
                 self?.loading = false
@@ -148,9 +145,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
                     {
                         switch errorCode
                         {
-                        case .ApiKeyRequired:
-                            let alertController = UIAlertController(title: "title_api_key_required".localized(), message: "message_api_key_required".localized(), preferredStyle: .Alert)
-                            let saveAction = UIAlertAction(title: "button_save".localized(), style: UIAlertActionStyle.Default, handler: { (action) in
+                        case .apiKeyRequired:
+                            let alertController = UIAlertController(title: "title_api_key_required".localized(), message: "message_api_key_required".localized(), preferredStyle: .alert)
+                            let saveAction = UIAlertAction(title: "button_save".localized(), style: UIAlertActionStyle.default, handler: { (action) in
                                 if let textField = alertController.textFields?.first
                                 {
                                     let text = textField.text ?? ""
@@ -158,18 +155,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
                                     self?.loadData()
                                 }
                             })
-                            saveAction.enabled = false
+                            saveAction.isEnabled = false
                             alertController.addAction(saveAction)
-                            alertController.addAction(UIAlertAction(title: "button_cancel".localized(), style: .Cancel, handler: { (action) in
+                            alertController.addAction(UIAlertAction(title: "button_cancel".localized(), style: .cancel, handler: { (action) in
                                 // TODO: show reload button
-                                alertController.dismissViewControllerAnimated(true, completion: nil)
+                                alertController.dismiss(animated: true, completion: nil)
                             }))
-                            alertController.addTextFieldWithConfigurationHandler({ [weak saveAction] (textField : UITextField) in
-                                textField.rac_textSignal().toSignalProducer().startWithNext({ (text) in
-                                    saveAction?.enabled = ((text as? String)?.length ?? 0) > 0
-                                })
-                                })
-                            self?.presentViewController(alertController, animated: true, completion: nil)
+//                            alertController.addTextFieldWithConfigurationHandler({ [weak saveAction] (textField : UITextField) in
+//                                textField.rac_textSignal().toSignalProducer().startWithNext({ (text) in
+//                                    saveAction?.enabled = ((text as? String)?.length ?? 0) > 0
+//                                })
+//                            })
+                            self?.present(alertController, animated: true, completion: nil)
                         default: break
                         }
                     }
@@ -179,10 +176,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
                     let alert = UIAlertView(title: "title_error", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "button_ok".localized())
                     alert.show()
                 }
-            }).start()
+            },
+            completed: {
+                [weak self] in self?.reloadPoints(); self?.loading = false
+        }).start()
     }
     
-    private func reloadPoints()
+    fileprivate func reloadPoints()
     {
         if let mapView = self.mapView
         {
@@ -190,14 +190,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         }
     }
     
-    private func reloadPoints(inRegion region: MKCoordinateRegion)
+    fileprivate func reloadPoints(inRegion region: MKCoordinateRegion)
     {
         self.fetchRequest.predicate = Database.pointsPredicate(forRegion: region, withFilter: Config.pointsFilter)
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+        DispatchQueue.global().async(execute: {
             do {
                 try self.fetchedResultsController.performFetch()
-                dispatch_async(dispatch_get_main_queue(), { 
+                DispatchQueue.main.async(execute: { 
                     self.refreshPoints(self.fetchedResultsController.fetchedObjects as? [Point] ?? [])
                 })
             }
@@ -208,15 +208,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         })
     }
     
-    private func refreshPoints(points : [Point])
+    fileprivate func refreshPoints(_ points : [Point])
     {
         var points = points
         let annotationsToRemove = self.mapView?.annotations.filter({ annotation in
             if let point = (annotation as? PointAnnotation)?.point
             {
-                if let index = points.indexOf(point)
+                if let index = points.index(of: point)
                 {
-                    points.removeAtIndex(index)
+                    points.remove(at: index)
                     return false
                 }
                 return point.index != (mapView?.selectedAnnotations.first as? PointAnnotation)?.point.index
@@ -237,11 +237,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         }
     }
     
-    private func showPointInfo(point: Point?, animated: Bool)
+    fileprivate func showPointInfo(_ point: Point?, animated: Bool)
     {
         if let point = point
         {
-            self.detailsView?.hidden = false
+            self.detailsView?.isHidden = false
             self.detailsView?.point = point
         }
         else
@@ -249,14 +249,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
             self.reloadPoints()
         }
         self.animationsQueue.cancelAllOperations()
-        let operation = NSBlockOperation { 
-            UIView.animateWithDuration(0.25 * NSTimeInterval(animated), animations: {
-                for constraint in self.changingConstraints
-                {
-                    constraint.constant = -(CGFloat(nil == point) * (constraint.valueConstraint?.constant ?? 0.0))
-                }
+        let operation = BlockOperation { 
+//            UIView.animate(withDuration: 0.25 * TimeInterval(animated), animations: {
+//                for constraint in self.changingConstraints
+//                {
+//                    constraint.constant = -(CGFloat(nil == point) * (constraint.valueConstraint?.constant ?? 0.0))
+//                }
                 self.view.layoutIfNeeded()
-            }) { completed in self.detailsView?.hidden = self.mapView?.selectedAnnotations.count <= 0 }
+//            }, completion: { completed in self.detailsView?.isHidden = self.mapView?.selectedAnnotations.count <= 0 }) 
         }
         
         self.animationsQueue.addOperation(operation)
@@ -264,18 +264,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
 
     // MARK: - MKMapViewDelegate
  
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         Config.saveRegion(mapView.region)
         self.reloadPoints(inRegion: mapView.region)
     }
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? PointAnnotation
         {
-            var view = mapView.dequeueReusableAnnotationViewWithIdentifier("PointAnnotation") as? PointAnnotationView
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: "PointAnnotation") as? PointAnnotationView
             if nil == view
             {
-                view = PointAnnotationView(annotation: annotation)
+//                view = PointAnnotationView(annotation: annotation)
             }
             view?.annotation = annotation
             return view
@@ -283,41 +283,42 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         return nil
     }
     
-    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         self.showPointInfo((mapView.selectedAnnotations.first as? PointAnnotation)?.point, animated: true)
     }
     
-    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         self.showPointInfo((mapView.selectedAnnotations.first as? PointAnnotation)?.point, animated: true)
     }
     
     // MARK: - PointDetailsDelegate
     
-    func sendEmail(email: String) {
+    func sendEmail(_ email: String) {
         if MFMailComposeViewController.canSendMail()
         {
             let controller = MFMailComposeViewController()
             controller.setToRecipients([ email ])
             controller.mailComposeDelegate = self
-            self.presentViewController(controller, animated: true, completion: nil)
+            self.present(controller, animated: true, completion: nil)
         }
         else
         {
-            if let url = NSURL(string: "mailto:?to=\(email)") where UIApplication.sharedApplication().canOpenURL(url)
+            if let url = URL(string: "mailto:?to=\(email)"), UIApplication.shared.canOpenURL(url)
             {
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.shared.openURL(url)
             }
         }
     }
     
     // MARK: - MFMailComposeViewControllerDelegate
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        controller.dismissViewControllerAnimated(true, completion: nil)
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .None
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }
 

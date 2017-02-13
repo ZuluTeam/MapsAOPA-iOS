@@ -20,9 +20,9 @@ enum AppKeys : String
 
 enum PointsFilterState : Int
 {
-    case None
-    case Active
-    case All
+    case none
+    case active
+    case all
 }
 
 struct PointsFilter
@@ -33,16 +33,16 @@ struct PointsFilter
 
 class Config
 {
-    static let weekTimeInterval : NSTimeInterval = 7 * 24 * 60 * 60
+    static let weekTimeInterval : TimeInterval = 7 * 24 * 60 * 60
     
-    static let networkConfig : [String:AnyObject] = NSDictionary(contentsOfFile:NSBundle.mainBundle().pathForResource("NetworkConfig", ofType: "plist") ?? "") as? [String:AnyObject] ?? [:]
+    static let networkConfig : [String:AnyObject] = NSDictionary(contentsOfFile:Bundle.main.path(forResource: "NetworkConfig", ofType: "plist") ?? "") as? [String:AnyObject] ?? [:]
     
     static var pointsFilter : PointsFilter = {
-        let filter = NSUserDefaults.standardUserDefaults().objectForKey(AppKeys.PointsFilter.rawValue) as? [String:AnyObject]
+        let filter = UserDefaults.standard.object(forKey: AppKeys.PointsFilter.rawValue) as? [String:AnyObject]
         return PointsFilter(airportsState:
-            PointsFilterState(rawValue: filter?["a_state"] as? Int ?? PointsFilterState.Active.rawValue) ?? .Active,
+            PointsFilterState(rawValue: filter?["a_state"] as? Int ?? PointsFilterState.active.rawValue) ?? .active,
                             heliportsState:
-            PointsFilterState(rawValue: filter?["h_state"] as? Int ?? PointsFilterState.None.rawValue) ?? .None)
+            PointsFilterState(rawValue: filter?["h_state"] as? Int ?? PointsFilterState.none.rawValue) ?? .none)
     }()
     {
         didSet {
@@ -50,16 +50,16 @@ class Config
                 "a_state" : pointsFilter.airportsState.rawValue,
                 "h_state" : pointsFilter.heliportsState.rawValue
             ]
-            NSUserDefaults.standardUserDefaults().setObject(filter, forKey: AppKeys.PointsFilter.rawValue)
+            UserDefaults.standard.set(filter, forKey: AppKeys.PointsFilter.rawValue)
         }
     }
     
-    static var lastUpdate : NSDate = NSDate(timeIntervalSince1970: NSUserDefaults.standardUserDefaults().doubleForKey(AppKeys.LastUpdate.rawValue))
+    static var lastUpdate : Date = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: AppKeys.LastUpdate.rawValue))
     {
         didSet {
             
-            NSUserDefaults.standardUserDefaults().setDouble(lastUpdate.timeIntervalSince1970, forKey: AppKeys.LastUpdate.rawValue)
-            NSUserDefaults.standardUserDefaults().synchronize()
+            UserDefaults.standard.set(lastUpdate.timeIntervalSince1970, forKey: AppKeys.LastUpdate.rawValue)
+            UserDefaults.standard.synchronize()
         }
     }
     
@@ -67,7 +67,7 @@ class Config
     
     static func mapRegion(withDefaultCoordinate coordinate: CLLocationCoordinate2D) -> MKCoordinateRegion
     {
-        if let regionDict = NSUserDefaults.standardUserDefaults().objectForKey(AppKeys.LastRegion.rawValue) as? [String:Double]
+        if let regionDict = UserDefaults.standard.object(forKey: AppKeys.LastRegion.rawValue) as? [String:Double]
         {
             return MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: regionDict["lat"] ?? 0, longitude: regionDict["lon"] ?? 0),
                                       span: MKCoordinateSpan(latitudeDelta: regionDict["lat_delta"] ?? 0.2, longitudeDelta: regionDict["lon_delta"] ?? 0.2))
@@ -75,7 +75,7 @@ class Config
         return MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
     }
     
-    static func saveRegion(region: MKCoordinateRegion)
+    static func saveRegion(_ region: MKCoordinateRegion)
     {
         let regionDict = [
             "lat" : region.center.latitude,
@@ -83,7 +83,7 @@ class Config
             "lat_delta" : region.span.latitudeDelta,
             "lon_delta" : region.span.longitudeDelta
         ]
-        NSUserDefaults.standardUserDefaults().setObject(regionDict, forKey: AppKeys.LastRegion.rawValue)
-        NSUserDefaults.standardUserDefaults().synchronize()
+        UserDefaults.standard.set(regionDict, forKey: AppKeys.LastRegion.rawValue)
+        UserDefaults.standard.synchronize()
     }
 }

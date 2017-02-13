@@ -11,15 +11,15 @@ import CoreData
 
 enum PointType : Int
 {
-    case Airport = 0
-    case Heliport
+    case airport = 0
+    case heliport
     
     init?(type: String?)
     {
         switch type ?? ""
         {
-        case "airport": self = Airport
-        case "vert": self = Heliport
+        case "airport": self = .airport
+        case "vert": self = .heliport
         default: return nil
         }
         
@@ -28,23 +28,23 @@ enum PointType : Int
 
 enum PointBelongs : Int
 {
-    case Civil = 0
-    case Military
-    case General
-    case FSS
-    case DOSAAF
-    case Experimantal
+    case civil = 0
+    case military
+    case general
+    case fss
+    case dosaaf
+    case experimantal
     
     init?(string: String?)
     {
         switch string ?? ""
         {
-        case "ГА": self = Civil
-        case "МО": self = Military
-        case "АОН": self = General
-        case "ФСБ": self = FSS
-        case "ДОСААФ": self = DOSAAF
-        case "ЭА": self = Experimantal
+        case "ГА": self = .civil
+        case "МО": self = .military
+        case "АОН": self = .general
+        case "ФСБ": self = .fss
+        case "ДОСААФ": self = .dosaaf
+        case "ЭА": self = .experimantal
         default: return nil
         }
     }
@@ -53,7 +53,7 @@ enum PointBelongs : Int
     {
         switch self
         {
-        case .Military, .FSS, .Experimantal: return true
+        case .military, .fss, .experimantal: return true
         default: return false
         }
     }
@@ -70,18 +70,18 @@ class Point: NSManagedObject {
         if let index = dictionary?["index"] as? String
         {
             
-            let currentPointRequest = NSFetchRequest(entityName: "Point")
+            let currentPointRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Point")
             currentPointRequest.predicate = NSPredicate(format: "index == %@", index)
             let point : Point
             do
             {
-                if let currentPoint = try context.executeFetchRequest(currentPointRequest).first as? NSManagedObject
+                if let currentPoint = try context.fetch(currentPointRequest).first as? NSManagedObject
                 {
-                    context.deleteObject(currentPoint)
+                    context.delete(currentPoint)
                 }
-                if let entity = NSEntityDescription.entityForName("Point", inManagedObjectContext: context)
+                if let entity = NSEntityDescription.entity(forEntityName: "Point", in: context)
                 {
-                    point = Point(entity: entity, insertIntoManagedObjectContext: context)
+                    point = Point(entity: entity, insertInto: context)
                 }
                 else
                 {
@@ -94,11 +94,11 @@ class Point: NSManagedObject {
             }
             point.index = dictionary?["index"] as? String
             point.indexRu = dictionary?["index_ru"] as? String
-            point.type = PointType(type: dictionary?["type"] as? String)?.rawValue
-            point.active = Int(dictionary?["active"] as? String ?? "0")
-            point.belongs = PointBelongs(string: dictionary?["belongs"] as? String)?.rawValue
-            point.latitude = Double(dictionary?["lat"] as? String ?? "0.0")
-            point.longitude = Double(dictionary?["lon"] as? String ?? "0.0")
+            point.type = PointType(type: dictionary?["type"] as? String)?.rawValue as NSNumber?
+            point.active = Int(dictionary?["active"] as? String ?? "0") as NSNumber?
+            point.belongs = PointBelongs(string: dictionary?["belongs"] as? String)?.rawValue as NSNumber?
+            point.latitude = Double(dictionary?["lat"] as? String ?? "0.0") as NSNumber?
+            point.longitude = Double(dictionary?["lon"] as? String ?? "0.0") as NSNumber?
             point.title = dictionary?["name"] as? String
             point.titleRu = dictionary?["name_ru"] as? String
             point.details = PointDetails(dictionary: dictionary, inContext: context)
@@ -115,20 +115,20 @@ class Point: NSManagedObject {
                 {
                     do
                     {
-                        let request = NSFetchRequest(entityName: "Fuel")
+                        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Fuel")
                         request.predicate = NSPredicate(format: "type == %d", type.rawValue)
-                        let fuels = try context.executeFetchRequest(request)
+                        let fuels = try context.fetch(request)
                         let fuel = fuels.first as? Fuel ?? Fuel(dictionary: fuelDict, inContext: context)
-                        if let existType = fuelDict["exists_id"] as? String where existType == "1"
+                        if let existType = fuelDict["exists_id"] as? String, existType == "1"
                         {
                             let points = fuel?.points?.mutableCopy() as? NSMutableSet ?? NSMutableSet()
-                            points.addObject(point)
+                            points.add(point)
                             fuel?.points = points
                         }
                         else
                         {
                             let points = fuel?.pointsOnRequest?.mutableCopy() as? NSMutableSet ?? NSMutableSet()
-                            points.addObject(point)
+                            points.add(point)
                             fuel?.pointsOnRequest = points
                         }
                     }

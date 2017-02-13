@@ -28,7 +28,7 @@ class FrequenciesTableViewCell: DetailsTableViewCell {
     
     // MARK: - Private
     
-    private func updateObject()
+    fileprivate func updateObject()
     {
         self.typeLabel?.text = self.object?["type"] as? String
         self.frequencyLabel?.text = self.object?["freq"] as? String

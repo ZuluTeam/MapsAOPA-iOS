@@ -25,22 +25,22 @@ class PhoneTableViewCell: DetailsTableViewCell
         self.typeLabel?.text = nil
         self.phoneLabel?.text = nil
         self.nameLabel?.text = nil
-        self.nameLabel?.hidden = true
+        self.nameLabel?.isHidden = true
     }
     
     // MARK: - Private
     
-    private func updateObject()
+    fileprivate func updateObject()
     {
         self.typeLabel?.text = self.object?["type"] as? String
         self.phoneLabel?.text = self.object?["value"] as? String
         self.nameLabel?.text = self.object?["fio"] as? String
-        self.nameLabel?.hidden = self.nameLabel?.text == nil
+        self.nameLabel?.isHidden = self.nameLabel?.text == nil
     }
     
     // MARK: - Actions
     
-    @IBAction func addAction(sender: AnyObject?)
+    @IBAction func addAction(_ sender: AnyObject?)
     {
         
     }
@@ -50,11 +50,11 @@ class PhoneTableViewCell: DetailsTableViewCell
     override static func action(forObject object: AnyObject) {
         if let phone = (object as? [String:AnyObject])?["value"] as? String
         {
-            if let url = NSURL(string: "tel://"+phone)
+            if let url = URL(string: "tel://"+phone)
             {
-                if UIApplication.sharedApplication().canOpenURL(url)
+                if UIApplication.shared.canOpenURL(url)
                 {
-                    UIApplication.sharedApplication().openURL(url)
+                    UIApplication.shared.openURL(url)
                 }
             }
         }

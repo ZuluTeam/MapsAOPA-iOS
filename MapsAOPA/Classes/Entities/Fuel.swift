@@ -11,19 +11,19 @@ import CoreData
 
 enum FuelType : Int
 {
-    case G100LL = 0
-    case G92
-    case G95
-    case Jet
+    case g100LL = 0
+    case g92
+    case g95
+    case jet
     
     init?(type: String?)
     {
         switch type ?? ""
         {
-        case "1": self = G100LL
-        case "2": self = G92
-        case "3": self = G95
-        case "4": self = Jet
+        case "1": self = .g100LL
+        case "2": self = .g92
+        case "3": self = .g95
+        case "4": self = .jet
         default: return nil
         }
     }
@@ -32,10 +32,10 @@ enum FuelType : Int
     {
         switch self
         {
-        case G100LL: return "100LL"
-        case G92: return "AI-92"
-        case G95: return "AI-95"
-        case Jet: return "TC-1"
+        case .g100LL: return "100LL"
+        case .g92: return "AI-92"
+        case .g95: return "AI-95"
+        case .jet: return "TC-1"
         }
     }
 }
@@ -44,10 +44,10 @@ class Fuel: NSManagedObject {
 
     convenience init?(dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext)
     {
-        if let entity = NSEntityDescription.entityForName("Fuel", inManagedObjectContext: context)
+        if let entity = NSEntityDescription.entity(forEntityName: "Fuel", in: context)
         {
-            self.init(entity: entity, insertIntoManagedObjectContext: context)
-            self.type = FuelType(type: dictionary?["type_id"] as? String)?.rawValue
+            self.init(entity: entity, insertInto: context)
+            self.type = FuelType(type: dictionary?["type_id"] as? String)?.rawValue as NSNumber?
         }
         else
         {

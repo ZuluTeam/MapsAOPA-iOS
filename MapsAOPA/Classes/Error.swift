@@ -11,10 +11,10 @@ enum Error : Int
 {
     static let domain = "com.example.MapsAOPA"
     
-    case NoError = 0
-    case ApiKeyRequired
-    case FileNotFound
-    case DataError
+    case noError = 0
+    case apiKeyRequired
+    case fileNotFound
+    case dataError
     
     func error() -> NSError
     {

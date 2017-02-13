@@ -8,13 +8,14 @@
 
 import UIKit
 import CoreData
-import ReactiveCocoa
+import ReactiveSwift
+import MapKit
 
 class Database
 {
     static let sharedDatabase = Database()
     
-    private init() { }
+    fileprivate init() { }
     
     static func pointsPredicate(forRegion region: MKCoordinateRegion, withFilter filter: PointsFilter) -> NSPredicate
     {
@@ -27,16 +28,16 @@ class Database
         let airportsFormat : String
         var connection : String = "OR"
         switch filter.airportsState {
-        case .All: airportsFormat = "(type = \(PointType.Airport.rawValue))"
-        case .Active: airportsFormat = "(type = \(PointType.Airport.rawValue) AND active = 1)"
-        case .None: airportsFormat = "(type != \(PointType.Airport.rawValue))"; connection = "AND"
+        case .all: airportsFormat = "(type = \(PointType.airport.rawValue))"
+        case .active: airportsFormat = "(type = \(PointType.airport.rawValue) AND active = 1)"
+        case .none: airportsFormat = "(type != \(PointType.airport.rawValue))"; connection = "AND"
         }
         
         let heliportsFormat : String
         switch filter.heliportsState {
-        case .All: heliportsFormat = "(type = \(PointType.Heliport.rawValue))"
-        case .Active: heliportsFormat = "(type = \(PointType.Heliport.rawValue) AND active = 1)"
-        case .None: heliportsFormat = "(type != \(PointType.Heliport.rawValue))"; connection = "AND"
+        case .all: heliportsFormat = "(type = \(PointType.heliport.rawValue))"
+        case .active: heliportsFormat = "(type = \(PointType.heliport.rawValue) AND active = 1)"
+        case .none: heliportsFormat = "(type != \(PointType.heliport.rawValue))"; connection = "AND"
         }
         
         format += " AND (\(airportsFormat) \(connection) \(heliportsFormat))"
@@ -46,30 +47,30 @@ class Database
     
     // MARK: - Core Data stack
     
-    lazy var applicationDocumentsDirectory: NSURL = {
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    lazy var applicationDocumentsDirectory: URL = {
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1]
     }()
     
     lazy var managedObjectModel: NSManagedObjectModel = {
-        let modelURL = NSBundle.mainBundle().URLForResource("MapsAOPA", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOfURL: modelURL)!
+        let modelURL = Bundle.main.url(forResource: "MapsAOPA", withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
     }()
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+        let url = self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
         } catch {
             // Report any error we got.
             var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason
+            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
             
             dict[NSUnderlyingErrorKey] = error as NSError
-            let wrappedError = Error.DataError.error()
+            let wrappedError = Error.dataError.error()
             NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
         }
         
@@ -78,21 +79,21 @@ class Database
     
     lazy var managedObjectContext: NSManagedObjectContext = {
         let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
     
     lazy var backgroundManagedObjectContext: NSManagedObjectContext = {
         let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
     
     // MARK: - Core Data Saving support
     
-    func saveContext (context: NSManagedObjectContext) {
+    func saveContext (_ context: NSManagedObjectContext) {
         if context.hasChanges {
             do {
                 try context.save()

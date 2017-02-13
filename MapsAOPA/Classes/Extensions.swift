@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import ReactiveCocoa
+import ReactiveSwift
 import Result
 
 extension String {
-    func localized(comment: String = "") -> String
+    func localized(_ comment: String = "") -> String
     {
         return NSLocalizedString(self, comment: comment)
     }
@@ -31,7 +31,7 @@ struct AssociationKey {
 }
 
 // lazily creates a gettable associated property via the given factory
-func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Void>, factory: ()->T) -> T {
+func lazyAssociatedProperty<T: AnyObject>(_ host: AnyObject, key: UnsafeRawPointer, factory: ()->T) -> T {
     return objc_getAssociatedObject(host, key) as? T ?? {
         let associatedProperty = factory()
         objc_setAssociatedObject(host, key, associatedProperty, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
@@ -39,11 +39,11 @@ func lazyAssociatedProperty<T: AnyObject>(host: AnyObject, key: UnsafePointer<Vo
         }()
 }
 
-func lazyMutableProperty<T>(host: AnyObject, key: UnsafePointer<Void>, setter: T -> (), getter: () -> T) -> MutableProperty<T> {
+func lazyMutableProperty<T>(_ host: AnyObject, key: UnsafeRawPointer, setter: @escaping (T) -> (), getter: @escaping () -> T) -> MutableProperty<T> {
     return lazyAssociatedProperty(host, key: key) {
         let property = MutableProperty<T>(getter())
         property.producer
-            .startWithNext{
+            .startWithValues{
                 newValue in
                 setter(newValue)
         }
@@ -56,11 +56,11 @@ extension UITextField {
     public var rac_text: MutableProperty<String> {
         return lazyAssociatedProperty(self, key: &AssociationKey.text) {
             
-            self.addTarget(self, action: #selector(UITextField.changed), forControlEvents: UIControlEvents.EditingChanged)
+            self.addTarget(self, action: #selector(UITextField.changed), for: UIControlEvents.editingChanged)
             
             let property = MutableProperty<String>(self.text ?? "")
             property.producer
-                .startWithNext {
+                .startWithValues {
                     newValue in
                     self.text = newValue
             }
@@ -73,9 +73,9 @@ extension UITextField {
     }
 }
 
-func SwiftClassFromString(className: NSString) -> AnyClass?
+func SwiftClassFromString(_ className: NSString) -> AnyClass?
 {
-    if let appName = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleName") as? String
+    if let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
     {
         let classStringName = "_TtC\(appName.length)\(appName)\(className.length)\(className)"
         return NSClassFromString(classStringName);

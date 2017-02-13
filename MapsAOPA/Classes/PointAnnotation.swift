@@ -33,17 +33,17 @@ class PointAnnotation: MKPointAnnotation {
 @IBDesignable
 class PointAnnotationView : MKAnnotationView
 {
-    private static let lineWidthPercent : CGFloat = 0.05
-    private static let pinPercent : CGFloat = 0.1
-    private static let crossWidthPercent : CGFloat = 0.2
-    private static let textPercent : CGFloat = 0.5
+    fileprivate static let lineWidthPercent : CGFloat = 0.05
+    fileprivate static let pinPercent : CGFloat = 0.1
+    fileprivate static let crossWidthPercent : CGFloat = 0.2
+    fileprivate static let textPercent : CGFloat = 0.5
     
-    private static let militaryColor : UIColor = UIColor(hex: 0xFF1123)
-    private static let civilColor : UIColor = UIColor(hex: 0x00C2FE)
-    private static let inactiveColor : UIColor = UIColor(hex: 0xC2C2C2)
-    private static let selectedColor : UIColor = UIColor(hex: 0x38FA3C)
+    fileprivate static let militaryColor : UIColor = UIColor(hex: 0xFF1123)
+    fileprivate static let civilColor : UIColor = UIColor(hex: 0x00C2FE)
+    fileprivate static let inactiveColor : UIColor = UIColor(hex: 0xC2C2C2)
+    fileprivate static let selectedColor : UIColor = UIColor(hex: 0x38FA3C)
     
-    private static let Size : CGFloat = 20.0
+    fileprivate static let Size : CGFloat = 20.0
     
     
     override var annotation: MKAnnotation? {
@@ -52,37 +52,38 @@ class PointAnnotationView : MKAnnotationView
         }
     }
     
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
             self.setNeedsDisplay()
         }
     }
     
-    init(annotation: PointAnnotation?)
-    {
-        super.init(frame: CGRect(x: 0, y: 0, width: self.dynamicType.Size, height: self.dynamicType.Size))
-        self.backgroundColor = UIColor.clearColor()
-        self.annotation = annotation
-    }
+//    init(annotation: PointAnnotation?)
+//    {
+//        super.init(frame: CGRect.zero)
+////        super.init(frame: CGRect(x: 0, y: 0, width: type(of: self).Size, height: type(of: self).Size))
+//        self.backgroundColor = UIColor.clear
+//        self.annotation = annotation
+//    }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.backgroundColor = UIColor.clearColor()
-        self.frame = CGRect(x: 0, y: 0, width: self.dynamicType.Size, height: self.dynamicType.Size)
+        self.backgroundColor = UIColor.clear
+        self.frame = CGRect(x: 0, y: 0, width: type(of: self).Size, height: type(of: self).Size)
     }
     
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         let context = UIGraphicsGetCurrentContext()
         
         let point = (self.annotation as? PointAnnotation)?.point
         
         let serviced = point?.isServiced() ?? false
         let active = point?.active?.boolValue ?? false
-        let military = PointBelongs(rawValue: point?.belongs?.integerValue ?? -1)?.isMilitary() ?? false
+        let military = PointBelongs(rawValue: point?.belongs?.intValue ?? -1)?.isMilitary() ?? false
         
         let pointColor : UIColor
-        if self.selected
+        if self.isSelected
         {
             pointColor = PointAnnotationView.selectedColor
         }
@@ -102,37 +103,37 @@ class PointAnnotationView : MKAnnotationView
             pointColor = PointAnnotationView.inactiveColor
         }
         
-        let darkerColor = pointColor.darkerColor()
+        let darkerColor = pointColor.darkened()
         
-        CGContextSetStrokeColorWithColor(context, darkerColor.CGColor)
-        CGContextSetLineWidth(context, ceil(max(rect.width, rect.height) * PointAnnotationView.lineWidthPercent))
+        context?.setStrokeColor(darkerColor.cgColor)
+        context?.setLineWidth(ceil(max(rect.width, rect.height) * PointAnnotationView.lineWidthPercent))
         
         if serviced
         {
-            CGContextSetFillColorWithColor(context, darkerColor.CGColor)
+            context?.setFillColor(darkerColor.cgColor)
             let crossWidth = ceil(max(rect.width, rect.height) * PointAnnotationView.crossWidthPercent)
             let path = UIBezierPath()
-            path.moveToPoint(CGPoint(x: ceil((rect.width - crossWidth) * 0.5), y: 0.0))
-            path.addLineToPoint(CGPoint(x: ceil((rect.width + crossWidth) * 0.5), y: 0.0))
-            path.addLineToPoint(CGPoint(x: ceil((rect.width + crossWidth) * 0.5), y: ceil((rect.height - crossWidth) * 0.5)))
-            path.addLineToPoint(CGPoint(x: rect.width, y: ceil((rect.height - crossWidth) * 0.5)))
-            path.addLineToPoint(CGPoint(x: rect.width, y: ceil((rect.height + crossWidth) * 0.5)))
-            path.addLineToPoint(CGPoint(x: ceil((rect.width + crossWidth) * 0.5), y: ceil((rect.height + crossWidth) * 0.5)))
-            path.addLineToPoint(CGPoint(x: ceil((rect.width + crossWidth) * 0.5), y: rect.height))
-            path.addLineToPoint(CGPoint(x: ceil((rect.width - crossWidth) * 0.5), y: rect.height))
-            path.addLineToPoint(CGPoint(x: ceil((rect.width - crossWidth) * 0.5), y: ceil((rect.height + crossWidth) * 0.5)))
-            path.addLineToPoint(CGPoint(x: 0.0, y: ceil((rect.height + crossWidth) * 0.5)))
-            path.addLineToPoint(CGPoint(x: 0.0, y: ceil((rect.height - crossWidth) * 0.5)))
-            path.addLineToPoint(CGPoint(x: ceil((rect.width - crossWidth) * 0.5), y: ceil((rect.height - crossWidth) * 0.5)))
-            path.closePath()
-            CGContextAddPath(context, path.CGPath)
-            CGContextFillPath(context)
-            CGContextBeginPath(context)
-            CGContextAddPath(context, path.CGPath)
-            CGContextDrawPath(context, .Stroke)
+            path.move(to: CGPoint(x: ceil((rect.width - crossWidth) * 0.5), y: 0.0))
+            path.addLine(to: CGPoint(x: ceil((rect.width + crossWidth) * 0.5), y: 0.0))
+            path.addLine(to: CGPoint(x: ceil((rect.width + crossWidth) * 0.5), y: ceil((rect.height - crossWidth) * 0.5)))
+            path.addLine(to: CGPoint(x: rect.width, y: ceil((rect.height - crossWidth) * 0.5)))
+            path.addLine(to: CGPoint(x: rect.width, y: ceil((rect.height + crossWidth) * 0.5)))
+            path.addLine(to: CGPoint(x: ceil((rect.width + crossWidth) * 0.5), y: ceil((rect.height + crossWidth) * 0.5)))
+            path.addLine(to: CGPoint(x: ceil((rect.width + crossWidth) * 0.5), y: rect.height))
+            path.addLine(to: CGPoint(x: ceil((rect.width - crossWidth) * 0.5), y: rect.height))
+            path.addLine(to: CGPoint(x: ceil((rect.width - crossWidth) * 0.5), y: ceil((rect.height + crossWidth) * 0.5)))
+            path.addLine(to: CGPoint(x: 0.0, y: ceil((rect.height + crossWidth) * 0.5)))
+            path.addLine(to: CGPoint(x: 0.0, y: ceil((rect.height - crossWidth) * 0.5)))
+            path.addLine(to: CGPoint(x: ceil((rect.width - crossWidth) * 0.5), y: ceil((rect.height - crossWidth) * 0.5)))
+            path.close()
+            context?.addPath(path.cgPath)
+            context?.fillPath()
+            context?.beginPath()
+            context?.addPath(path.cgPath)
+            context?.drawPath(using: .stroke)
         }
         
-        CGContextSetFillColorWithColor(context, pointColor.CGColor)
+        context?.setFillColor(pointColor.cgColor)
         
         let horizontalOffset = ceil(rect.width * PointAnnotationView.pinPercent)
         let verticalOffset = ceil(rect.height * PointAnnotationView.pinPercent)
@@ -142,20 +143,20 @@ class PointAnnotationView : MKAnnotationView
             y: verticalOffset,
             width: ceil(rect.width - 2.0 * horizontalOffset),
             height: ceil(rect.height - 2.0 * verticalOffset))
-        CGContextFillEllipseInRect(context, pointRect)
-        CGContextBeginPath(context)
-        CGContextAddEllipseInRect(context, pointRect)
-        CGContextDrawPath(context, .Stroke)
+        context?.fillEllipse(in: pointRect)
+        context?.beginPath()
+        context?.addEllipse(in: pointRect)
+        context?.drawPath(using: .stroke)
         
-        if PointType.Heliport.rawValue == point?.type
-        {
-            let textMaxWidth = ceil(rect.width * self.dynamicType.textPercent)
-            let textMaxHeight = ceil(rect.height * self.dynamicType.textPercent)
-            let text : NSString = "H"
-            let textRect = text.boundingRectWithSize(CGSize(width: textMaxWidth, height: textMaxHeight), options: NSStringDrawingOptions(), attributes: nil, context: nil)
-            let textSize = CGSize(width: ceil(textRect.width), height: ceil(textRect.height))
-            text.drawInRect(CGRect(x: ceil((rect.width - textSize.width) * 0.5), y: ceil((rect.height - textSize.height) * 0.5), width: textSize.width, height: textSize.height), withAttributes: nil)
-        }
+//        if PointType.heliport.rawValue == point?.type
+//        {
+//            let textMaxWidth = ceil(rect.width * type(of: self).textPercent)
+//            let textMaxHeight = ceil(rect.height * type(of: self).textPercent)
+//            let text : NSString = "H"
+//            let textRect = text.boundingRect(with: CGSize(width: textMaxWidth, height: textMaxHeight), options: NSStringDrawingOptions(), attributes: nil, context: nil)
+//            let textSize = CGSize(width: ceil(textRect.width), height: ceil(textRect.height))
+//            text.draw(in: CGRect(x: ceil((rect.width - textSize.width) * 0.5), y: ceil((rect.height - textSize.height) * 0.5), width: textSize.width, height: textSize.height), withAttributes: nil)
+//        }
         
     }
 }

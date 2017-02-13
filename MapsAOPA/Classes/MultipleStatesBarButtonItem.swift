@@ -10,9 +10,9 @@ import UIKit
 
 @IBDesignable
 class MultipleStatesBarButtonItem: UIBarButtonItem {
-    private let itemAction : ((Int)->())?
-    private let states : [AnyObject]
-    private var currentState : Int
+    fileprivate let itemAction : ((Int)->())?
+    fileprivate let states : [AnyObject]
+    fileprivate var currentState : Int
     
     init(states: [AnyObject], currentState: Int, action: ((Int)->())?)
     {
@@ -27,7 +27,7 @@ class MultipleStatesBarButtonItem: UIBarButtonItem {
         self.updateState()
     }
     
-    private func updateState()
+    fileprivate func updateState()
     {
         let state = self.states[self.currentState]
         switch state {
@@ -47,7 +47,7 @@ class MultipleStatesBarButtonItem: UIBarButtonItem {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func buttonAction(sender: AnyObject?)
+    func buttonAction(_ sender: AnyObject?)
     {
         self.currentState = (self.currentState + 1) % self.states.count
         self.updateState()

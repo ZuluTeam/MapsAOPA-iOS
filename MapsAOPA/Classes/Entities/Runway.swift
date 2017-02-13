@@ -11,33 +11,33 @@ import CoreData
 
 enum RunwaySurface : Int
 {
-    case Water = 0
-    case Soft
-    case SoftDirt
-    case SoftGravel
-    case Hard
-    case HardAsphalt
-    case HardArmoredConcrete
-    case HardConcrete
-    case HardBituminusConcrete
-    case HardMetal
-    case HardCement
+    case water = 0
+    case soft
+    case softDirt
+    case softGravel
+    case hard
+    case hardAsphalt
+    case hardArmoredConcrete
+    case hardConcrete
+    case hardBituminusConcrete
+    case hardMetal
+    case hardCement
     
     init?(code: String?)
     {
         switch code ?? ""
         {
-        case "water" : self = Water
-            case "soft": self = Soft
-            case "dirt": self = SoftDirt
-            case "gravel": self = SoftGravel
-            case "hard": self = Hard
-            case "hard-asphalt": self = HardAsphalt
-            case "hard-armored-concrete": self = HardArmoredConcrete
-            case "hard-concrete": self = HardConcrete
-            case "hard-bituminous-concrete": self = HardBituminusConcrete
-            case "hard-metal": self = HardMetal
-            case "hard-cement": self = HardCement
+        case "water" : self = .water
+            case "soft": self = .soft
+            case "dirt": self = .softDirt
+            case "gravel": self = .softGravel
+            case "hard": self = .hard
+            case "hard-asphalt": self = .hardAsphalt
+            case "hard-armored-concrete": self = .hardArmoredConcrete
+            case "hard-concrete": self = .hardConcrete
+            case "hard-bituminous-concrete": self = .hardBituminusConcrete
+            case "hard-metal": self = .hardMetal
+            case "hard-cement": self = .hardCement
         default: return nil
         }
     }
@@ -45,19 +45,19 @@ enum RunwaySurface : Int
 
 enum RunwayLights : Int
 {
-    case None = 0
-    case Always
-    case OnRequest
-    case PilotControlled
+    case none = 0
+    case always
+    case onRequest
+    case pilotControlled
     
     init?(code: String?)
     {
         switch code ?? ""
         {
-        case "1" : self = None
-        case "2": self = Always
-        case "3": self = OnRequest
-        case "4": self = PilotControlled
+        case "1" : self = .none
+        case "2": self = .always
+        case "3": self = .onRequest
+        case "4": self = .pilotControlled
         default: return nil
         }
     }
@@ -67,12 +67,12 @@ class Runway: NSManagedObject {
     
     convenience init?(dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext)
     {
-        if let entity = NSEntityDescription.entityForName("Runway", inManagedObjectContext: context)
+        if let entity = NSEntityDescription.entity(forEntityName: "Runway", in: context)
         {
-            self.init(entity: entity, insertIntoManagedObjectContext: context)
-            self.length = Int(dictionary?["length"] as? String ?? "")
+            self.init(entity: entity, insertInto: context)
+            self.length = Int(dictionary?["length"] as? String ?? "") as NSNumber?
             self.magneticCourse = dictionary?["kurs"] as? String
-            self.surfaceType = RunwaySurface(code: dictionary?["pokr_code"] as? String)?.rawValue
+            self.surfaceType = RunwaySurface(code: dictionary?["pokr_code"] as? String)?.rawValue as NSNumber?
             if let threshold1lat = Double(dictionary?["porog1_lat"] as? String ?? "")
             {
                 if let threshold1lon = Double(dictionary?["porog1_lon"] as? String ?? "")
@@ -85,13 +85,13 @@ class Runway: NSManagedObject {
                                 [ "lat" : threshold1lat, "lon" : threshold1lon ],
                                 [ "lat" : threshold2lat, "lon" : threshold2lon ]
                             ]
-                            self.thresholds = thresholds
+                            self.thresholds = thresholds as NSObject?
                         }
                     }
                 }
             }
-            self.width = Int(dictionary?["width"] as? String ?? "")
-            self.lightsType = RunwayLights(code: dictionary?["lights_id"] as? String)?.rawValue
+            self.width = Int(dictionary?["width"] as? String ?? "") as NSNumber?
+            self.lightsType = RunwayLights(code: dictionary?["lights_id"] as? String)?.rawValue as NSNumber?
             self.title = dictionary?["name"] as? String
             self.trueCourse = dictionary?["kurs_ist"] as? String
             self.trafficPatterns = dictionary?["korobochka"] as? String

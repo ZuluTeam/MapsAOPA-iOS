@@ -8,68 +8,56 @@
 
 import Foundation
 import AFNetworking
-import ReactiveCocoa
+import ReactiveSwift
 
 class DataLoader
 {
-    private static let serverAddress : String = "http://maps.aopa.ru"
-    private static let dataPath : String = "/export/exportFormRequest/?exportType=standart&exportAll%5B%5D=airport&exportAll%5B%5D=vert&exportFormat=xml"
-    private static let imagesPath : String = "/static/pointImages/"
+    fileprivate static let serverAddress : String = "http://maps.aopa.ru"
+    fileprivate static let dataPath : String = "/export/exportFormRequest/?exportType=standart&exportAll%5B%5D=airport&exportAll%5B%5D=vert&exportFormat=xml"
+    fileprivate static let imagesPath : String = "/static/pointImages/"
     
     static var apiKey : String? {
         get {
-            return Config.networkConfig[AppKeys.ApiKey.rawValue] as? String ?? NSUserDefaults.standardUserDefaults().stringForKey(AppKeys.ApiKey.rawValue)
+            return Config.networkConfig[AppKeys.ApiKey.rawValue] as? String ?? UserDefaults.standard.string(forKey: AppKeys.ApiKey.rawValue)
         }
         set {
-            NSUserDefaults.standardUserDefaults().setObject(newValue, forKey: AppKeys.ApiKey.rawValue)
-            NSUserDefaults.standardUserDefaults().synchronize()
+            UserDefaults.standard.set(newValue, forKey: AppKeys.ApiKey.rawValue)
+            UserDefaults.standard.synchronize()
         }
     }
     
     static let sharedLoader : DataLoader = DataLoader()
     
-    private lazy var session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+    fileprivate lazy var session = URLSession(configuration: URLSessionConfiguration.default)
     
-    private init() { }
+    fileprivate init() { }
     
-    func signalForAirfieldsData() -> SignalProducer<NSURL, NSError>
+    func signalForAirfieldsData() -> SignalProducer<URL, NSError>
     {
         return SignalProducer({
             observer, disposable in
-            if let apiKey = DataLoader.apiKey where apiKey.length > 0
+            if let apiKey = DataLoader.apiKey, apiKey.length > 0
             {
-                if let url = NSBundle.mainBundle().URLForResource("aopa-points-export", withExtension: "xml")
-                {
-//                    if let parser = NSXMLParser(contentsOfURL: url)
-//                    {
-                        observer.sendNext(url)
-                        observer.sendCompleted()
-                        return
-//                    }
-                }
-                observer.sendFailed(Error.FileNotFound.error())
-                /*
-                let url = NSURL(string: "\(DataLoader.serverAddress)\(DataLoader.dataPath)&api_key=\(apiKey)")!
-                self.session.downloadTaskWithRequest(NSURLRequest(URL: url), completionHandler: { (fileURL, response, error) in
-                    if let error = error
+                let url = URL(string: "\(DataLoader.serverAddress)\(DataLoader.dataPath)&api_key=\(apiKey)")!
+                self.session.downloadTask(with: URLRequest(url: url), completionHandler: { (fileURL, response, error) in
+                    if let error = error as? NSError
                     {
-                        observer.sendFailed(error)
+                        observer.send(error: error)
                     }
                     else if let fileURL = fileURL
                     {
-                        observer.sendNext((NSXMLParser(contentsOfURL: fileURL), 1.0))
+                        observer.send(value: fileURL)
                         observer.sendCompleted()
                     }
                     else
                     {
-                        observer.sendFailed(Error.FileNotFound.error())
+                        observer.send(error: Error.fileNotFound.error())
                     }
                 }).resume()
-                */
             }
             else
             {
-                observer.sendFailed(Error.ApiKeyRequired.error())
+                observer.send(error: Error.apiKeyRequired.error())
             }
         })
     }
