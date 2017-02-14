@@ -3,7 +3,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'MapsAOPA' do
-    pod 'ReactiveSwift', :git=>'git@github.com:ReactiveCocoa/ReactiveSwift.git'
+    pod 'ReactiveCocoa', '~> 5.0.0'
     pod 'AFNetworking'
     pod 'CHCSVParser'
     pod 'XMLDictionary'

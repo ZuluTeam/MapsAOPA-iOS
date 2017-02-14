@@ -6,8 +6,9 @@
 //  Copyright © 2016 Konstantin Zyryanov. All rights reserved.
 //
 
+import Foundation
 
-enum Error : Int
+enum AOPAError : Int
 {
     static let domain = "com.example.MapsAOPA"
     
@@ -16,8 +17,8 @@ enum Error : Int
     case fileNotFound
     case dataError
     
-    func error() -> NSError
+    func error() -> Foundation.NSError
     {
-        return NSError(domain: Error.domain, code: self.rawValue, userInfo: nil)
+        return NSError(domain: AOPAError.domain, code: self.rawValue, userInfo: nil)
     }
 }

@@ -39,11 +39,11 @@ class MapViewModel
 //        }
     }
     
-    fileprivate func elementsFromSignal(_ signal: SignalProducer<(element: String, state: XMLParseState, characters: String?), NSError>) -> SignalProducer<[String:AnyObject], NSError>
-    {
-        return SignalProducer {
-            observer, disposable in
-            
+//    fileprivate func elementsFromSignal(_ signal: SignalProducer<(element: String, state: XMLParseState, characters: String?), NSError>) -> SignalProducer<[String:AnyObject], NSError>
+//    {
+//        return SignalProducer {
+//            observer, disposable in
+    
 //            var stack : NSMutableArray = NSMutableArray()
 //            let arrayElements = Set(arrayLiteral: "vpp", "contact", "freq", "fuel")
             
@@ -96,6 +96,6 @@ class MapViewModel
 //            },
 //                                                         failed: { observer.sendFailed($0) },
 //                                                         completed: { observer.sendCompleted() }).start()
-        }
-    }
+//        }
+//    }
 }

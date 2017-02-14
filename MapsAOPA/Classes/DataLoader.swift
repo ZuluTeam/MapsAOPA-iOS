@@ -51,13 +51,13 @@ class DataLoader
                     }
                     else
                     {
-                        observer.send(error: Error.fileNotFound.error())
+                        observer.send(error: AOPAError.fileNotFound.error())
                     }
                 }).resume()
             }
             else
             {
-                observer.send(error: Error.apiKeyRequired.error())
+                observer.send(error: AOPAError.apiKeyRequired.error())
             }
         })
     }

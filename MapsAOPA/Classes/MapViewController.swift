@@ -139,9 +139,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
             failed: { [weak self] error in
                 self?.loading = false
                 print(error)
-                if error.domain == Error.domain
+                if error.domain == AOPAError.domain
                 {
-                    if let errorCode = Error(rawValue: error.code)
+                    if let errorCode = AOPAError(rawValue: error.code)
                     {
                         switch errorCode
                         {

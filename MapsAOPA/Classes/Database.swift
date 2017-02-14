@@ -70,7 +70,7 @@ class Database
             dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
             
             dict[NSUnderlyingErrorKey] = error as NSError
-            let wrappedError = Error.dataError.error()
+            let wrappedError = AOPAError.dataError.error()
             NSLog("Unresolved error \(wrappedError), \(wrappedError.userInfo)")
         }
         
