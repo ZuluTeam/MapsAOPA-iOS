@@ -31,14 +31,13 @@ class ItemsXMLParser : NSObject, XMLParserDelegate {
     }
     
     func parse() -> SignalProducer<Any, NSError> {
-        self.xmlParser.abortParsing()
-        disposable?.dispose()
-        self.observer = nil
-        self.disposable = nil
+        self.abortParsing()
         return SignalProducer { [weak self] observer, disposable in
             self?.observer = observer
             self?.disposable = disposable
-            self?.xmlParser.parse()
+            DispatchQueue.global().async {
+                self?.xmlParser.parse()
+            }
         }
     }
     
