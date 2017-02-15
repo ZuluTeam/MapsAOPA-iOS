@@ -13,11 +13,14 @@ import Result
 
 class MapViewModel
 {
+    
+    
+    
     init() {}
     
     func loadSignal() -> SignalProducer<Void, NSError>
     {
-        let timeInterval = Date().timeIntervalSince(Config.lastUpdate as Date)
+        let timeInterval = Date().timeIntervalSince(Settings.lastUpdate as Date)
 //        if  Config.weekTimeInterval < timeInterval
 //        {
 //            return DataLoader.sharedLoader.signalForAirfieldsData()

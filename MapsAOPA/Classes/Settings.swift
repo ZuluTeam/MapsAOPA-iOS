@@ -31,11 +31,9 @@ struct PointsFilter
     var heliportsState : PointsFilterState
 }
 
-class Config
+class Settings
 {
-    static let weekTimeInterval : TimeInterval = 7 * 24 * 60 * 60
-    
-    static let networkConfig : [String:AnyObject] = NSDictionary(contentsOfFile:Bundle.main.path(forResource: "NetworkConfig", ofType: "plist") ?? "") as? [String:AnyObject] ?? [:]
+    static let reloadDataTimeInterval : TimeInterval = 7 * 24 * 60 * 60
     
     static var pointsFilter : PointsFilter = {
         let filter = UserDefaults.standard.object(forKey: AppKeys.PointsFilter.rawValue) as? [String:AnyObject]

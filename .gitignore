@@ -18,5 +18,6 @@ DerivedData
 *.xcuserstate
 Pods/
 *.lock
-NetworkConfig.plist
 .DS_Store
+
+AOPANetwork.Config.swift

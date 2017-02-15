@@ -69,33 +69,33 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         
         let spacerItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let airportsFilterItem = MultipleStatesBarButtonItem(states: ["A:None" as AnyObject, "A:Active" as AnyObject, "A:All" as AnyObject],
-                                                             currentState: Config.pointsFilter.airportsState.rawValue,
+                                                             currentState: Settings.pointsFilter.airportsState.rawValue,
                                                              action: { [weak self] (state) -> () in
-                                                                var filter = Config.pointsFilter
+                                                                var filter = Settings.pointsFilter
                                                                 filter.airportsState = PointsFilterState(rawValue: state) ?? .active
-                                                                Config.pointsFilter = filter
+                                                                Settings.pointsFilter = filter
                                                                 self?.reloadPoints()
         })
         let heliportsFilterItem = MultipleStatesBarButtonItem(states: ["H:None" as AnyObject, "H:Active" as AnyObject, "H:All" as AnyObject],
-                                                              currentState: Config.pointsFilter.heliportsState.rawValue,
+                                                              currentState: Settings.pointsFilter.heliportsState.rawValue,
                                                               action:  { [weak self] (state) -> () in
-                                                                var filter = Config.pointsFilter
+                                                                var filter = Settings.pointsFilter
                                                                 filter.heliportsState = (PointsFilterState(rawValue: state) ?? .none)!
-                                                                Config.pointsFilter = filter
+                                                                Settings.pointsFilter = filter
                                                                 self?.reloadPoints()
         })
         self.toolbarItems = [userTrackingItem, mapStyleItem, spacerItem, airportsFilterItem, heliportsFilterItem]
         
-        self.mapView?.setRegion(Config.mapRegion(withDefaultCoordinate: Config.defaultCoordinate), animated: false)
+        self.mapView?.setRegion(Settings.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate), animated: false)
         
         INTULocationManager.sharedInstance().requestLocation(withDesiredAccuracy: .block, timeout: TimeInterval(CGFloat.greatestFiniteMagnitude), delayUntilAuthorized: false, block: { [weak self] (location, accuracy, status) in
-            var mapLocation : CLLocationCoordinate2D = Config.defaultCoordinate
+            var mapLocation : CLLocationCoordinate2D = Settings.defaultCoordinate
             if status == .success
             {
                 self?.mapView?.showsUserLocation = true
                 mapLocation = (location?.coordinate)!
             }
-            let mapRegion = Config.mapRegion(withDefaultCoordinate: mapLocation)
+            let mapRegion = Settings.mapRegion(withDefaultCoordinate: mapLocation)
             self?.mapView?.setRegion(mapRegion, animated: true)
         })
         
@@ -132,54 +132,54 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     
     fileprivate func loadData()
     {
-        viewModel.loadSignal().on(
-            started: {
-                [weak self] in self?.loading = true
-            },
-            failed: { [weak self] error in
-                self?.loading = false
-                print(error)
-                if error.domain == AOPAError.domain
-                {
-                    if let errorCode = AOPAError(rawValue: error.code)
-                    {
-                        switch errorCode
-                        {
-                        case .apiKeyRequired:
-                            let alertController = UIAlertController(title: "title_api_key_required".localized(), message: "message_api_key_required".localized(), preferredStyle: .alert)
-                            let saveAction = UIAlertAction(title: "button_save".localized(), style: UIAlertActionStyle.default, handler: { (action) in
-                                if let textField = alertController.textFields?.first
-                                {
-                                    let text = textField.text ?? ""
-                                    DataLoader.apiKey = text
-                                    self?.loadData()
-                                }
-                            })
-                            saveAction.isEnabled = false
-                            alertController.addAction(saveAction)
-                            alertController.addAction(UIAlertAction(title: "button_cancel".localized(), style: .cancel, handler: { (action) in
-                                // TODO: show reload button
-                                alertController.dismiss(animated: true, completion: nil)
-                            }))
-//                            alertController.addTextFieldWithConfigurationHandler({ [weak saveAction] (textField : UITextField) in
-//                                textField.rac_textSignal().toSignalProducer().startWithNext({ (text) in
-//                                    saveAction?.enabled = ((text as? String)?.length ?? 0) > 0
-//                                })
+//        viewModel.loadSignal().on(
+//            started: {
+//                [weak self] in self?.loading = true
+//            },
+//            failed: { [weak self] error in
+//                self?.loading = false
+//                print(error)
+//                if error.domain == AOPAError.domain
+//                {
+//                    if let errorCode = AOPAError(rawValue: error.code)
+//                    {
+//                        switch errorCode
+//                        {
+//                        case .apiKeyRequired:
+//                            let alertController = UIAlertController(title: "title_api_key_required".localized(), message: "message_api_key_required".localized(), preferredStyle: .alert)
+//                            let saveAction = UIAlertAction(title: "button_save".localized(), style: UIAlertActionStyle.default, handler: { (action) in
+//                                if let textField = alertController.textFields?.first
+//                                {
+//                                    let text = textField.text ?? ""
+//                                    DataLoader.apiKey = text
+//                                    self?.loadData()
+//                                }
 //                            })
-                            self?.present(alertController, animated: true, completion: nil)
-                        default: break
-                        }
-                    }
-                }
-                else
-                {
-                    let alert = UIAlertView(title: "title_error", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "button_ok".localized())
-                    alert.show()
-                }
-            },
-            completed: {
-                [weak self] in self?.reloadPoints(); self?.loading = false
-        }).start()
+//                            saveAction.isEnabled = false
+//                            alertController.addAction(saveAction)
+//                            alertController.addAction(UIAlertAction(title: "button_cancel".localized(), style: .cancel, handler: { (action) in
+//                                // TODO: show reload button
+//                                alertController.dismiss(animated: true, completion: nil)
+//                            }))
+////                            alertController.addTextFieldWithConfigurationHandler({ [weak saveAction] (textField : UITextField) in
+////                                textField.rac_textSignal().toSignalProducer().startWithNext({ (text) in
+////                                    saveAction?.enabled = ((text as? String)?.length ?? 0) > 0
+////                                })
+////                            })
+//                            self?.present(alertController, animated: true, completion: nil)
+//                        default: break
+//                        }
+//                    }
+//                }
+//                else
+//                {
+//                    let alert = UIAlertView(title: "title_error", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "button_ok".localized())
+//                    alert.show()
+//                }
+//            },
+//            completed: {
+//                [weak self] in self?.reloadPoints(); self?.loading = false
+//        }).start()
     }
     
     fileprivate func reloadPoints()
@@ -192,7 +192,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     
     fileprivate func reloadPoints(inRegion region: MKCoordinateRegion)
     {
-        self.fetchRequest.predicate = Database.pointsPredicate(forRegion: region, withFilter: Config.pointsFilter)
+        self.fetchRequest.predicate = Database.pointsPredicate(forRegion: region, withFilter: Settings.pointsFilter)
         
         DispatchQueue.global().async(execute: {
             do {
@@ -265,7 +265,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     // MARK: - MKMapViewDelegate
  
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        Config.saveRegion(mapView.region)
+        Settings.saveRegion(mapView.region)
         self.reloadPoints(inRegion: mapView.region)
     }
     

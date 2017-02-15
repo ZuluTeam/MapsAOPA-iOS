@@ -4,7 +4,8 @@ use_frameworks!
 
 target 'MapsAOPA' do
     pod 'ReactiveCocoa', '~> 5.0.0'
-    pod 'AFNetworking'
+    pod 'Alamofire'
+    pod 'AlamofireImage'
     pod 'CHCSVParser'
     pod 'XMLDictionary'
     pod 'Sugar'
