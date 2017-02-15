@@ -23,7 +23,7 @@ class Network {
                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
             }
             
-            Alamofire.download(url, method: .get, parameters: parameters, to: destination).response { response in
+            let request = Alamofire.download(url, method: .get, parameters: parameters, to: destination).response { response in
                 if let destination = response.destinationURL {
                     observer.send(value: destination)
                     observer.sendCompleted()
@@ -31,6 +31,9 @@ class Network {
                     observer.send(error: NetworkError(error: response.error as? NSError))
                 }
             }
+            disposable.add({
+                request.cancel()
+            })
         }
     }
     
@@ -40,7 +43,7 @@ class Network {
                 observer.send(value: image)
                 observer.sendCompleted()
             } else {
-                Alamofire.request(url).responseImage { [weak self] response in
+                let request = Alamofire.request(url).responseImage { [weak self] response in
                     if let image = response.result.value {
                         self?.imageCache.add(image, withIdentifier: url)
                         observer.send(value: image)
@@ -49,6 +52,9 @@ class Network {
                         observer.send(error: NetworkError(error: response.error as? NSError))
                     }
                 }
+                disposable.add({
+                    request.cancel()
+                })
             }
         }
     }
