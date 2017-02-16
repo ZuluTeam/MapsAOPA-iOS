@@ -14,7 +14,7 @@
 "Button_Cancel" = "Cancel";
 
 // MARK: - Errors
-"Error_Title" = "Error"
+"Error_Title" = "Error";
 
 "Error_ConnectionLost" = "Internet connection is lost. Move to a location where more stable connection is available, or wait until the connection returns to be stable.";
 "Error_IncorrectDataReturned" = "Incorrect data returned from AOPA server. Try again, or wait until AOPA fixes the problem.";
