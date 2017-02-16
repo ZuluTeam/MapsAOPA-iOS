@@ -12,26 +12,16 @@ import INTULocationManager
 import CoreData
 import MessageUI
 import ReactiveSwift
+import ReactiveCocoa
 
 
 class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelegate, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapView : MKMapView?
     @IBOutlet weak var detailsView : PointDetailsView?
-    @IBOutlet weak var loadingIndicator : UIActivityIndicatorView?
+    @IBOutlet weak var loadingIndicator : UIActivityIndicatorView!
     
     fileprivate lazy var viewModel = MapViewModel()
-    fileprivate var loading : Bool = false {
-        didSet {
-            if loading
-            {
-                self.loadingIndicator?.startAnimating()
-            }
-            else
-            {
-                self.loadingIndicator?.stopAnimating()
-            }
-        }
-    }
+    
     fileprivate var fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Point")
     fileprivate var fetchedResultsController : NSFetchedResultsController<NSFetchRequestResult>
     
@@ -47,14 +37,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         self.detailsView?.delegate = self
-        if self.loading
-        {
-            self.loadingIndicator?.startAnimating()
-        }
-        else
-        {
-            self.loadingIndicator?.stopAnimating()
-        }
+        
+        self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
+        let _ = self.viewModel.errorMessage.signal.on(value: { self.displayError(message: $0) })
         
         let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
         let mapStyleItem = MultipleStatesBarButtonItem(states: ["Sch" as AnyObject, "Hyb" as AnyObject, "Sat" as AnyObject ], currentState: 0) { [ weak self] (state) in
@@ -100,6 +85,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         })
         
         self.showPointInfo((mapView?.selectedAnnotations.first as? PointAnnotation)?.point, animated: false)
+        
+        self.viewModel.loadAirfields(force: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -319,6 +306,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none
+    }
+    
+    // MARK: - Error
+    
+    private func displayError(message: String?) {
+        if let message = message {
+            let alert = UIAlertController(title: "Error_Title".localized(), message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Button_Ok".localized(), style: .destructive))
+            self.present(alert, animated: true)
+        }
     }
 }
 

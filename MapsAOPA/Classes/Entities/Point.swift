@@ -105,13 +105,15 @@ class Point: NSManagedObject {
             let runwayDicts = dictionary?["vpp"] as? [[String:AnyObject]] ?? []
             for runwayDict in runwayDicts
             {
-                let runway = Runway(dictionary: runwayDict, inContext: context)
-                runway?.point = point
+                if let runwayDict = runwayDict["item"] as? [String:AnyObject] {
+                    let runway = Runway(dictionary: runwayDict, inContext: context)
+                    runway?.point = point
+                }
             }
             let fuelDicts = dictionary?["fuel"] as? [[String:AnyObject]] ?? []
             for fuelDict in fuelDicts
             {
-                if let type = FuelType(type: fuelDict["type_id"] as? String ?? "")
+                if let fuelDict = fuelDict["item"] as? [String:AnyObject], let type = FuelType(type: fuelDict["type_id"] as? String ?? "")
                 {
                     do
                     {

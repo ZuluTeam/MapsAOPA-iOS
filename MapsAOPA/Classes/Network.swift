@@ -15,7 +15,7 @@ class Network {
     fileprivate  var imageCache = AutoPurgingImageCache()
 
     
-    func downloadData(_ url: String, parameters: [String: Any]?, destination: String) -> SignalProducer<URL, NetworkError> {
+    func downloadData(_ url: String, parameters: [String: Any]?, destination: String) -> SignalProducer<URL, NSError> {
         return SignalProducer { observer, disposable in
             let destination: DownloadRequest.DownloadFileDestination = { _, _ in
                 let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -28,7 +28,9 @@ class Network {
                     observer.send(value: destination)
                     observer.sendCompleted()
                 } else {
-                    observer.send(error: NetworkError(error: response.error as? NSError))
+                    if let error = response.error as? NSError {
+                        observer.send(error: error)
+                    }
                 }
             }
             disposable.add({
@@ -37,7 +39,7 @@ class Network {
         }
     }
     
-    func downloadImage(_ url: String) -> SignalProducer<UIImage, NetworkError> {
+    func downloadImage(_ url: String) -> SignalProducer<UIImage, NSError> {
         return SignalProducer { [weak self] observer, disposable in
             if let image = self?.imageCache.image(withIdentifier: url) {
                 observer.send(value: image)
@@ -49,7 +51,9 @@ class Network {
                         observer.send(value: image)
                         observer.sendCompleted()
                     } else {
-                        observer.send(error: NetworkError(error: response.error as? NSError))
+                        if let error = response.error as? NSError {
+                            observer.send(error: error)
+                        }
                     }
                 }
                 disposable.add({

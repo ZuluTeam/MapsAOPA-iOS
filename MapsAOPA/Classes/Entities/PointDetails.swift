@@ -57,9 +57,9 @@ class PointDetails: NSManagedObject {
             
             if let contactDicts = dictionary?["contact"] as? [[String:AnyObject]]
             {
-                let contacts = contactDicts.map({ item -> [String:AnyObject] in
-                    var contact = item
-                    contact["id"] = nil
+                let contacts = contactDicts.flatMap({ item -> [String:AnyObject]? in
+                    var contact = item["item"] as? [String:AnyObject]
+                    contact?["id"] = nil
                     return contact })
                 var result : [[String:AnyObject]] = []
                 for contact in contacts

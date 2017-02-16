@@ -10,19 +10,11 @@ import Foundation
 
 struct AOPANetwork {
     private static let apiURL = "http://maps.aopa.ru"
-    private static let dataPath = "/export/exportFormRequest/"
+    private static let dataPath = "/export/exportFormRequest/?api_key=\(AOPANetwork.apiKey)&exportAll%5B%5D=airport&exportAll%5B%5D=vert&exportFormat=xml&exportType=standart"
     private static let imagesPath = "/static/pointImages/"
     private static let imagesURL = apiURL + imagesPath
     
     static let dataURL = apiURL + dataPath
-    
-    static let exportParameters : [String:Any] = [
-        "exportType" : "standart",
-        "exportAll[]" : "airport",
-        "exportAll[]" : "vert",
-        "exportFormat" : "xml",
-        "api_key" : AOPANetwork.apiKey
-    ]
     
     static func imageURL(for imagePath: String) -> String {
         return self.imagesURL + imagePath

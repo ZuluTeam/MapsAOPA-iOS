@@ -13,33 +13,50 @@ import Result
 
 class MapViewModel
 {
+    var isLoading : Property<Bool> { return Property(_loading) }
+    var errorMessage : Property<String?> { return Property(_errorMessage) }
     
+    fileprivate let _loading = MutableProperty<Bool>(false)
+    fileprivate let _errorMessage = MutableProperty<String?>(nil)
     
+    fileprivate let network : Network
+    fileprivate let loader : AOPALoader
     
-    init() {}
+    fileprivate var xmlParser : ItemsXMLParser?
     
-    func loadSignal() -> SignalProducer<Void, NSError>
-    {
-        let timeInterval = Date().timeIntervalSince(Settings.lastUpdate as Date)
-//        if  Config.weekTimeInterval < timeInterval
-//        {
-//            return DataLoader.sharedLoader.signalForAirfieldsData()
-//                .flatMap(.Latest, transform: { value -> SignalProducer<[String:AnyObject], NSError> in
-//                    
-//                    
-//                        return self.elementsFromSignal(XMLParser(contentsOfURL: value)!.parserSignal()).on(next: {
-//                            Point.point(fromDictionary: $0, inContext: Database.sharedDatabase.backgroundManagedObjectContext)
-//                            }, completed: {
-//                                Config.lastUpdate = NSDate()
-//                                Database.sharedDatabase.saveContext(Database.sharedDatabase.backgroundManagedObjectContext)
-//                        }).startOn(QueueScheduler(queue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0))).observeOn(UIScheduler())
-//                })
-//                .map({ _ in  })
-//        }
-//        else
-//        {
-            return SignalProducer { observer, disposable in observer.sendCompleted() }
-//        }
+    init() {
+        self.network = Network()
+        self.loader = AOPALoader(network: network)
+    }
+    
+    func loadAirfields(force: Bool = false) {
+        let date = Date()
+        if !force && date.timeIntervalSince(Settings.lastUpdate) < Settings.reloadDataTimeInterval {
+            return
+        }
+        _loading.value = true
+        
+        self.loader.loadAirfields().flatMap(.latest, transform: { [weak self] (url : URL) -> SignalProducer<Any, AOPAError> in
+            self?.xmlParser = ItemsXMLParser(contentsOf: url, forItems: "point")
+            if let xmlParser = self?.xmlParser {
+                return xmlParser.parse().mapError({ AOPAError($0) })
+            }
+            return .empty
+        }).on(failed: { [weak self] error in
+            print(error.description)
+            self?._errorMessage.value = error.description
+            },
+              completed: { [weak self] in
+                self?.xmlParser = nil
+                self?._loading.value = false
+                Settings.lastUpdate = Date()
+                Database.sharedDatabase.saveContext(Database.sharedDatabase.backgroundManagedObjectContext)
+            },
+              value: { value in
+                if let pointDict = value as? [String:AnyObject] {
+                    let _ = Point.point(fromDictionary: pointDict, inContext: Database.sharedDatabase.backgroundManagedObjectContext)
+                }
+        }).start()
     }
     
 //    fileprivate func elementsFromSignal(_ signal: SignalProducer<(element: String, state: XMLParseState, characters: String?), NSError>) -> SignalProducer<[String:AnyObject], NSError>

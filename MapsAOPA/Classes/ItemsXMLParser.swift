@@ -38,12 +38,12 @@ class ItemsXMLParser : NSObject, XMLParserDelegate {
             DispatchQueue.global().async {
                 self?.xmlParser.parse()
             }
+            disposable.add({ [weak self] in self?.abortParsing() })
         }
     }
     
     func abortParsing() {
         self.xmlParser.abortParsing()
-        disposable?.dispose()
         self.observer = nil
         self.disposable = nil
     }
@@ -83,7 +83,7 @@ class ItemsXMLParser : NSObject, XMLParserDelegate {
             if let nodes = self.stack.last?.nodes {
                 self.observer?.send(value: nodes)
             } else {
-                self.observer?.send(error: AOPAError.dataError.error())
+                self.observer?.sendCompleted()
             }
             stack.removeAll()
         } else if stack.count > 1 {
@@ -110,7 +110,7 @@ class ItemsXMLParser : NSObject, XMLParserDelegate {
             
             stack.append(container)
         } else {
-            self.observer?.send(error: AOPAError.dataError.error())
+            self.observer?.sendCompleted()
         }
     }
 }

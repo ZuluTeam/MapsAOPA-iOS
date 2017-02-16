@@ -8,18 +8,9 @@
 
 import Foundation
 
-public enum DataError: Error {
-    /// Unknown or not supported error.
-    case Unknown
-    
-    /// File not found
-    case FileNotFound
-    
-    /// Incorrect data returned from the server.
-    case IncorrectDataReturned
-    
-    internal init(error: NSError?) {
-        if let error = error, error.domain == XMLParser.errorDomain, let errorCode = XMLParser.ErrorCode(rawValue: error.code) {
+extension AOPAError {
+    static func dataError(_ error: NSError) -> AOPAError {
+        if let errorCode = XMLParser.ErrorCode(rawValue: error.code) {
             switch errorCode {
                 
             case XMLParser.ErrorCode.documentStartError,
@@ -111,27 +102,12 @@ public enum DataError: Error {
                  XMLParser.ErrorCode.invalidURIError,
                  XMLParser.ErrorCode.uriFragmentError,
                  XMLParser.ErrorCode.noDTDError,
-                 XMLParser.ErrorCode.unknownEncodingError: self = .IncorrectDataReturned
+                 XMLParser.ErrorCode.unknownEncodingError: return .IncorrectDataReturned
             case XMLParser.ErrorCode.internalError,
                  XMLParser.ErrorCode.outOfMemoryError,
-                 XMLParser.ErrorCode.delegateAbortedParseError: self = .Unknown
+                 XMLParser.ErrorCode.delegateAbortedParseError: return .Unknown
             }
         }
-        else {
-            self = .Unknown
-        }
-    }
-    
-    public var description: String {
-        let text: String
-        switch self {
-        case .Unknown:
-            text = "DataError_Unknown".localized()
-        case .FileNotFound:
-            text = "DataError_FileNotFound".localized()
-        case .IncorrectDataReturned:
-            text = "DataError_IncorrectData".localized()
-        }
-        return text
+        return .Unknown
     }
 }

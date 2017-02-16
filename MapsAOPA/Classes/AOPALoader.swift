@@ -16,11 +16,15 @@ public final class AOPALoader {
         self.network = network
     }
     
-    func loadAirfields() -> SignalProducer<URL, NetworkError> {
-        return self.network.downloadData(AOPANetwork.dataURL, parameters: AOPANetwork.exportParameters, destination: "aopa-points")
+    func loadAirfields() -> SignalProducer<URL, AOPAError> {
+        return self.network
+            .downloadData(AOPANetwork.dataURL, parameters: nil, destination: "aopa-points")
+            .mapError({ AOPAError($0) })
     }
     
-    func loadImage(_ imagePath: String) -> SignalProducer<UIImage, NetworkError> {
-        return self.network.downloadImage(AOPANetwork.imageURL(for: imagePath))
+    func loadImage(_ imagePath: String) -> SignalProducer<UIImage, AOPAError> {
+        return self.network
+            .downloadImage(AOPANetwork.imageURL(for: imagePath))
+            .mapError({ AOPAError($0) })
     }
 }
