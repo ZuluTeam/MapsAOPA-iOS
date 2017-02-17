@@ -12,7 +12,11 @@ import UIKit
 class MultipleStatesBarButtonItem: UIBarButtonItem {
     fileprivate let itemAction : ((Int)->())?
     fileprivate let states : [AnyObject]
-    fileprivate var currentState : Int
+    fileprivate var currentState : Int {
+        didSet {
+            self.updateState()
+        }
+    }
     
     init(states: [AnyObject], currentState: Int, action: ((Int)->())?)
     {
@@ -33,14 +37,12 @@ class MultipleStatesBarButtonItem: UIBarButtonItem {
         switch state {
         case let value as String:
             self.title = value
-            self.target = self
-            self.action = #selector(MultipleStatesBarButtonItem.buttonAction(_:))
         case let value as UIImage:
             self.image = value
-            self.target = self
-            self.action = #selector(MultipleStatesBarButtonItem.buttonAction(_:))
         default: break
         }
+        self.target = self
+        self.action = #selector(MultipleStatesBarButtonItem.buttonAction(_:))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -50,7 +52,6 @@ class MultipleStatesBarButtonItem: UIBarButtonItem {
     func buttonAction(_ sender: AnyObject?)
     {
         self.currentState = (self.currentState + 1) % self.states.count
-        self.updateState()
         self.itemAction?(self.currentState)
     }
 }

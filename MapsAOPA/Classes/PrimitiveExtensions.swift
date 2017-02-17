@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 extension String {
     func localized(_ comment: String = "") -> String
@@ -18,5 +19,18 @@ extension String {
         get {
             return (self as NSString).length
         }
+    }
+}
+
+
+extension CGFloat {
+    init(_ value: Bool) {
+        self = value ? 1.0 : 0.0
+    }
+}
+
+extension TimeInterval {
+    init(_ value: Bool) {
+        self = value ? 1.0 : 0.0
     }
 }

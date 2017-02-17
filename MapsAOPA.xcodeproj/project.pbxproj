@@ -17,13 +17,14 @@
 		B53826C01D00AAE300828A95 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B53826BF1D00AAE300828A95 /* MessageUI.framework */; };
 		B5447D3F1CC12ECA0041B579 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B5447D411CC12ECA0041B579 /* Localizable.strings */; };
 		B5447D431CC137A30041B579 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D421CC137A30041B579 /* Database.swift */; };
-		B5447D461CC13DB60041B579 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D451CC13DB60041B579 /* StringExtensions.swift */; };
+		B5447D461CC13DB60041B579 /* PrimitiveExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D451CC13DB60041B579 /* PrimitiveExtensions.swift */; };
 		B5447D481CC14DDE0041B579 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D471CC14DDE0041B579 /* Segue.swift */; };
 		B5464E761D1C5771004BBDD6 /* PhoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */; };
 		B5464E781D1C57A6004BBDD6 /* DetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */; };
 		B5464E7A1D1C5DD3004BBDD6 /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */; };
 		B5464E7E1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */; };
 		B54BB57F1E55BC6200C0FC5E /* AOPANetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54BB57E1E55BC6100C0FC5E /* AOPANetworkError.swift */; };
+		B54BB5821E56FA4A00C0FC5E /* PointViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54BB5811E56FA4A00C0FC5E /* PointViewModel.swift */; };
 		B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */; };
 		B563E21A1CC1B98900480DA2 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2101CC1B98900480DA2 /* Point.swift */; };
 		B563E21B1CC1B98900480DA2 /* Runway+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2111CC1B98900480DA2 /* Runway+CoreDataProperties.swift */; };
@@ -64,13 +65,14 @@
 		B53826BF1D00AAE300828A95 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		B5447D401CC12ECA0041B579 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B5447D421CC137A30041B579 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
-		B5447D451CC13DB60041B579 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		B5447D451CC13DB60041B579 /* PrimitiveExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimitiveExtensions.swift; sourceTree = "<group>"; };
 		B5447D471CC14DDE0041B579 /* Segue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
 		B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhoneTableViewCell.swift; path = MapsAOPA/Classes/PhoneTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewCell.swift; path = MapsAOPA/Classes/DetailsTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewController.swift; path = MapsAOPA/Classes/DetailsTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FrequenciesTableViewCell.swift; path = MapsAOPA/Classes/FrequenciesTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B54BB57E1E55BC6100C0FC5E /* AOPANetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AOPANetworkError.swift; sourceTree = "<group>"; };
+		B54BB5811E56FA4A00C0FC5E /* PointViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointViewModel.swift; sourceTree = "<group>"; };
 		B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Point+CoreDataProperties.swift"; path = "Entities/Point+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2101CC1B98900480DA2 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Point.swift; path = Entities/Point.swift; sourceTree = "<group>"; };
 		B563E2111CC1B98900480DA2 /* Runway+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Runway+CoreDataProperties.swift"; path = "Entities/Runway+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				B53826B71D009B8300828A95 /* Details */,
 				B5D1C6AD1CC00DB7001E3294 /* MapViewController.swift */,
 				B5DC775D1CC7E2B700226660 /* MapViewModel.swift */,
+				B54BB5811E56FA4A00C0FC5E /* PointViewModel.swift */,
 				B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */,
 			);
 			name = Map;
@@ -148,7 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				B5DC775F1CC7EE3D00226660 /* UI */,
-				B5447D451CC13DB60041B579 /* StringExtensions.swift */,
+				B5447D451CC13DB60041B579 /* PrimitiveExtensions.swift */,
 				B5447D471CC14DDE0041B579 /* Segue.swift */,
 			);
 			name = Common;
@@ -407,6 +410,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B54BB5821E56FA4A00C0FC5E /* PointViewModel.swift in Sources */,
 				B5447D481CC14DDE0041B579 /* Segue.swift in Sources */,
 				B52AA6631E545E8100D96767 /* AOPAError.swift in Sources */,
 				B5447D431CC137A30041B579 /* Database.swift in Sources */,
@@ -435,7 +439,7 @@
 				B52AA6651E5481FD00D96767 /* AOPALoader.swift in Sources */,
 				B53826BE1D009EEE00828A95 /* RunwaysView.swift in Sources */,
 				B54BB57F1E55BC6200C0FC5E /* AOPANetworkError.swift in Sources */,
-				B5447D461CC13DB60041B579 /* StringExtensions.swift in Sources */,
+				B5447D461CC13DB60041B579 /* PrimitiveExtensions.swift in Sources */,
 				B52AA66B1E5489AE00D96767 /* AOPADataError.swift in Sources */,
 				B5DC775E1CC7E2B700226660 /* MapViewModel.swift in Sources */,
 				B52AA6671E54823900D96767 /* AOPANetwork.Config.swift in Sources */,

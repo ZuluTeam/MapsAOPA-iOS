@@ -84,4 +84,12 @@ class Settings
         UserDefaults.standard.set(regionDict, forKey: AppKeys.LastRegion.rawValue)
         UserDefaults.standard.synchronize()
     }
+    
+    static var language : String {
+        if let language = NSLocale.preferredLanguages.first {
+            let languageDict = NSLocale.components(fromLocaleIdentifier: language)
+            return languageDict["kCFLocaleLanguageCodeKey"] ?? "en"
+        }
+        return "en"
+    }
 }

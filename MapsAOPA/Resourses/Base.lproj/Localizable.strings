@@ -23,3 +23,5 @@
 "Error_NotReachedServer" = "Could not reach the Pixabay server. Check the internet connection, or wait until the server becomes accessible.";
 "Error_FileNotFound" = "Data file wasn't found. Please, try to reload airfields data.";
 "Error_Unknown" = "Unknown error occurred. Please try again.";
+
+// MARK: - Point details

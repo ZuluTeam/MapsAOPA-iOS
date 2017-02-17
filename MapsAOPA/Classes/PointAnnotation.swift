@@ -12,21 +12,19 @@ import CoreLocation
 import DynamicColor
 
 class PointAnnotation: MKPointAnnotation {
-    let point : Point
+    let pointViewModel : PointViewModel
     
-    init?(point : Point)
-    {
-        self.point = point
-        if let latitude = point.latitude as? CLLocationDegrees
-        {
-            if let longitude = point.longitude as? CLLocationDegrees
-            {
-                super.init()
-                self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                return
-            }
+    override var coordinate: CLLocationCoordinate2D {
+        get {
+            return self.pointViewModel.location
         }
-        return nil
+        set {
+            self.pointViewModel.location = newValue
+        }
+    }
+    
+    init(pointViewModel : PointViewModel) {
+        self.pointViewModel = pointViewModel
     }
 }
 
@@ -58,48 +56,40 @@ class PointAnnotationView : MKAnnotationView
         }
     }
     
-//    init(annotation: PointAnnotation?)
-//    {
-//        super.init(frame: CGRect.zero)
-////        super.init(frame: CGRect(x: 0, y: 0, width: type(of: self).Size, height: type(of: self).Size))
-//        self.backgroundColor = UIColor.clear
-//        self.annotation = annotation
-//    }
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.backgroundColor = UIColor.clear
         self.frame = CGRect(x: 0, y: 0, width: type(of: self).Size, height: type(of: self).Size)
     }
     
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = UIColor.clear
+        self.frame = CGRect(x: 0, y: 0, width: type(of: self).Size, height: type(of: self).Size)
+        self.annotation = annotation
+    }
+    
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        
+        guard let pointViewModel = (self.annotation as? PointAnnotation)?.pointViewModel else {
+            return
+        }
+        
         let context = UIGraphicsGetCurrentContext()
         
-        let point = (self.annotation as? PointAnnotation)?.point
-        
-        let serviced = point?.isServiced() ?? false
-        let active = point?.active?.boolValue ?? false
-        let military = PointBelongs(rawValue: point?.belongs?.intValue ?? -1)?.isMilitary() ?? false
-        
         let pointColor : UIColor
-        if self.isSelected
-        {
+        if self.isSelected {
             pointColor = PointAnnotationView.selectedColor
         }
-        else if active
-        {
-            if military
-            {
+        else if pointViewModel.isActive {
+            if pointViewModel.isMilitary {
                 pointColor = PointAnnotationView.militaryColor
-            }
-            else
-            {
+            } else {
                 pointColor = PointAnnotationView.civilColor
             }
         }
-        else
-        {
+        else {
             pointColor = PointAnnotationView.inactiveColor
         }
         
@@ -108,8 +98,7 @@ class PointAnnotationView : MKAnnotationView
         context?.setStrokeColor(darkerColor.cgColor)
         context?.setLineWidth(ceil(max(rect.width, rect.height) * PointAnnotationView.lineWidthPercent))
         
-        if serviced
-        {
+        if pointViewModel.isServiced {
             context?.setFillColor(darkerColor.cgColor)
             let crossWidth = ceil(max(rect.width, rect.height) * PointAnnotationView.crossWidthPercent)
             let path = UIBezierPath()
