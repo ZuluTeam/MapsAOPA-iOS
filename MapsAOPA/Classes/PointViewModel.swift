@@ -37,6 +37,7 @@ class PointDetailsViewModel {
     struct Frequency {
         let callsign : String
         let frequency : String
+        let type : String?
     }
     
     struct Contact {
@@ -47,12 +48,12 @@ class PointDetailsViewModel {
     
     let index : String
     let title : String
-    let altitude : Int
+    let elevation : Int
     let email : String?
     let website : String?
     let frequencies : [Frequency]
     let contacts : [Contact]
-    let fuels : String?
+    let fuels : String
     
     let runways : [Any]? = nil
     
@@ -67,14 +68,14 @@ class PointDetailsViewModel {
             self.title = "\(point.title ?? "") \(point.index ?? "")"
         }
         
-        self.altitude = point.details?.altitude?.intValue ?? 0
+        self.elevation = point.details?.elevation?.intValue ?? 0
         self.email = point.details?.email
         self.website = point.details?.website
         self.frequencies = (point.details?.frequencies as? [[String:String]] ?? []).flatMap({ (item) -> Frequency? in
             guard let callsign = item["callsign"], let frequency = item["freq"] else {
                 return nil
             }
-            return Frequency(callsign: callsign, frequency: frequency)
+            return Frequency(callsign: callsign, frequency: frequency, type: item["type"])
         })
         
         self.contacts = (point.details?.contacts as? [[String:String]] ?? []).flatMap({ (item) -> Contact? in

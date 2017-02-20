@@ -387,8 +387,8 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <outlet property="altitudeLabel" destination="vi9-3f-BEf" id="smG-qu-lJH"/>
                                     <outlet property="callButton" destination="43C-i3-1Bj" id="huq-92-7KN"/>
+                                    <outlet property="elevationLabel" destination="vi9-3f-BEf" id="Zfz-IK-OZN"/>
                                     <outlet property="emailButton" destination="lxx-Oi-AZO" id="AAs-XO-66b"/>
                                     <outlet property="frequenciesButton" destination="QkX-rT-Yfk" id="wMj-ki-u8Y"/>
                                     <outlet property="frequencyLabel" destination="TzC-SE-gA8" id="pm7-uP-Uhm"/>

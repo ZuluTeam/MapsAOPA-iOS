@@ -14,7 +14,7 @@ import CoreData
 
 extension PointDetails {
 
-    @NSManaged var altitude: NSNumber?
+    @NSManaged var elevation: NSNumber?
     @NSManaged var city: String?
     @NSManaged var comment: String?
     @NSManaged var contacts: NSObject?

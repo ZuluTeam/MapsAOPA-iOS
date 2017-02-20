@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import ReactiveCocoa
+import UCCTransliteration
 
 class PointDetailsView: UIView
 {
@@ -14,7 +16,7 @@ class PointDetailsView: UIView
     
     @IBOutlet weak var titleLabel : UILabel?
     @IBOutlet weak var runwaysView : RunwaysView?
-    @IBOutlet weak var altitudeLabel : UILabel?
+    @IBOutlet weak var elevationLabel : UILabel?
     @IBOutlet weak var callButton : UIButton?
     @IBOutlet weak var websiteButton : UIButton?
     @IBOutlet weak var emailButton : UIButton?
@@ -24,6 +26,8 @@ class PointDetailsView: UIView
 
     @IBOutlet weak var tableView : UITableView?
     
+    private let transliteration = UCCTransliteration()
+    
     var pointDetailsViewModel : PointDetailsViewModel? {
         didSet {
             self.reloadView()
@@ -31,44 +35,27 @@ class PointDetailsView: UIView
     }
     
     fileprivate func reloadView() {
-        self.titleLabel?.text = pointDetailsViewModel?.title
-//        
-//        self.titleLabel?.text = "\(point?.titleRu ?? "") \(point?.index ?? "")/\(point?.indexRu ?? "")"
-//        self.altitudeLabel?.text = "Altitude: \(point?.details?.altitude ?? 0)m"
-//        self.runwaysView?.runways = point?.runways as? Set<Runway>
-//        self.emailButton?.isHidden = nil == point?.details?.email
-//        self.websiteButton?.isHidden = nil == point?.details?.website
-//        self.frequencyLabel?.isHidden = true
-//        self.frequenciesButton?.isHidden = true
-//        self.callButton?.isHidden = ((point?.details?.contacts as? [AnyObject])?.count ?? 0) <= 0
-//        if let frequencies = point?.details?.frequencies as? [[String:String]]
-//        {
-//            self.frequencyLabel?.isHidden = 1 < frequencies.count
-//            self.frequenciesButton?.isHidden = 1 == frequencies.count
-//            if let freq = frequencies.first
-//            {
-//                self.frequencyLabel?.text = "📻: \(freq["callsign"] ?? "") \(freq["freq"] ?? "")MHz"
-//            }
-//            else
-//            {
-//                self.frequencyLabel?.text = "📻: unknown"
-//            }
-//        }
-//        self.fuelLabel?.isHidden = true
-//        if let fuels = point?.fuel as? Set<Fuel>, fuels.count > 0
-//        {
-//            self.fuelLabel?.isHidden = false
-//            let fuelString = Array(fuels)
-//                .sorted(by: { $0.type?.intValue ?? 0 < $1.type?.intValue ?? 0 })
-//                .map({ FuelType(rawValue: $0.type?.intValue ?? 0)?.description() ?? "" })
-//                .filter({ $0.length > 0 })
-//                .joined(separator: ", ")
-//            self.fuelLabel?.text = "⛽️: " + fuelString
-//        }
-//        else
-//        {
-//            self.fuelLabel?.text = "⛽️: unknown"
-//        }
+        guard let model = pointDetailsViewModel else {
+            return
+        }
+        
+        self.titleLabel?.text = model.title
+        self.elevationLabel?.text = "Details_Elevation_Format_m".localized(arguments: model.elevation)
+        self.websiteButton?.isHidden = model.website == nil
+        self.emailButton?.isHidden = model.email == nil
+        self.fuelLabel?.text = !model.fuels.isEmpty ? "⛽️: " + model.fuels : nil
+        self.frequenciesButton?.isHidden = model.frequencies.count <= 1
+        if let frequency = model.frequencies.first, model.frequencies.count <= 1 {
+            self.frequencyLabel?.isHidden = false
+            var callsign = frequency.callsign
+            if Settings.language != "ru" {
+                callsign = transliteration.transliterate(frequency.callsign).capitalized
+            }
+            self.frequencyLabel?.text = "Details_Frequencies_Format".localized(arguments: callsign, frequency.frequency)
+        } else {
+            self.frequencyLabel?.isHidden = true
+        }
+        self.callButton?.isHidden = model.contacts.count <= 0
     }
     
     // MARK: - Actions

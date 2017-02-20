@@ -11,4 +11,5 @@ target 'MapsAOPA' do
     pod 'Sugar'
     pod 'INTULocationManager'
     pod 'DynamicColor'
+    pod 'UCCTransliteration'
 end

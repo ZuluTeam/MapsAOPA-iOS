@@ -20,6 +20,16 @@ extension String {
             return (self as NSString).length
         }
     }
+    
+    func localized(_ comment : String = "", arguments: [CVarArg] ) -> String {
+        let string = String(format: self.localized(comment), arguments: arguments)
+        return string
+    }
+    
+    func localized(_ comment : String = "", arguments: CVarArg...) -> String {
+        let string = String(format: self.localized(comment), arguments: arguments)
+        return string
+    }
 }
 
 

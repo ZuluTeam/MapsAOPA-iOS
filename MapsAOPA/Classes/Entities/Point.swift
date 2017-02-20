@@ -14,10 +14,8 @@ enum PointType : Int
     case airport = 0
     case heliport
     
-    init?(type: String?)
-    {
-        switch type ?? ""
-        {
+    init?(type: String?) {
+        switch type ?? "" {
         case "airport": self = .airport
         case "vert": self = .heliport
         default: return nil
@@ -35,10 +33,8 @@ enum PointBelongs : Int
     case dosaaf
     case experimantal
     
-    init?(string: String?)
-    {
-        switch string ?? ""
-        {
+    init?(string: String?) {
+        switch string ?? "" {
         case "ГА": self = .civil
         case "МО": self = .military
         case "АОН": self = .general
@@ -49,8 +45,7 @@ enum PointBelongs : Int
         }
     }
     
-    func isMilitary() -> Bool
-    {
+    func isMilitary() -> Bool {
         switch self
         {
         case .military, .fss, .experimantal: return true
@@ -60,36 +55,26 @@ enum PointBelongs : Int
 }
 
 class Point: NSManagedObject {
-    func isServiced() -> Bool
-    {
+    func isServiced() -> Bool {
         return self.fuel?.count ?? 0 > 0
     }
     
-    class func point(fromDictionary dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext) -> Point?
-    {
-        if let index = dictionary?["index"] as? String
-        {
-            
+    class func point(fromDictionary dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext) -> Point? {
+        var dictionary = dictionary
+        if let index = dictionary?["index"] as? String {
             let currentPointRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Point")
             currentPointRequest.predicate = NSPredicate(format: "index == %@", index)
             let point : Point
-            do
-            {
-                if let currentPoint = try context.fetch(currentPointRequest).first as? NSManagedObject
-                {
+            do {
+                if let currentPoint = try context.fetch(currentPointRequest).first as? NSManagedObject {
                     context.delete(currentPoint)
                 }
-                if let entity = NSEntityDescription.entity(forEntityName: "Point", in: context)
-                {
+                if let entity = NSEntityDescription.entity(forEntityName: "Point", in: context) {
                     point = Point(entity: entity, insertInto: context)
-                }
-                else
-                {
+                } else {
                     return nil
                 }
-            }
-            catch
-            {
+            } catch {
                 return nil
             }
             point.index = dictionary?["index"] as? String
@@ -102,40 +87,40 @@ class Point: NSManagedObject {
             point.title = dictionary?["name"] as? String
             point.titleRu = dictionary?["name_ru"] as? String
             point.details = PointDetails(dictionary: dictionary, inContext: context)
-            let runwayDicts = dictionary?["vpp"] as? [[String:AnyObject]] ?? []
-            for runwayDict in runwayDicts
-            {
-                if let runwayDict = runwayDict["item"] as? [String:AnyObject] {
-                    let runway = Runway(dictionary: runwayDict, inContext: context)
-                    runway?.point = point
+            if let runways = dictionary?["vpp"] as? [String:AnyObject] {
+                dictionary?["vpp"] = [runways] as AnyObject
+            }
+            if let runwayDicts = dictionary?["vpp"] as? [[String:AnyObject]] {
+                for runwayDict in runwayDicts {
+                    if let runwayDict = runwayDict["item"] as? [String:AnyObject] {
+                        let runway = Runway(dictionary: runwayDict, inContext: context)
+                        runway?.point = point
+                    }
                 }
             }
-            let fuelDicts = dictionary?["fuel"] as? [[String:AnyObject]] ?? []
-            for fuelDict in fuelDicts
-            {
-                if let fuelDict = fuelDict["item"] as? [String:AnyObject], let type = FuelType(type: fuelDict["type_id"] as? String ?? "")
-                {
-                    do
-                    {
-                        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Fuel")
-                        request.predicate = NSPredicate(format: "type == %d", type.rawValue)
-                        let fuels = try context.fetch(request)
-                        let fuel = fuels.first as? Fuel ?? Fuel(dictionary: fuelDict, inContext: context)
-                        if let existType = fuelDict["exists_id"] as? String, existType == "1"
-                        {
-                            let points = fuel?.points?.mutableCopy() as? NSMutableSet ?? NSMutableSet()
-                            points.add(point)
-                            fuel?.points = points
+            if let fuel = dictionary?["fuel"] as? [String:AnyObject] {
+                dictionary?["fuel"] = [fuel] as AnyObject
+            }
+            if let fuelDicts = dictionary?["fuel"] as? [[String:AnyObject]] {
+                for fuelDict in fuelDicts {
+                    if let fuelDict = fuelDict["item"] as? [String:AnyObject], let type = FuelType(type: fuelDict["type_id"] as? String ?? "") {
+                        do {
+                            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Fuel")
+                            request.predicate = NSPredicate(format: "type == %d", type.rawValue)
+                            let fuels = try context.fetch(request)
+                            let fuel = fuels.first as? Fuel ?? Fuel(dictionary: fuelDict, inContext: context)
+                            if let existType = fuelDict["exists_id"] as? String, existType == "1" {
+                                let points = fuel?.points?.mutableCopy() as? NSMutableSet ?? NSMutableSet()
+                                points.add(point)
+                                fuel?.points = points
+                            } else {
+                                let points = fuel?.pointsOnRequest?.mutableCopy() as? NSMutableSet ?? NSMutableSet()
+                                points.add(point)
+                                fuel?.pointsOnRequest = points
+                            }
+                        } catch {
+                            fatalError("Failed to fetch fuel")
                         }
-                        else
-                        {
-                            let points = fuel?.pointsOnRequest?.mutableCopy() as? NSMutableSet ?? NSMutableSet()
-                            points.add(point)
-                            fuel?.pointsOnRequest = points
-                        }
-                    }
-                    catch {
-                        fatalError("Failed to fetch fuel")
                     }
                 }
             }

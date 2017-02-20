@@ -65,39 +65,29 @@ enum RunwayLights : Int
 
 class Runway: NSManagedObject {
     
-    convenience init?(dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext)
-    {
+    convenience init?(dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext) {
         if let entity = NSEntityDescription.entity(forEntityName: "Runway", in: context)
         {
             self.init(entity: entity, insertInto: context)
             self.length = Int(dictionary?["length"] as? String ?? "") as NSNumber?
             self.magneticCourse = dictionary?["kurs"] as? String
             self.surfaceType = RunwaySurface(code: dictionary?["pokr_code"] as? String)?.rawValue as NSNumber?
-            if let threshold1lat = Double(dictionary?["porog1_lat"] as? String ?? "")
-            {
-                if let threshold1lon = Double(dictionary?["porog1_lon"] as? String ?? "")
-                {
-                    if let threshold2lat = Double(dictionary?["porog2_lat"] as? String ?? "")
-                    {
-                        if let threshold2lon = Double(dictionary?["porog2_lon"] as? String ?? "")
-                        {
-                            let thresholds = [
-                                [ "lat" : threshold1lat, "lon" : threshold1lon ],
-                                [ "lat" : threshold2lat, "lon" : threshold2lon ]
-                            ]
-                            self.thresholds = thresholds as NSObject?
-                        }
-                    }
-                }
+            if let threshold1lat = Double(dictionary?["porog1_lat"] as? String ?? ""),
+               let threshold1lon = Double(dictionary?["porog1_lon"] as? String ?? ""),
+               let threshold2lat = Double(dictionary?["porog2_lat"] as? String ?? ""),
+               let threshold2lon = Double(dictionary?["porog2_lon"] as? String ?? "") {
+                    let thresholds = [
+                        [ "lat" : threshold1lat, "lon" : threshold1lon ],
+                        [ "lat" : threshold2lat, "lon" : threshold2lon ]
+                    ]
+                    self.thresholds = thresholds as NSObject?
             }
             self.width = Int(dictionary?["width"] as? String ?? "") as NSNumber?
             self.lightsType = RunwayLights(code: dictionary?["lights_id"] as? String)?.rawValue as NSNumber?
             self.title = dictionary?["name"] as? String
             self.trueCourse = dictionary?["kurs_ist"] as? String
             self.trafficPatterns = dictionary?["korobochka"] as? String
-        }
-        else
-        {
+        } else {
             return nil
         }
     }

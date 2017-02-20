@@ -25,3 +25,7 @@
 "Error_Unknown" = "Unknown error occurred. Please try again.";
 
 // MARK: - Point details
+
+"Details_Elevation_Format_m" = "Elevation: %dm";
+"Details_Elevation_Format_ft" = "Elevation: %dft";
+"Details_Frequencies_Format" = "📻: %@ %@MHz";

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
     <entity name="Fuel" representedClassName=".Fuel" syncable="YES">
-        <attribute name="type" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
         <relationship name="points" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Point" inverseName="fuel" inverseEntity="Point" syncable="YES"/>
         <relationship name="pointsOnRequest" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Point" inverseName="fuelOnRequest" inverseEntity="Point" syncable="YES"/>
     </entity>
     <entity name="Point" representedClassName=".Point" syncable="YES">
-        <attribute name="active" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="belongs" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="active" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="belongs" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="index" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="indexRu" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="lights" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lights" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="titleRu" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Point" inverseName="parent" inverseEntity="Point" syncable="YES"/>
         <relationship name="details" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PointDetails" inverseName="point" inverseEntity="PointDetails" syncable="YES"/>
         <relationship name="fuel" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Fuel" inverseName="points" inverseEntity="Fuel" syncable="YES"/>
@@ -24,38 +24,38 @@
         <relationship name="runways" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Runway" inverseName="point" inverseEntity="Runway" syncable="YES"/>
     </entity>
     <entity name="PointDetails" representedClassName=".PointDetails" syncable="YES">
-        <attribute name="altitude" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contacts" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
-        <attribute name="countryId" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="countryId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="countryName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="declination" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="declination" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="elevation" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="frequencies" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="imageAerial" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imagePlan" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="infrastructure" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="international" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="international" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="lastUpdate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pointClass" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="region" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="utcOffset" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="verified" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="verified" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="worktime" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Point" inverseName="details" inverseEntity="Point" syncable="YES"/>
     </entity>
     <entity name="Runway" representedClassName=".Runway" syncable="YES">
-        <attribute name="length" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="lightsType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="length" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="lightsType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="magneticCourse" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="surfaceType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="surfaceType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="thresholds" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="trafficPatterns" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="trueCourse" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="width" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="width" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Point" inverseName="runways" inverseEntity="Point" syncable="YES"/>
     </entity>
     <elements>
