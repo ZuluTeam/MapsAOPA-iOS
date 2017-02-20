@@ -7,13 +7,10 @@
 //
 
 import UIKit
-import ReactiveCocoa
 import UCCTransliteration
 
 class PointDetailsView: UIView
 {
-    weak var delegate : PointDetailsDelegate?
-    
     @IBOutlet weak var titleLabel : UILabel?
     @IBOutlet weak var runwaysView : RunwaysView?
     @IBOutlet weak var elevationLabel : UILabel?
@@ -56,47 +53,7 @@ class PointDetailsView: UIView
             self.frequencyLabel?.isHidden = true
         }
         self.callButton?.isHidden = model.contacts.count <= 0
-    }
-    
-    // MARK: - Actions
-    
-    @IBAction func emailAction(_ sender: AnyObject?)
-    {
-//        if let email = self.point?.details?.email
-//        {
-//            self.delegate?.sendEmail(email)
-//        }
-    }
-    
-    @IBAction func frequenciesAction(_ sender: AnyObject?)
-    {
-        
-    }
-    
-    @IBAction func websiteAction(_ sender: AnyObject?)
-    {
-//        if var website = point?.details?.website
-//        {
-//            if(!website.contains("://"))
-//            {
-//                website = "http://" + website
-//            }
-//            if let url = URL(string: website), UIApplication.shared.canOpenURL(url)
-//            {
-//                UIApplication.shared.openURL(url)
-//            }
-//        }
-    }
-    
-    @IBAction func runwaysAction(_ sender: AnyObject?)
-    {
-        
+        self.runwaysView?.runways = model.runways
     }
 }
-
-protocol PointDetailsDelegate: class
-{
-    func sendEmail(_ email : String)
-}
-
 

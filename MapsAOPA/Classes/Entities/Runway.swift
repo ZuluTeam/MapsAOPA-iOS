@@ -11,6 +11,7 @@ import CoreData
 
 enum RunwaySurface : Int
 {
+    case unknown = -1
     case water = 0
     case soft
     case softDirt
@@ -23,7 +24,7 @@ enum RunwaySurface : Int
     case hardMetal
     case hardCement
     
-    init?(code: String?)
+    init(code: String?)
     {
         switch code ?? ""
         {
@@ -38,13 +39,14 @@ enum RunwaySurface : Int
             case "hard-bituminous-concrete": self = .hardBituminusConcrete
             case "hard-metal": self = .hardMetal
             case "hard-cement": self = .hardCement
-        default: return nil
+        default: self = .unknown
         }
     }
 }
 
 enum RunwayLights : Int
 {
+    case unknown = -1
     case none = 0
     case always
     case onRequest
@@ -58,7 +60,7 @@ enum RunwayLights : Int
         case "2": self = .always
         case "3": self = .onRequest
         case "4": self = .pilotControlled
-        default: return nil
+        default: self = .unknown
         }
     }
 }
@@ -71,7 +73,7 @@ class Runway: NSManagedObject {
             self.init(entity: entity, insertInto: context)
             self.length = Int(dictionary?["length"] as? String ?? "") as NSNumber?
             self.magneticCourse = dictionary?["kurs"] as? String
-            self.surfaceType = RunwaySurface(code: dictionary?["pokr_code"] as? String)?.rawValue as NSNumber?
+            self.surfaceType = RunwaySurface(code: dictionary?["pokr_code"] as? String).rawValue as NSNumber?
             if let threshold1lat = Double(dictionary?["porog1_lat"] as? String ?? ""),
                let threshold1lon = Double(dictionary?["porog1_lon"] as? String ?? ""),
                let threshold2lat = Double(dictionary?["porog2_lat"] as? String ?? ""),

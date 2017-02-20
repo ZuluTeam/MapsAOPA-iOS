@@ -15,7 +15,7 @@ import ReactiveSwift
 import ReactiveCocoa
 
 
-class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelegate, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapView : MKMapView!
     @IBOutlet weak var detailsView : PointDetailsView!
     @IBOutlet weak var loadingIndicator : UIActivityIndicatorView!
@@ -30,7 +30,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.detailsView.delegate = self
         
         self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
         let _ = self.viewModel.errorMessage.signal.on(value: { self.displayError(message: $0) })
@@ -86,6 +85,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
         }
         
         self.viewModel.loadAirfields(force: false)
+        
+        let _ = self.detailsView.websiteButton?.reactive.controlEvents(.touchUpInside).observeValues({ [weak self] button in
+            self?.openURL(self?.detailsView.pointDetailsViewModel?.website)
+        })
+        
+        let _ = self.detailsView.emailButton?.reactive.controlEvents(.touchUpInside).observeValues({ [weak self] button in
+            self?.sendEmail(self?.detailsView.pointDetailsViewModel?.email)
+        })
     }
     
     override func viewDidLayoutSubviews() {
@@ -114,6 +121,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     }
     
     // MARK: - Private
+    
+    fileprivate func openURL(_ url: String?) {
+        if var website = url {
+            if(!website.contains("://")) {
+                website = "http://" + website
+            }
+            if let url = URL(string: website), UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.openURL(url)
+            }
+        }
+    }
     
     fileprivate func refreshPoints(_ points : [PointViewModel]) {
         var points = points
@@ -178,7 +196,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, PointDetailsDelega
     
     // MARK: - MFMailComposeViewControllerDelegate
     
-    func sendEmail(_ email: String) {
+    func sendEmail(_ email: String?) {
+        guard let email = email else {
+            return
+        }
         if MFMailComposeViewController.canSendMail()
         {
             let controller = MFMailComposeViewController()

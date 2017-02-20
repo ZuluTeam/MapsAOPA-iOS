@@ -34,7 +34,6 @@ class MapViewModel
     
     var selectedPoint = MutableProperty<PointViewModel?>(nil)
     
-    
     fileprivate let _loading = MutableProperty<Bool>(false)
     fileprivate let _errorMessage = MutableProperty<String?>(nil)
     
@@ -78,6 +77,9 @@ class MapViewModel
                 self?._loading.value = false
                 Settings.lastUpdate = Date()
                 Database.sharedDatabase.saveContext(Database.sharedDatabase.backgroundManagedObjectContext)
+                if let selfInstance = self {
+                    selfInstance.updateRegion(selfInstance.mapRegion, withFilter: selfInstance.pointsFilter)
+                }
             },
               value: { value in
                 if let pointDict = value as? [String:AnyObject] {

@@ -8,6 +8,8 @@
 
 import Foundation
 import CoreLocation
+import ReactiveSwift
+import Result
 
 class PointViewModel : Hashable, Equatable {
     let index : String
@@ -54,8 +56,7 @@ class PointDetailsViewModel {
     let frequencies : [Frequency]
     let contacts : [Contact]
     let fuels : String
-    
-    let runways : [Any]? = nil
+    let runways : [RunwayViewModel]
     
     init?(point: Point?) {
         guard let point = point, let index = point.index else {
@@ -89,5 +90,41 @@ class PointDetailsViewModel {
             .sorted(by: { $0.type?.intValue ?? 0 < $1.type?.intValue ?? 0 })
             .flatMap({ FuelType(rawValue: $0.type?.intValue ?? 0)?.description() })
             .joined(separator: ", ")
+        
+        self.runways = (point.runways as? Set<Runway>)?.flatMap({ RunwayViewModel(runway: $0) }) ?? []
+    }
+}
+
+class RunwayViewModel {
+    struct Threshold {
+        let latitude : Double
+        let longitude : Double
+    }
+    
+    let length: Int
+    let lightsType: RunwayLights
+    let surfaceType: RunwaySurface
+    let thresholds: [Threshold]
+    let title: String
+    let trafficPatterns: String
+    let magneticCourse: String
+    let trueCourse: String
+    let width: Int
+    
+    init?(runway: Runway?) {
+        guard let runway = runway else {
+            return nil
+        }
+        
+        self.length = runway.length?.intValue ?? 0
+        self.width = runway.width?.intValue ?? 0
+        self.lightsType = RunwayLights(rawValue: runway.lightsType?.intValue ?? -1) ?? .unknown
+        self.surfaceType = RunwaySurface(rawValue: runway.surfaceType?.intValue ?? -1) ?? .unknown
+        let thresholds = (runway.thresholds as? [[String:Double]] ?? []).map({ Threshold(latitude: $0["lat"] ?? 0, longitude: $0["lon"] ?? 0) })
+        self.thresholds = thresholds.count == 2 ? thresholds : []
+        self.title = runway.title ?? ""
+        self.trafficPatterns = runway.trafficPatterns ?? ""
+        self.magneticCourse = runway.magneticCourse ?? ""
+        self.trueCourse = runway.trueCourse ?? ""
     }
 }

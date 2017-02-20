@@ -137,8 +137,8 @@
 		B53826B71D009B8300828A95 /* Details */ = {
 			isa = PBXGroup;
 			children = (
-				B53826BB1D009BB100828A95 /* PointDetailsView.swift */,
 				B53826BD1D009EEE00828A95 /* RunwaysView.swift */,
+				B53826BB1D009BB100828A95 /* PointDetailsView.swift */,
 				B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */,
 				B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */,
 				B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */,

@@ -10,18 +10,18 @@ import UIKit
 
 class RunwaysView: UIView {
     
-    var runways : Set<Runway>? {
+    var runways : [RunwayViewModel] = [] {
         didSet {
             self.setNeedsDisplay()
         }
     }
 
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
+    
+    override func draw(_ rect: CGRect) {
+        
+        
+        
     }
-    */
+    
 
 }
