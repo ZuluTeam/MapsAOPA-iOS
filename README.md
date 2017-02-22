@@ -1,7 +1,7 @@
 # MapsAOPA-iOS
 
 **AOPA** (www.aopa.se) is the international organization for pilots of general aviation.  
-This project is the mobile version of http://maps.aopa.ru where you can find information about almost all airports and heliports (location, contacts, runways, altitude etc.).
+This project is the mobile version of http://maps.aopa.ru where you can find information about almost all airports and heliports in Russia, Ukraine, Belarus and Kazakhstan (location, contacts, runways, altitude etc.).
 
 ## Build
 To build the project you have to create **AOPANetwork.Config.swift** in the *MapsAOPA-iOS/MapsAOPA/Classes* directory.  
