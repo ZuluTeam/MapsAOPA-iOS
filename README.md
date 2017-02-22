@@ -10,6 +10,6 @@ To build the project you have to create **AOPANetwork.Config.swift** in the *Map
 #### Please do not add AOPANetwork.Config.swift file to git repository (it's in .gitignore already)
  ```
  extension AOPANetwork {
-    let apiKey = "..."
+    static let apiKey = "..."
  }
  ```
