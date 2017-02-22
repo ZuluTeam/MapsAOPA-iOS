@@ -57,6 +57,7 @@ class PointDetailsViewModel {
     let contacts : [Contact]
     let fuels : String
     let runways : [RunwayViewModel]
+    let type : PointType
     
     init?(point: Point?) {
         guard let point = point, let index = point.index else {
@@ -92,19 +93,15 @@ class PointDetailsViewModel {
             .joined(separator: ", ")
         
         self.runways = (point.runways as? Set<Runway>)?.flatMap({ RunwayViewModel(runway: $0) }) ?? []
+        self.type = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
     }
 }
 
 class RunwayViewModel {
-    struct Threshold {
-        let latitude : Double
-        let longitude : Double
-    }
-    
     let length: Int
     let lightsType: RunwayLights
     let surfaceType: RunwaySurface
-    let thresholds: [Threshold]
+    let thresholds: [CLLocationCoordinate2D]
     let title: String
     let trafficPatterns: String
     let magneticCourse: String
@@ -120,7 +117,7 @@ class RunwayViewModel {
         self.width = runway.width?.intValue ?? 0
         self.lightsType = RunwayLights(rawValue: runway.lightsType?.intValue ?? -1) ?? .unknown
         self.surfaceType = RunwaySurface(rawValue: runway.surfaceType?.intValue ?? -1) ?? .unknown
-        let thresholds = (runway.thresholds as? [[String:Double]] ?? []).map({ Threshold(latitude: $0["lat"] ?? 0, longitude: $0["lon"] ?? 0) })
+        let thresholds = (runway.thresholds as? [[String:Double]] ?? []).map({ CLLocationCoordinate2D(latitude: $0["lat"] ?? 0, longitude: $0["lon"] ?? 0) })
         self.thresholds = thresholds.count == 2 ? thresholds : []
         self.title = runway.title ?? ""
         self.trafficPatterns = runway.trafficPatterns ?? ""

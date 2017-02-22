@@ -44,3 +44,21 @@ extension TimeInterval {
         self = value ? 1.0 : 0.0
     }
 }
+
+extension CGPoint {
+    func distance(from point: CGPoint) -> CGFloat {
+        return sqrt(pow(self.x - point.x, 2) + pow(self.y - point.y, 2))
+    }
+    
+    static func +(left: CGPoint, right: CGPoint) -> CGPoint {
+        return CGPoint(x: left.x + right.x, y: left.y + right.y)
+    }
+    
+    static func -(left: CGPoint, right: CGPoint) -> CGPoint {
+        return CGPoint(x: left.x - right.x, y: left.y - right.y)
+    }
+    
+    static prefix func -(right: CGPoint) -> CGPoint {
+        return CGPoint(x: -right.x, y: -right.y)
+    }
+}

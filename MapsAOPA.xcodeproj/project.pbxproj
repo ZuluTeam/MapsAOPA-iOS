@@ -555,7 +555,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28AD4BCEEE7C2D17A6CDDEAA /* Pods-MapsAOPA.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 2DMTV2NW38;
@@ -574,7 +573,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 03D1AA5B04CFD7602072BBC1 /* Pods-MapsAOPA.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 2DMTV2NW38;

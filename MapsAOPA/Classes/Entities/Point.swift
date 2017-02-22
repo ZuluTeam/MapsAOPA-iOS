@@ -11,14 +11,15 @@ import CoreData
 
 enum PointType : Int
 {
+    case unknown = -1
     case airport = 0
     case heliport
     
-    init?(type: String?) {
+    init(type: String?) {
         switch type ?? "" {
         case "airport": self = .airport
         case "vert": self = .heliport
-        default: return nil
+        default: self = .unknown
         }
         
     }
@@ -26,6 +27,7 @@ enum PointType : Int
 
 enum PointBelongs : Int
 {
+    case unknown = -1
     case civil = 0
     case military
     case general
@@ -33,7 +35,7 @@ enum PointBelongs : Int
     case dosaaf
     case experimantal
     
-    init?(string: String?) {
+    init(string: String?) {
         switch string ?? "" {
         case "ГА": self = .civil
         case "МО": self = .military
@@ -41,7 +43,7 @@ enum PointBelongs : Int
         case "ФСБ": self = .fss
         case "ДОСААФ": self = .dosaaf
         case "ЭА": self = .experimantal
-        default: return nil
+        default: self = .unknown
         }
     }
     
@@ -79,9 +81,9 @@ class Point: NSManagedObject {
             }
             point.index = dictionary?["index"] as? String
             point.indexRu = dictionary?["index_ru"] as? String
-            point.type = PointType(type: dictionary?["type"] as? String)?.rawValue as NSNumber?
+            point.type = PointType(type: dictionary?["type"] as? String).rawValue as NSNumber?
             point.active = Int(dictionary?["active"] as? String ?? "0") as NSNumber?
-            point.belongs = PointBelongs(string: dictionary?["belongs"] as? String)?.rawValue as NSNumber?
+            point.belongs = PointBelongs(string: dictionary?["belongs"] as? String).rawValue as NSNumber?
             point.latitude = Double(dictionary?["lat"] as? String ?? "0.0") as NSNumber?
             point.longitude = Double(dictionary?["lon"] as? String ?? "0.0") as NSNumber?
             point.title = dictionary?["name"] as? String

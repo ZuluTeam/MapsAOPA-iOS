@@ -54,6 +54,7 @@ class PointDetailsView: UIView
         }
         self.callButton?.isHidden = model.contacts.count <= 0
         self.runwaysView?.runways = model.runways
+        self.runwaysView?.isHeliport = model.type == .heliport
     }
 }
 

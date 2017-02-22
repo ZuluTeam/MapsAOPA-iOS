@@ -60,7 +60,7 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fgv-py-BBv" customClass="RunwaysView" customModule="MapsAOPA" customModuleProvider="target">
                                         <rect key="frame" x="5" y="32.333333333333371" width="113" height="113"/>
-                                        <color key="backgroundColor" red="0.65970909595489502" green="0.0" blue="0.02761959470808506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Fgv-py-BBv" secondAttribute="height" multiplier="1:1" id="aCh-RM-UGN"/>

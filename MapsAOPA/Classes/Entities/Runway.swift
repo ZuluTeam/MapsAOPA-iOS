@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIColor_Hex_Swift
 
 enum RunwaySurface : Int
 {
@@ -40,6 +41,24 @@ enum RunwaySurface : Int
             case "hard-metal": self = .hardMetal
             case "hard-cement": self = .hardCement
         default: self = .unknown
+        }
+    }
+    
+    var color : UIColor {
+        let aplha : CGFloat = 0.7
+        switch self {
+        case .water: return UIColor(hexString: "6495ED").withAlphaComponent(aplha)
+        case .soft: return UIColor(hexString: "66CDAA").withAlphaComponent(aplha)
+        case .softDirt: return UIColor(hexString: "808000").withAlphaComponent(aplha)
+        case .softGravel: return UIColor(hexString: "DCDCDC").withAlphaComponent(aplha)
+        case .hard: return UIColor(hexString: "A9A9A9").withAlphaComponent(aplha)
+        case .hardAsphalt: return UIColor(hexString: "708090").withAlphaComponent(aplha)
+        case .hardArmoredConcrete: return UIColor(hexString: "A9A9A9").withAlphaComponent(aplha)
+        case .hardConcrete: return UIColor(hexString: "A9A9A9").withAlphaComponent(aplha)
+        case .hardBituminusConcrete: return UIColor(hexString: "A9A9A9").withAlphaComponent(aplha)
+        case .hardMetal: return UIColor(hexString: "778899").withAlphaComponent(aplha)
+        case .hardCement: return UIColor(hexString: "A9A9A9").withAlphaComponent(aplha)
+        default: return UIColor(hexString: "66CDAA").withAlphaComponent(aplha)
         }
     }
 }

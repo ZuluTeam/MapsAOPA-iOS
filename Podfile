@@ -12,4 +12,5 @@ target 'MapsAOPA' do
     pod 'INTULocationManager'
     pod 'DynamicColor'
     pod 'UCCTransliteration'
+    pod 'UIColor_Hex_Swift'
 end
