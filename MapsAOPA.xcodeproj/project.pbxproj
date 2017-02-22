@@ -42,6 +42,7 @@
 		B5D1C6C71CC01020001E3294 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5D1C6C51CC01020001E3294 /* Main.storyboard */; };
 		B5D1C6CB1CC057E6001E3294 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6CA1CC057E6001E3294 /* Network.swift */; };
 		B5D1C6D11CC05989001E3294 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6D01CC05989001E3294 /* Settings.swift */; };
+		B5DC47DE1E5DE95700037888 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC47DD1E5DE95700037888 /* Converter.swift */; };
 		B5DC775E1CC7E2B700226660 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC775D1CC7E2B700226660 /* MapViewModel.swift */; };
 		B5DC77611CC7EF3200226660 /* MultipleStatesBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC77601CC7EF3200226660 /* MultipleStatesBarButtonItem.swift */; };
 		B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */; };
@@ -92,6 +93,7 @@
 		B5D1C6C51CC01020001E3294 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B5D1C6CA1CC057E6001E3294 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B5D1C6D01CC05989001E3294 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		B5DC47DD1E5DE95700037888 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		B5DC775D1CC7E2B700226660 /* MapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		B5DC77601CC7EF3200226660 /* MultipleStatesBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleStatesBarButtonItem.swift; sourceTree = "<group>"; };
 		B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				B5DC775F1CC7EE3D00226660 /* UI */,
 				B5447D451CC13DB60041B579 /* PrimitiveExtensions.swift */,
 				B5447D471CC14DDE0041B579 /* Segue.swift */,
+				B5DC47DD1E5DE95700037888 /* Converter.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */,
 				B563E21A1CC1B98900480DA2 /* Point.swift in Sources */,
 				B5464E7E1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift in Sources */,
+				B5DC47DE1E5DE95700037888 /* Converter.swift in Sources */,
 				B52AA6691E5482C700D96767 /* AOPANetwork.swift in Sources */,
 				B53826BC1D009BB100828A95 /* PointDetailsView.swift in Sources */,
 				B563E2221CC1B98900480DA2 /* PointDetails.swift in Sources */,
