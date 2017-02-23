@@ -1,5 +1,5 @@
 //
-//  ItemsXMLParser.swift
+//  ArrayXMLParser.swift
 //  MapsAOPA
 //
 //  Created by Konstantin Zyryanov on 2/14/17.
@@ -9,7 +9,7 @@
 import Foundation
 import ReactiveSwift
 
-class ItemsXMLParser : NSObject, XMLParserDelegate {
+class ArrayXMLParser : NSObject, XMLParserDelegate {
     
     private var xmlParser : XMLParser!
     private var itemKey : String!

@@ -10,8 +10,15 @@ import UIKit
 
 class DetailsTableViewCell : UITableViewCell
 {
-    var object : [String:AnyObject]?
+    @IBOutlet weak var titleLabel : UILabel?
+    @IBOutlet weak var subtitleLabel : UILabel?
+    @IBOutlet weak var valueLabel : UILabel?
     
-    class func action(forObject object: AnyObject) {}
-    class func cellHeight(forObject object: AnyObject) -> CGFloat { return 0.0 }
+    var viewModel : DetailsCellViewModel? {
+        didSet {
+            titleLabel?.text = viewModel?.title
+            subtitleLabel?.text = viewModel?.subtitle
+            valueLabel?.text = viewModel?.value
+        }
+    }
 }

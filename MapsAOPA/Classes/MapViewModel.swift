@@ -42,7 +42,7 @@ class MapViewModel
     fileprivate let network : Network
     fileprivate let loader : AOPALoader
     
-    fileprivate var xmlParser : ItemsXMLParser?
+    fileprivate var xmlParser : ArrayXMLParser?
     
     fileprivate var fetchRequest = NSFetchRequest<Point>(entityName: "Point")
     fileprivate var fetchedResultsController : NSFetchedResultsController<Point>
@@ -63,7 +63,7 @@ class MapViewModel
         _loading.value = true
         
         self.loader.loadAirfields().flatMap(.latest, transform: { [weak self] (url : URL) -> SignalProducer<Any, AOPAError> in
-            self?.xmlParser = ItemsXMLParser(contentsOf: url, forItems: "point")
+            self?.xmlParser = ArrayXMLParser(contentsOf: url, forItems: "point")
             if let xmlParser = self?.xmlParser {
                 return xmlParser.parse().mapError({ AOPAError($0) })
             }

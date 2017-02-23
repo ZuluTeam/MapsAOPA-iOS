@@ -27,6 +27,6 @@ struct AOPANetwork {
  Please do not add AOPANetwork.Config.swift file to git repository
  
  extension AOPANetwork {
-    let apiKey = "..."
+    static let apiKey = "..."
  }
  */

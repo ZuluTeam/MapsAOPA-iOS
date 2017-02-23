@@ -26,6 +26,12 @@
 
 // MARK: - Point details
 
-"Details_Elevation_Format_m" = "Elevation: %dm";
-"Details_Elevation_Format_ft" = "Elevation: %dft";
-"Details_Frequencies_Format" = "📻: %@ %@MHz";
+"Details_Elevation_Format_m" = "Elevation: %d m";
+"Details_Elevation_Format_ft" = "Elevation: %d ft";
+"Details_Frequencies_Format" = "📻: %@ %@ MHz";
+
+// MARK: - Details
+
+"Call_Alert_Title" = "Do you want to call";
+"Call_Alert_Action" = "Call";
+"Frequencies_Format" = "%@ MHz";

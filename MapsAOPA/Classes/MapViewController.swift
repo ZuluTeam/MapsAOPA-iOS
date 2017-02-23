@@ -100,24 +100,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if let destinationViewController = segue.destination as? DetailsTableViewController {
-//            switch segue.identifier ?? "" {
-//            case Segue.ContactsSegue.rawValue:
-//                    destinationViewController.objects = self.detailsView.point?.details?.contacts as? [[String:AnyObject]]
-//                    destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.ContactsCell
-//                    destinationViewController.popoverPresentationController?.delegate = self
-//            case Segue.FrequenciesSegue.rawValue:
-//                    destinationViewController.objects = self.detailsView.point?.details?.frequencies as? [[String:AnyObject]]
-//                    destinationViewController.cellReuseIdentifier = DetailsReuseIdentifier.FrequenciesCell
-//                    destinationViewController.popoverPresentationController?.delegate = self
-//            default: break
-//            }
-//            destinationViewController.title = self.detailsView.point?.titleRu
-//            let height : CGFloat = 200.0 /*destinationViewController.objects?.reduce(28.0, { (result, object) -> CGFloat in
-//                return result + ((SwiftClassFromString(destinationViewController.cellReuseIdentifier.cellClass) as? DetailsTableViewCell.Type)?.cellHeight(forObject: object) ?? 0.0)
-//            }) ?? self.view.height*/
-//            destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
-//        }
+        if let destinationViewController = segue.destination as? DetailsTableViewController {
+            switch segue.identifier ?? "" {
+            case Segue.ContactsSegue.rawValue:
+                destinationViewController.viewModel = DetailsViewModel(contacts: self.detailsView.pointDetailsViewModel?.contacts ?? [])
+            case Segue.FrequenciesSegue.rawValue:
+                destinationViewController.viewModel = DetailsViewModel(frequencies: self.detailsView.pointDetailsViewModel?.frequencies ?? [])
+            default: break
+            }
+            destinationViewController.popoverPresentationController?.delegate = self
+            destinationViewController.title = self.detailsView.pointDetailsViewModel?.title
+            let height : CGFloat = 300.0
+            destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
+        }
     }
     
     // MARK: - Private

@@ -9,26 +9,9 @@
 import UIKit
 import Sugar
 
-enum DetailsReuseIdentifier : String
-{
-    case DefaultCell
-    case ContactsCell
-    case FrequenciesCell
-    
-    var cellClass : String
-    {
-        switch self {
-        case .DefaultCell: return ""
-        case .ContactsCell: return "PhoneTableViewCell"
-        case .FrequenciesCell: return "FrequenciesTableViewCell"
-        }
-    }
-}
-
 class DetailsTableViewController: UITableViewController {
     
-    var cellReuseIdentifier : DetailsReuseIdentifier = .DefaultCell
-    var objects : [[String:AnyObject]]?
+    var viewModel : DetailsViewModel?
     
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         if !UIInterfaceOrientationIsPortrait(toInterfaceOrientation)
@@ -36,8 +19,34 @@ class DetailsTableViewController: UITableViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 100
+        self.viewModel?.phoneNumber.producer.startWithValues({ [weak self] phone in
+            self?.call(to: phone)
+        })
+    }
+    
+    // MARK: - Private
+    
+    private func call(to phone: String?) {
+        if let phone = phone?.replace(" ", with: ""), let url = URL(string: "tel://\(phone)"), UIApplication.shared.canOpenURL(url) {
+            let alert = UIAlertController(title: "Call_Alert_Title".localized, message: "\(phone)?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Button_Cancel".localized, style: .cancel))
+            alert.addAction(UIAlertAction(title: "Call_Alert_Action".localized, style: .default, handler: { _ in
+                UIApplication.shared.openURL(url)
+            }))
+            self.present(alert, animated: true)
+        }
+    }
 
     // MARK: - Table view data source
+    
+    func object(at indexPath: IndexPath) -> DetailsCellViewModel? {
+        return self.viewModel?.cellViewModels[indexPath.row]
+    }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.title
@@ -48,28 +57,19 @@ class DetailsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.objects?.count ?? 0
+        return self.viewModel?.cellViewModels.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier.rawValue, for: indexPath) as? DetailsTableViewCell
-        cell?.object = self.objects?[indexPath.row]
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: self.viewModel?.reuseIdentifier ?? "", for: indexPath) as! DetailsTableViewCell
+        cell.viewModel = self.object(at: indexPath)
+        return cell
     }
     
     // MARK: - Table view delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        tableView.deselectRow(at: indexPath, animated: true)
-//        if let object = self.objects?[indexPath.row]
-//        {
-//            (SwiftClassFromString(self.cellReuseIdentifier.cellClass) as? DetailsTableViewCell.Type)?.action(forObject: object)
-//        }
-    }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 44.0
-//        let object = self.objects?[indexPath.row] ?? [:]
-//        return (SwiftClassFromString(self.cellReuseIdentifier.cellClass) as? DetailsTableViewCell.Type)?.cellHeight(forObject: object) ?? 0.0
+        tableView.deselectRow(at: indexPath, animated: true)
+        self.viewModel?.selectAction(with: self.object(at: indexPath))
     }
 }

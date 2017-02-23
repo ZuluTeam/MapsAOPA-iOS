@@ -11,6 +11,18 @@ import CoreLocation
 import ReactiveSwift
 import Result
 
+struct Frequency {
+    let callsign : String
+    let frequency : String
+    let type : String?
+}
+
+struct Contact {
+    let name : String?
+    let type : String?
+    let phone : String
+}
+
 class PointViewModel : Hashable, Equatable {
     let index : String
     var location : CLLocationCoordinate2D
@@ -36,17 +48,6 @@ class PointViewModel : Hashable, Equatable {
 }
 
 class PointDetailsViewModel {
-    struct Frequency {
-        let callsign : String
-        let frequency : String
-        let type : String?
-    }
-    
-    struct Contact {
-        let name : String?
-        let type : String?
-        let phone : String
-    }
     
     let index : String
     let title : String

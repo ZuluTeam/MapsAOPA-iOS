@@ -19,10 +19,8 @@
 		B5447D431CC137A30041B579 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D421CC137A30041B579 /* Database.swift */; };
 		B5447D461CC13DB60041B579 /* PrimitiveExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D451CC13DB60041B579 /* PrimitiveExtensions.swift */; };
 		B5447D481CC14DDE0041B579 /* Segue.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5447D471CC14DDE0041B579 /* Segue.swift */; };
-		B5464E761D1C5771004BBDD6 /* PhoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */; };
 		B5464E781D1C57A6004BBDD6 /* DetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */; };
 		B5464E7A1D1C5DD3004BBDD6 /* DetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */; };
-		B5464E7E1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */; };
 		B54BB57F1E55BC6200C0FC5E /* AOPANetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54BB57E1E55BC6100C0FC5E /* AOPANetworkError.swift */; };
 		B54BB5821E56FA4A00C0FC5E /* PointViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B54BB5811E56FA4A00C0FC5E /* PointViewModel.swift */; };
 		B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */; };
@@ -43,11 +41,12 @@
 		B5D1C6CB1CC057E6001E3294 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6CA1CC057E6001E3294 /* Network.swift */; };
 		B5D1C6D11CC05989001E3294 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6D01CC05989001E3294 /* Settings.swift */; };
 		B5DC47DE1E5DE95700037888 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC47DD1E5DE95700037888 /* Converter.swift */; };
+		B5DC47E01E5DEFAD00037888 /* DetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC47DF1E5DEFAD00037888 /* DetailsViewModel.swift */; };
 		B5DC775E1CC7E2B700226660 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC775D1CC7E2B700226660 /* MapViewModel.swift */; };
 		B5DC77611CC7EF3200226660 /* MultipleStatesBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC77601CC7EF3200226660 /* MultipleStatesBarButtonItem.swift */; };
 		B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */; };
 		B5FB20A81CC1DA3A007DA15E /* aopa-points-export.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FB20A71CC1DA3A007DA15E /* aopa-points-export.xml */; };
-		B5FBF58F1E5309E500137491 /* ItemsXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FBF58E1E5309E500137491 /* ItemsXMLParser.swift */; };
+		B5FBF58F1E5309E500137491 /* ArrayXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FBF58E1E5309E500137491 /* ArrayXMLParser.swift */; };
 		D6CE83C5E41FDC50FF7A8D20 /* Pods_MapsAOPA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7BCF0BB8DB91F229929E579 /* Pods_MapsAOPA.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,10 +67,8 @@
 		B5447D421CC137A30041B579 /* Database.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		B5447D451CC13DB60041B579 /* PrimitiveExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimitiveExtensions.swift; sourceTree = "<group>"; };
 		B5447D471CC14DDE0041B579 /* Segue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Segue.swift; sourceTree = "<group>"; };
-		B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhoneTableViewCell.swift; path = MapsAOPA/Classes/PhoneTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewCell.swift; path = MapsAOPA/Classes/DetailsTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailsTableViewController.swift; path = MapsAOPA/Classes/DetailsTableViewController.swift; sourceTree = SOURCE_ROOT; };
-		B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FrequenciesTableViewCell.swift; path = MapsAOPA/Classes/FrequenciesTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		B54BB57E1E55BC6100C0FC5E /* AOPANetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AOPANetworkError.swift; sourceTree = "<group>"; };
 		B54BB5811E56FA4A00C0FC5E /* PointViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointViewModel.swift; sourceTree = "<group>"; };
 		B563E20F1CC1B98900480DA2 /* Point+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Point+CoreDataProperties.swift"; path = "Entities/Point+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -94,11 +91,12 @@
 		B5D1C6CA1CC057E6001E3294 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B5D1C6D01CC05989001E3294 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B5DC47DD1E5DE95700037888 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
+		B5DC47DF1E5DEFAD00037888 /* DetailsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewModel.swift; sourceTree = "<group>"; };
 		B5DC775D1CC7E2B700226660 /* MapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		B5DC77601CC7EF3200226660 /* MultipleStatesBarButtonItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleStatesBarButtonItem.swift; sourceTree = "<group>"; };
 		B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
 		B5FB20A71CC1DA3A007DA15E /* aopa-points-export.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "aopa-points-export.xml"; sourceTree = "<group>"; };
-		B5FBF58E1E5309E500137491 /* ItemsXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ItemsXMLParser.swift; path = MapsAOPA/Classes/ItemsXMLParser.swift; sourceTree = SOURCE_ROOT; };
+		B5FBF58E1E5309E500137491 /* ArrayXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrayXMLParser.swift; path = MapsAOPA/Classes/ArrayXMLParser.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,9 +140,8 @@
 				B53826BD1D009EEE00828A95 /* RunwaysView.swift */,
 				B53826BB1D009BB100828A95 /* PointDetailsView.swift */,
 				B5464E771D1C57A6004BBDD6 /* DetailsTableViewCell.swift */,
-				B5464E751D1C5771004BBDD6 /* PhoneTableViewCell.swift */,
-				B5464E7D1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift */,
 				B5464E791D1C5DD3004BBDD6 /* DetailsTableViewController.swift */,
+				B5DC47DF1E5DEFAD00037888 /* DetailsViewModel.swift */,
 			);
 			name = Details;
 			sourceTree = "<group>";
@@ -163,7 +160,7 @@
 		B54978B21CC2A9F0005434D5 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				B5FBF58E1E5309E500137491 /* ItemsXMLParser.swift */,
+				B5FBF58E1E5309E500137491 /* ArrayXMLParser.swift */,
 				B5D1C6CA1CC057E6001E3294 /* Network.swift */,
 				B52AA6641E5481FD00D96767 /* AOPALoader.swift */,
 				B52AA6681E5482C700D96767 /* AOPANetwork.swift */,
@@ -424,18 +421,16 @@
 				B5D1C6BD1CC00DB7001E3294 /* MapsAOPA.xcdatamodeld in Sources */,
 				B5DC77611CC7EF3200226660 /* MultipleStatesBarButtonItem.swift in Sources */,
 				B563E2211CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift in Sources */,
-				B5FBF58F1E5309E500137491 /* ItemsXMLParser.swift in Sources */,
+				B5FBF58F1E5309E500137491 /* ArrayXMLParser.swift in Sources */,
 				B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */,
 				B563E21F1CC1B98900480DA2 /* Fuel+CoreDataProperties.swift in Sources */,
 				B5464E781D1C57A6004BBDD6 /* DetailsTableViewCell.swift in Sources */,
 				B5464E7A1D1C5DD3004BBDD6 /* DetailsTableViewController.swift in Sources */,
 				B5D1C6B81CC00DB7001E3294 /* AppDelegate.swift in Sources */,
-				B5464E761D1C5771004BBDD6 /* PhoneTableViewCell.swift in Sources */,
 				B563E21B1CC1B98900480DA2 /* Runway+CoreDataProperties.swift in Sources */,
 				B563E21C1CC1B98900480DA2 /* Runway.swift in Sources */,
 				B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */,
 				B563E21A1CC1B98900480DA2 /* Point.swift in Sources */,
-				B5464E7E1D1D7D63004BBDD6 /* FrequenciesTableViewCell.swift in Sources */,
 				B5DC47DE1E5DE95700037888 /* Converter.swift in Sources */,
 				B52AA6691E5482C700D96767 /* AOPANetwork.swift in Sources */,
 				B53826BC1D009BB100828A95 /* PointDetailsView.swift in Sources */,
@@ -446,6 +441,7 @@
 				B54BB57F1E55BC6200C0FC5E /* AOPANetworkError.swift in Sources */,
 				B5447D461CC13DB60041B579 /* PrimitiveExtensions.swift in Sources */,
 				B52AA66B1E5489AE00D96767 /* AOPADataError.swift in Sources */,
+				B5DC47E01E5DEFAD00037888 /* DetailsViewModel.swift in Sources */,
 				B5DC775E1CC7E2B700226660 /* MapViewModel.swift in Sources */,
 				B52AA6671E54823900D96767 /* AOPANetwork.Config.swift in Sources */,
 			);
