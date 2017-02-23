@@ -34,7 +34,6 @@ class PointAnnotationView : MKAnnotationView
     fileprivate static let lineWidthPercent : CGFloat = 0.05
     fileprivate static let pinPercent : CGFloat = 0.1
     fileprivate static let crossWidthPercent : CGFloat = 0.2
-    fileprivate static let textPercent : CGFloat = 0.5
     
     fileprivate static let militaryColor : UIColor = UIColor(hex: 0xFF1123)
     fileprivate static let civilColor : UIColor = UIColor(hex: 0x00C2FE)
@@ -42,6 +41,9 @@ class PointAnnotationView : MKAnnotationView
     fileprivate static let selectedColor : UIColor = UIColor(hex: 0x38FA3C)
     
     fileprivate static let Size : CGFloat = 20.0
+    fileprivate static let textAttributes : [String:Any] = [
+        NSFontAttributeName : UIFont.systemFont(ofSize: 10)
+    ]
     
     
     override var annotation: MKAnnotation? {
@@ -137,15 +139,12 @@ class PointAnnotationView : MKAnnotationView
         context?.addEllipse(in: pointRect)
         context?.drawPath(using: .stroke)
         
-//        if PointType.heliport.rawValue == point?.type
-//        {
-//            let textMaxWidth = ceil(rect.width * type(of: self).textPercent)
-//            let textMaxHeight = ceil(rect.height * type(of: self).textPercent)
-//            let text : NSString = "H"
-//            let textRect = text.boundingRect(with: CGSize(width: textMaxWidth, height: textMaxHeight), options: NSStringDrawingOptions(), attributes: nil, context: nil)
-//            let textSize = CGSize(width: ceil(textRect.width), height: ceil(textRect.height))
-//            text.draw(in: CGRect(x: ceil((rect.width - textSize.width) * 0.5), y: ceil((rect.height - textSize.height) * 0.5), width: textSize.width, height: textSize.height), withAttributes: nil)
-//        }
+        if PointType.heliport == pointViewModel.pointType
+        {
+            let text = "H"
+            let textSize = text.size(attributes: PointAnnotationView.textAttributes)
+            text.draw(at: CGPoint(x: (rect.width - textSize.width) * 0.5, y: (rect.height - textSize.height) * 0.5), withAttributes: PointAnnotationView.textAttributes)
+        }
         
     }
 }

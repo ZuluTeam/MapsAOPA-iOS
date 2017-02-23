@@ -62,6 +62,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
                                                                     self?.viewModel.pointsFilter = filter
                                                                 }
         })
+        
         self.toolbarItems = [userTrackingItem, mapStyleItem, spacerItem, airportsFilterItem, heliportsFilterItem]
         
         self.mapView.setRegion(Settings.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate), animated: false)

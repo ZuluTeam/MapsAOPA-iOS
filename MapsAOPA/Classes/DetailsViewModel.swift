@@ -43,7 +43,7 @@ class DetailsViewModel {
     
     init(frequencies: [Frequency]) {
         self.cellViewModels = frequencies.map({
-            DetailsCellViewModel(title: $0.callsign, subtitle: $0.type, value: "Frequencies_Format".localized(arguments: $0.frequency ?? ""))
+            DetailsCellViewModel(title: $0.callsign, subtitle: $0.type, value: "Frequencies_Format".localized(arguments: $0.frequency))
         })
         self.cellReuseIdentifier = .FrequenciesCell
     }

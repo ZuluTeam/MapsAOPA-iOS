@@ -29,6 +29,7 @@ class PointViewModel : Hashable, Equatable {
     let isServiced : Bool
     let isActive : Bool
     let isMilitary : Bool
+    let pointType : PointType
     
     init(point: Point) {
         self.index = point.index ?? ""
@@ -36,6 +37,7 @@ class PointViewModel : Hashable, Equatable {
         self.isServiced = point.isServiced()
         self.isActive = point.active?.boolValue ?? false
         self.isMilitary = PointBelongs(rawValue: point.belongs?.intValue ?? -1)?.isMilitary() ?? false
+        self.pointType = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
     }
     
     public var hashValue: Int {
