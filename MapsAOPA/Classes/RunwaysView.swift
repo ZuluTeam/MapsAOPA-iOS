@@ -31,6 +31,11 @@ class RunwaysView: UIView {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        if isHeliport {
+            self.drawHeliport(in: rect)
+            return
+        }
+        
         if runways.isEmpty {
             return
         }
@@ -146,5 +151,34 @@ class RunwaysView: UIView {
         }
     }
     
+    private func drawHeliport(in rect: CGRect) {
+        
+        let textHeightRadiusPercent : CGFloat = 0.8
+        
+        let context = UIGraphicsGetCurrentContext()
+        
+        let radius = min(rect.width - RunwaysView.offset * 4.0, rect.height - RunwaysView.offset * 4.0)
+        
+        let ellipseRect = CGRect(x: (rect.width - radius) * 0.5, y: (rect.height - radius) * 0.5,
+                                 width: radius, height: radius)
+        context?.setStrokeColor(UIColor.black.cgColor)
+        context?.setLineWidth(8.0)
+        context?.strokeEllipse(in: ellipseRect)
+        
+        let textAttributes : ((CGFloat)->[String:Any]) = { fontSize in
+            return [ NSFontAttributeName : UIFont.boldSystemFont(ofSize: fontSize) ]
+        }
+        
+        var fontSize : CGFloat = 12
+        let text = "H"
+        let originalTextSize = text.size(attributes: textAttributes(fontSize))
+        let textHeight = radius * textHeightRadiusPercent
+        let textScale : CGFloat = textHeight / originalTextSize.height
+        fontSize = fontSize * textScale
+        let attributes = textAttributes(fontSize)
+        let textSize = text.size(attributes: attributes)
+        text.draw(at: CGPoint(x: (rect.width - textSize.width) * 0.5, y: (rect.height - textSize.height) * 0.5), withAttributes: attributes)
+        
+    }
 
 }
