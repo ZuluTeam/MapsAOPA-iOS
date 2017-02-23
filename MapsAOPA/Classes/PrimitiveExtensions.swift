@@ -8,10 +8,18 @@
 
 import Foundation
 import CoreGraphics
+import UCCTransliteration
 
 extension String {
-    func localized(_ comment: String = "") -> String
-    {
+    func transliterated(language: String) -> String {
+        let transliteration = UCCTransliteration()
+        if language != "ru" {
+            return transliteration.transliterate(self)
+        }
+        return self
+    }
+    
+    func localized(_ comment: String = "") -> String {
         return NSLocalizedString(self, comment: comment)
     }
     

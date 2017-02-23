@@ -35,3 +35,11 @@
 "Call_Alert_Title" = "Do you want to call";
 "Call_Alert_Action" = "Call";
 "Frequencies_Format" = "%@ MHz";
+
+// MARK: Frequency types
+
+"app" = "Approach";
+"ati" = "ATIS";
+"gnd" = "Ground";
+"rdr" = "Radar";
+"twr" = "Tower";

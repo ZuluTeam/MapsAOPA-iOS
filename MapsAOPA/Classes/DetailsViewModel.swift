@@ -43,14 +43,18 @@ class DetailsViewModel {
     
     init(frequencies: [Frequency]) {
         self.cellViewModels = frequencies.map({
-            DetailsCellViewModel(title: $0.callsign, subtitle: $0.type, value: "Frequencies_Format".localized(arguments: $0.frequency))
+            DetailsCellViewModel(title: $0.callsign.transliterated(language: Settings.language).capitalized,
+                                 subtitle: $0.type?.localized,
+                                 value: "Frequencies_Format".localized(arguments: $0.frequency))
         })
         self.cellReuseIdentifier = .FrequenciesCell
     }
     
     init(contacts: [Contact]) {
         self.cellViewModels = contacts.map({
-            DetailsCellViewModel(title: $0.name, subtitle: $0.type, value: $0.phone)
+            DetailsCellViewModel(title: $0.name?.transliterated(language: Settings.language).capitalized,
+                                 subtitle: $0.type?.transliterated(language: Settings.language).capitalized,
+                                 value: $0.phone)
         })
         self.cellReuseIdentifier = .ContactsCell
     }

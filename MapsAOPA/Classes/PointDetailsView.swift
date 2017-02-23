@@ -44,10 +44,7 @@ class PointDetailsView: UIView
         self.frequenciesButton?.isHidden = model.frequencies.count <= 1
         if let frequency = model.frequencies.first, model.frequencies.count <= 1 {
             self.frequencyLabel?.isHidden = false
-            var callsign = frequency.callsign
-            if Settings.language != "ru" {
-                callsign = transliteration.transliterate(frequency.callsign).capitalized
-            }
+            let callsign = frequency.callsign.transliterated(language: Settings.language).capitalized
             self.frequencyLabel?.text = "Details_Frequencies_Format".localized(arguments: callsign, frequency.frequency)
         } else {
             self.frequencyLabel?.isHidden = true
