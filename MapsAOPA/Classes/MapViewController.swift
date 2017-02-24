@@ -172,6 +172,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
  
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         self.viewModel.mapRegion = mapView.region
+        for overlay in mapView.overlays {
+            mapView.renderer(for: overlay)?.setNeedsDisplayIn(mapView.visibleMapRect)
+        }
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

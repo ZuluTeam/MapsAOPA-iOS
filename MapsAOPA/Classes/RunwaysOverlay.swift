@@ -101,7 +101,7 @@ class RunwaysOverlayRenderer : MKOverlayRenderer {
                     
                     let screenThresholds = mapThresholds.map({ self.point(for: $0) })
                     
-                    let textSize : CGFloat = 1000.0
+                    let textSize : CGFloat = 750.0
                     let textAttributes : [String:Any] = [
                         NSFontAttributeName : UIFont.systemFont(ofSize: textSize)
                     ]
