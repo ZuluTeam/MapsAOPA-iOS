@@ -61,6 +61,7 @@ class PointDetailsViewModel {
     let fuels : String
     let runways : [RunwayViewModel]
     let type : PointType
+    let location : CLLocationCoordinate2D
     
     init?(point: Point?) {
         guard let point = point, let index = point.index else {
@@ -97,6 +98,7 @@ class PointDetailsViewModel {
         
         self.runways = (point.runways as? Set<Runway>)?.flatMap({ RunwayViewModel(runway: $0) }) ?? []
         self.type = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
+        self.location = CLLocationCoordinate2D(latitude: point.latitude?.doubleValue ?? 0, longitude: point.longitude?.doubleValue ?? 0)
     }
 }
 

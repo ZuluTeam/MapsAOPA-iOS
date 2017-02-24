@@ -160,6 +160,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         UIView.animate(withDuration: 0.25 * TimeInterval(animated)) {
             self.detailsView.layoutIfNeeded()
         }
+        
+        if let pointDetails = pointDetails {
+            self.mapView.add(RunwaysOverlay(pointDetailsViewModel: pointDetails))
+        } else {
+            self.mapView.removeOverlays(self.mapView.overlays)
+        }
     }
 
     // MARK: - MKMapViewDelegate
@@ -188,6 +194,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         self.viewModel.selectedPoint.value = nil
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        return RunwaysOverlayRenderer(overlay: overlay)
     }
     
     // MARK: - MFMailComposeViewControllerDelegate

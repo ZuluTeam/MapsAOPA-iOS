@@ -31,6 +31,7 @@
 		B563E2201CC1B98900480DA2 /* Fuel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2161CC1B98900480DA2 /* Fuel.swift */; };
 		B563E2211CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */; };
 		B563E2221CC1B98900480DA2 /* PointDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2181CC1B98900480DA2 /* PointDetails.swift */; };
+		B56FBEF11E5F416F008886AF /* RunwaysOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */; };
 		B5D1C6A61CC00C11001E3294 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D1C6A51CC00C11001E3294 /* MapKit.framework */; };
 		B5D1C6B81CC00DB7001E3294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */; };
 		B5D1C6B91CC00DB7001E3294 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AD1CC00DB7001E3294 /* MapViewController.swift */; };
@@ -79,6 +80,7 @@
 		B563E2161CC1B98900480DA2 /* Fuel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Fuel.swift; path = Entities/Fuel.swift; sourceTree = "<group>"; };
 		B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PointDetails+CoreDataProperties.swift"; path = "Entities/PointDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2181CC1B98900480DA2 /* PointDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointDetails.swift; path = Entities/PointDetails.swift; sourceTree = "<group>"; };
+		B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunwaysOverlay.swift; sourceTree = "<group>"; };
 		B5D1C68D1CC00B08001E3294 /* MapsAOPA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapsAOPA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D1C6A51CC00C11001E3294 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				B5DC775D1CC7E2B700226660 /* MapViewModel.swift */,
 				B54BB5811E56FA4A00C0FC5E /* PointViewModel.swift */,
 				B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */,
+				B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -411,6 +414,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B56FBEF11E5F416F008886AF /* RunwaysOverlay.swift in Sources */,
 				B54BB5821E56FA4A00C0FC5E /* PointViewModel.swift in Sources */,
 				B5447D481CC14DDE0041B579 /* Segue.swift in Sources */,
 				B52AA6631E545E8100D96767 /* AOPAError.swift in Sources */,

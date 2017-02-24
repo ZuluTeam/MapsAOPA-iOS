@@ -9,6 +9,7 @@
 import Foundation
 import CoreGraphics
 import UCCTransliteration
+import MapKit
 
 extension String {
     func transliterated(language: String) -> String {
@@ -68,5 +69,23 @@ extension CGPoint {
     
     static prefix func -(right: CGPoint) -> CGPoint {
         return CGPoint(x: -right.x, y: -right.y)
+    }
+}
+
+extension MKMapPoint {
+    func distance(from point: MKMapPoint) -> Double {
+        return sqrt(pow(self.x - point.x, 2) + pow(self.y - point.y, 2))
+    }
+    
+    static func +(left: MKMapPoint, right: MKMapPoint) -> MKMapPoint {
+        return MKMapPoint(x: left.x + right.x, y: left.y + right.y)
+    }
+    
+    static func -(left: MKMapPoint, right: MKMapPoint) -> MKMapPoint {
+        return MKMapPoint(x: left.x - right.x, y: left.y - right.y)
+    }
+    
+    static prefix func -(right: MKMapPoint) -> MKMapPoint {
+        return MKMapPoint(x: -right.x, y: -right.y)
     }
 }

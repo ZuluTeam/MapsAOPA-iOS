@@ -101,7 +101,8 @@ class RunwaysView: UIView {
                 
                 let distanceScale = screenDistance / distanceMeters
                 let width = runway.width <= 0 ? 30 : runway.width
-                let screenWidth = CGFloat(width) * distanceScale
+                let radius = CGFloat(width) * distanceScale * 0.5
+                
                 
                 let angle : CGFloat
                 if screenThreshold0.x - screenThreshold1.x == 0 {
@@ -114,8 +115,8 @@ class RunwaysView: UIView {
                 let sinLeft = sin(CGFloat(M_PI_2) + angle)
                 let cosRight = -cosLeft
                 let sinRight = -sinLeft
-                let left = CGPoint(x: (screenWidth * cosLeft), y: (screenWidth * sinLeft))
-                let right = CGPoint(x: (screenWidth * cosRight), y: (screenWidth * sinRight))
+                let left = CGPoint(x: (radius * cosLeft), y: (radius * sinLeft))
+                let right = CGPoint(x: (radius * cosRight), y: (radius * sinRight))
                 
                 context?.saveGState()
                 let runwayColor = runway.surfaceType.color
