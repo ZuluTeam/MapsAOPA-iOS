@@ -44,15 +44,18 @@ class MapViewModel
     
     fileprivate var xmlParser : ArrayXMLParser?
     
+    fileprivate var mainContext : NSManagedObjectContext {
+        return Database.sharedDatabase.managedObjectContext
+    }
     fileprivate var fetchRequest = NSFetchRequest<Point>(entityName: "Point")
-    fileprivate var fetchedResultsController : NSFetchedResultsController<Point>
-        
+    
     init() {
         self.network = Network()
         self.loader = AOPALoader(network: network)
         
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "index", ascending: true) ]
-        self.fetchedResultsController = NSFetchedResultsController(fetchRequest: self.fetchRequest, managedObjectContext: Database.sharedDatabase.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchRequest.fetchBatchSize = 100
+        fetchRequest.returnsObjectsAsFaults = false
     }
     
     func loadAirfields(force: Bool = false) {
@@ -93,7 +96,6 @@ class MapViewModel
                     
                         Database.sharedDatabase.backgroundManagedObjectContext.delayedSaveOrRollback(completion: { (saved) in
                             if saved {
-                                print("Registered objects: \(Database.sharedDatabase.backgroundManagedObjectContext.registeredObjects.count)")
                                 Database.sharedDatabase.backgroundManagedObjectContext.reset()
                             }
                         })
@@ -105,17 +107,17 @@ class MapViewModel
     private func updateRegion(_ region: MKCoordinateRegion, withFilter filter: PointsFilter) {
         Settings.saveRegion(region)
         self.fetchRequest.predicate = Database.pointsPredicate(forRegion: region, withFilter: filter)
-        
         DispatchQueue.global().async(execute: {
             do {
-                try self.fetchedResultsController.performFetch()
+                let points = try self.mainContext.fetch(self.fetchRequest)
+                var pointModels = points.map({
+                    PointViewModel(point: $0)
+                })
+                if let selectedPoint = self.selectedPoint.value {
+                    pointModels.append(selectedPoint)
+                }
+                
                 DispatchQueue.main.async(execute: {
-                    var pointModels = (self.fetchedResultsController.fetchedObjects ?? []).map{
-                        PointViewModel(point: $0)
-                    }
-                    if let selectedPoint = self.selectedPoint.value {
-                        pointModels.append(selectedPoint)
-                    }
                     self._mapPoints.value = pointModels
                 })
             }
@@ -130,7 +132,6 @@ class MapViewModel
         guard let pointViewModel = pointViewModel else {
             return nil
         }
-        let point = self.fetchedResultsController.fetchedObjects?.findFirst({ $0.index == pointViewModel.index })
-        return PointDetailsViewModel(point: point)
+        return PointDetailsViewModel(point: pointViewModel.point)
     }
 }

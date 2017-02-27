@@ -10,6 +10,7 @@ import Foundation
 import CoreLocation
 import ReactiveSwift
 import Result
+import CoreData
 
 struct Frequency {
     let callsign : String
@@ -30,8 +31,10 @@ class PointViewModel : Hashable, Equatable {
     let isActive : Bool
     let isMilitary : Bool
     let pointType : PointType
+    let point : Point
     
     init(point: Point) {
+        self.point = point
         self.index = point.index ?? ""
         self.location = CLLocationCoordinate2D(latitude: point.latitude?.doubleValue ?? 0, longitude: point.longitude?.doubleValue ?? 0)
         self.isServiced = point.isServiced()
