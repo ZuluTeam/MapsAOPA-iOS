@@ -46,7 +46,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         }
         
         let spacerItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let airportsFilterItem = MultipleStatesBarButtonItem(states: ["A:None" as AnyObject, "A:Active" as AnyObject, "A:All" as AnyObject],
+        let airportsFilterItem = MultipleStatesBarButtonItem(states: ["\(AppIcons.MakiAirfield.rawValue) None" as AnyObject,
+                                                                      "\(AppIcons.MakiAirfield.rawValue) Active" as AnyObject,
+                                                                      "\(AppIcons.MakiAirfield.rawValue) All" as AnyObject],
                                                              currentState: Settings.pointsFilter.airportsState.rawValue,
                                                              action: { [weak self] (state) -> () in
                                                                 if var filter = self?.viewModel.pointsFilter {
@@ -54,7 +56,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
                                                                     self?.viewModel.pointsFilter = filter
                                                                 }
         })
-        let heliportsFilterItem = MultipleStatesBarButtonItem(states: ["H:None" as AnyObject, "H:Active" as AnyObject, "H:All" as AnyObject],
+        airportsFilterItem.setTitleTextAttributes([ NSFontAttributeName: UIFont.makiFont(ofSize: 20) ], for: .normal)
+        let heliportsFilterItem = MultipleStatesBarButtonItem(states: ["\(AppIcons.MakiHeliport.rawValue) None" as AnyObject,
+                                                                       "\(AppIcons.MakiHeliport.rawValue) Active" as AnyObject,
+                                                                       "\(AppIcons.MakiHeliport.rawValue) All" as AnyObject],
                                                               currentState: Settings.pointsFilter.heliportsState.rawValue,
                                                               action:  { [weak self] (state) -> () in
                                                                 if var filter = self?.viewModel.pointsFilter {
@@ -62,6 +67,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
                                                                     self?.viewModel.pointsFilter = filter
                                                                 }
         })
+        heliportsFilterItem.setTitleTextAttributes([ NSFontAttributeName: UIFont.makiFont(ofSize: 20) ], for: .normal)
         
         self.toolbarItems = [userTrackingItem, mapStyleItem, spacerItem, airportsFilterItem, heliportsFilterItem]
         

@@ -36,6 +36,9 @@
 		B563E2211CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */; };
 		B563E2221CC1B98900480DA2 /* PointDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2181CC1B98900480DA2 /* PointDetails.swift */; };
 		B56FBEF11E5F416F008886AF /* RunwaysOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */; };
+		B5B9B6651E648AD600BAD840 /* UIView+Designable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */; };
+		B5B9B6681E64953400BAD840 /* maki.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5B9B6671E64953400BAD840 /* maki.ttf */; };
+		B5B9B66A1E64957400BAD840 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9B6691E64957400BAD840 /* AppFonts.swift */; };
 		B5D1C6A61CC00C11001E3294 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D1C6A51CC00C11001E3294 /* MapKit.framework */; };
 		B5D1C6B81CC00DB7001E3294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */; };
 		B5D1C6B91CC00DB7001E3294 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AD1CC00DB7001E3294 /* MapViewController.swift */; };
@@ -89,6 +92,9 @@
 		B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PointDetails+CoreDataProperties.swift"; path = "Entities/PointDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2181CC1B98900480DA2 /* PointDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointDetails.swift; path = Entities/PointDetails.swift; sourceTree = "<group>"; };
 		B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunwaysOverlay.swift; sourceTree = "<group>"; };
+		B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Designable.swift"; sourceTree = "<group>"; };
+		B5B9B6671E64953400BAD840 /* maki.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = maki.ttf; sourceTree = "<group>"; };
+		B5B9B6691E64957400BAD840 /* AppFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
 		B5D1C68D1CC00B08001E3294 /* MapsAOPA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapsAOPA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D1C6A51CC00C11001E3294 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -216,6 +222,15 @@
 			name = Entities;
 			sourceTree = "<group>";
 		};
+		B5B9B6661E64953400BAD840 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				B5B9B6671E64953400BAD840 /* maki.ttf */,
+			);
+			name = Fonts;
+			path = MapsAOPA/Resourses/Fonts;
+			sourceTree = SOURCE_ROOT;
+		};
 		B5D1C6841CC00B08001E3294 = {
 			isa = PBXGroup;
 			children = (
@@ -273,6 +288,7 @@
 		B5D1C6AE1CC00DB7001E3294 /* Resourses */ = {
 			isa = PBXGroup;
 			children = (
+				B5B9B6661E64953400BAD840 /* Fonts */,
 				B5FB20A71CC1DA3A007DA15E /* aopa-points-export.xml */,
 				B5D1C6AF1CC00DB7001E3294 /* Assets.xcassets */,
 				B5D1C6B41CC00DB7001E3294 /* MapsAOPA.xcdatamodeld */,
@@ -305,6 +321,8 @@
 			isa = PBXGroup;
 			children = (
 				B5DC77601CC7EF3200226660 /* MultipleStatesBarButtonItem.swift */,
+				B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */,
+				B5B9B6691E64957400BAD840 /* AppFonts.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -344,7 +362,7 @@
 				TargetAttributes = {
 					B5D1C68C1CC00B08001E3294 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 2T5PYUQ25N;
+						DevelopmentTeam = 2DMTV2NW38;
 						LastSwiftMigration = 0810;
 					};
 				};
@@ -373,6 +391,7 @@
 			files = (
 				B5FB20A81CC1DA3A007DA15E /* aopa-points-export.xml in Resources */,
 				B5D1C6C61CC01020001E3294 /* LaunchScreen.storyboard in Resources */,
+				B5B9B6681E64953400BAD840 /* maki.ttf in Resources */,
 				B5D1C6BA1CC00DB7001E3294 /* Assets.xcassets in Resources */,
 				B5447D3F1CC12ECA0041B579 /* Localizable.strings in Resources */,
 				B5D1C6C71CC01020001E3294 /* Main.storyboard in Resources */,
@@ -445,6 +464,7 @@
 				B5D1C6B91CC00DB7001E3294 /* MapViewController.swift in Sources */,
 				B5D1C6BD1CC00DB7001E3294 /* MapsAOPA.xcdatamodeld in Sources */,
 				B5DC77611CC7EF3200226660 /* MultipleStatesBarButtonItem.swift in Sources */,
+				B5B9B6651E648AD600BAD840 /* UIView+Designable.swift in Sources */,
 				B563E2211CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift in Sources */,
 				B5FBF58F1E5309E500137491 /* ArrayXMLParser.swift in Sources */,
 				B563E2191CC1B98900480DA2 /* Point+CoreDataProperties.swift in Sources */,
@@ -469,6 +489,7 @@
 				B54BB57F1E55BC6200C0FC5E /* AOPANetworkError.swift in Sources */,
 				B5447D461CC13DB60041B579 /* PrimitiveExtensions.swift in Sources */,
 				B52AA66B1E5489AE00D96767 /* AOPADataError.swift in Sources */,
+				B5B9B66A1E64957400BAD840 /* AppFonts.swift in Sources */,
 				B5DC47E01E5DEFAD00037888 /* DetailsViewModel.swift in Sources */,
 				B5DC775E1CC7E2B700226660 /* MapViewModel.swift in Sources */,
 				B52AA6671E54823900D96767 /* AOPANetwork.Config.swift in Sources */,
@@ -587,7 +608,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 2T5PYUQ25N;
+				DEVELOPMENT_TEAM = 2DMTV2NW38;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -606,7 +627,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 2T5PYUQ25N;
+				DEVELOPMENT_TEAM = 2DMTV2NW38;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

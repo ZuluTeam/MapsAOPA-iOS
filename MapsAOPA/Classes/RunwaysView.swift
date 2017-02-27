@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import CoreText
 
+@IBDesignable
 class RunwaysView: UIView {
     
     var isHeliport : Bool = false {
@@ -30,7 +31,6 @@ class RunwaysView: UIView {
     ]
     
     override func draw(_ rect: CGRect) {
-        super.draw(rect)
         if isHeliport {
             self.drawHeliport(in: rect)
             return
