@@ -29,39 +29,40 @@ enum PointCountry : Int
 }
 
 class PointDetails: NSManagedObject {
+    
+}
 
-    convenience init?(dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext) {
-        if let entity = NSEntityDescription.entity(forEntityName: "PointDetails", in: context) {
-            var dictionary = dictionary
-            self.init(entity: entity, insertInto: context)
-            self.city = dictionary?["city"] as? String
-            self.comment = dictionary?["comments"] as? String
-            self.countryId = PointCountry(code: dictionary?["country_id"] as? String)?.rawValue as NSNumber?
-            self.declination = Float(dictionary?["delta_m"] as? String ?? "") as NSNumber?
-            self.email = dictionary?["email"] as? String
-            self.elevation = Int(dictionary?["height"] as? String ?? "") as NSNumber?
-            self.imageAerial = dictionary?["img_aerial"] as? String
-            self.imagePlan = dictionary?["img_plan"] as? String
-            self.infrastructure = dictionary?["infrastructure"] as? String
-            self.international = Int(dictionary?["international"] as? String ?? "") as NSNumber?
-            self.pointClass = dictionary?["class"] as? String
-            self.region = dictionary?["region"] as? String
-            self.utcOffset = dictionary?["utc_offset"] as? String
-            self.verified = Int(dictionary?["verified"] as? String ?? "") as NSNumber?
-            self.website = dictionary?["website"] as? String
-            self.worktime = dictionary?["worktime"] as? String
-            
-            self.lastUpdate = dictionary?["last_update"] as? String
-            
-            if let contacts = dictionary?["contact"] as? [String:AnyObject] {
-                dictionary?["contact"] = [contacts] as AnyObject
+extension PointDetails: Managed {
+    
+    public static var entityName : String {
+        return "PointDetails"
+    }
+    
+    public static var defaultSortDescriptors : [NSSortDescriptor] {
+        return []
+    }
+    
+}
+
+extension PointDetails {
+    
+    override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
+        switch key {
+        case "countryId" :
+            if let value = value as? String {
+                return PointCountry(code: value)?.rawValue as NSObject?
             }
-            
-            if let contactDicts = dictionary?["contact"] as? [[String:AnyObject]] {
+        case "contacts" :
+            var dictionary = value as? [[String:AnyObject]]
+            if let contactsDict = value as? [String:AnyObject] {
+                dictionary = [contactsDict]
+            }
+            if let contactDicts = dictionary {
                 let contacts = contactDicts.flatMap({ item -> [String:AnyObject]? in
                     var contact = item["item"] as? [String:AnyObject]
                     contact?["id"] = nil
-                    return contact })
+                    return contact
+                })
                 var result : [[String:AnyObject]] = []
                 for contact in contacts {
                     if let value = contact["value"] as? String {
@@ -87,20 +88,27 @@ class PointDetails: NSManagedObject {
                         }
                     }
                 }
-                self.contacts = result as NSObject?
+                return result as NSObject?
             }
-            if let frequencies = dictionary?["freq"] as? [String:AnyObject] {
-                dictionary?["freq"] = [frequencies] as AnyObject
+            return nil
+        case "frequencies" :
+            var dictionary = value as? [[String:AnyObject]]
+            if let freqDict = value as? [String: AnyObject] {
+                dictionary = [freqDict]
             }
-            if let freqDicts = dictionary?["freq"] as? [[String:AnyObject]]{
+            if let freqDicts = dictionary {
                 let frequencies = freqDicts.flatMap({ item -> [String:AnyObject]? in
                     var frequency = item["item"] as? [String:AnyObject]
                     frequency?["id"] = nil
-                    return frequency })
-                self.frequencies = frequencies as NSObject?
+                    return frequency
+                })
+                return frequencies as NSObject?
             }
-        } else {
             return nil
+        default:
+            break
         }
+        return super.transformImortedValue(value, for: key)
     }
 }
+

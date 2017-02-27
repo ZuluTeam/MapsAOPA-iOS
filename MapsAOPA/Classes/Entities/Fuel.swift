@@ -41,18 +41,26 @@ enum FuelType : Int
 }
 
 class Fuel: NSManagedObject {
+    
+}
 
-    convenience init?(dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext)
-    {
-        if let entity = NSEntityDescription.entity(forEntityName: "Fuel", in: context)
-        {
-            self.init(entity: entity, insertInto: context)
-            self.type = FuelType(type: dictionary?["type_id"] as? String)?.rawValue as NSNumber?
-        }
-        else
-        {
-            return nil
-        }
+extension Fuel : Managed {
+    public static var entityName : String {
+        return "Fuel"
     }
+}
 
+extension Fuel {
+    
+    override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
+        switch key {
+        case "type" :
+            if let value = value as? String {
+                return FuelType(type: value)?.rawValue as NSNumber?
+            }
+        default:
+            break
+        }
+        return super.transformImortedValue(value, for: key)
+    }
 }

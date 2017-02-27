@@ -46,7 +46,7 @@ class MapViewModel
     
     fileprivate var fetchRequest = NSFetchRequest<Point>(entityName: "Point")
     fileprivate var fetchedResultsController : NSFetchedResultsController<Point>
-    
+        
     init() {
         self.network = Network()
         self.loader = AOPALoader(network: network)
@@ -80,10 +80,21 @@ class MapViewModel
                 if let selfInstance = self {
                     selfInstance.updateRegion(selfInstance.mapRegion, withFilter: selfInstance.pointsFilter)
                 }
+                print("Complete savings")
             },
               value: { value in
                 if let pointDict = value as? [String:AnyObject] {
-                    let _ = Point.point(fromDictionary: pointDict, inContext: Database.sharedDatabase.backgroundManagedObjectContext)
+                
+                    Database.sharedDatabase.backgroundManagedObjectContext.performAndWait {
+                        let _ = Point.point(fromDictionary: pointDict, inContext: Database.sharedDatabase.backgroundManagedObjectContext)
+                    
+                        Database.sharedDatabase.backgroundManagedObjectContext.delayedSaveOrRollback(completion: { (saved) in
+                            if saved {
+                                print("Registered objects: \(Database.sharedDatabase.backgroundManagedObjectContext.registeredObjects.count)")
+                                Database.sharedDatabase.backgroundManagedObjectContext.reset()
+                            }
+                        })
+                    }
                 }
         }).start()
     }

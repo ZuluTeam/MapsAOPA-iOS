@@ -1,46 +1,118 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G1217" minimumToolsVersion="Xcode 7.3" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="MapsAOPA">
     <entity name="Fuel" representedClassName=".Fuel" syncable="YES">
-        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES"/>
+        <attribute name="type" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" indexed="YES" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="type_id"/>
+            </userInfo>
+        </attribute>
         <relationship name="points" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Point" inverseName="fuel" inverseEntity="Point" syncable="YES"/>
         <relationship name="pointsOnRequest" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Point" inverseName="fuelOnRequest" inverseEntity="Point" syncable="YES"/>
     </entity>
     <entity name="Point" representedClassName=".Point" syncable="YES">
-        <attribute name="active" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="active" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="belongs" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="index" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="indexRu" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="indexRu" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="index_ru"/>
+            </userInfo>
+        </attribute>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="lat"/>
+            </userInfo>
+        </attribute>
         <attribute name="lights" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="titleRu" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="lon"/>
+            </userInfo>
+        </attribute>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="name"/>
+            </userInfo>
+        </attribute>
+        <attribute name="titleRu" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="name_ru"/>
+            </userInfo>
+        </attribute>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Point" inverseName="parent" inverseEntity="Point" syncable="YES"/>
         <relationship name="details" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="PointDetails" inverseName="point" inverseEntity="PointDetails" syncable="YES"/>
         <relationship name="fuel" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Fuel" inverseName="points" inverseEntity="Fuel" syncable="YES"/>
         <relationship name="fuelOnRequest" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Fuel" inverseName="pointsOnRequest" inverseEntity="Fuel" syncable="YES"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Point" inverseName="children" inverseEntity="Point" syncable="YES"/>
-        <relationship name="runways" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Runway" inverseName="point" inverseEntity="Runway" syncable="YES"/>
+        <relationship name="runways" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Runway" inverseName="point" inverseEntity="Runway" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="vpp"/>
+            </userInfo>
+        </relationship>
     </entity>
     <entity name="PointDetails" representedClassName=".PointDetails" syncable="YES">
         <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="contacts" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
-        <attribute name="countryId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="comments"/>
+            </userInfo>
+        </attribute>
+        <attribute name="contacts" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="contact"/>
+            </userInfo>
+        </attribute>
+        <attribute name="countryId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="country_id"/>
+            </userInfo>
+        </attribute>
         <attribute name="countryName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="declination" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="elevation" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="declination" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="delta_m"/>
+            </userInfo>
+        </attribute>
+        <attribute name="elevation" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="height"/>
+            </userInfo>
+        </attribute>
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="frequencies" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
-        <attribute name="imageAerial" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="imagePlan" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="frequencies" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="freq"/>
+            </userInfo>
+        </attribute>
+        <attribute name="imageAerial" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="img_aerial"/>
+            </userInfo>
+        </attribute>
+        <attribute name="imagePlan" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="img_plan"/>
+            </userInfo>
+        </attribute>
         <attribute name="infrastructure" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="international" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="lastUpdate" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="pointClass" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastUpdate" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="last_update"/>
+            </userInfo>
+        </attribute>
+        <attribute name="pointClass" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="class"/>
+            </userInfo>
+        </attribute>
         <attribute name="region" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="utcOffset" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="utcOffset" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="utc_offset"/>
+            </userInfo>
+        </attribute>
         <attribute name="verified" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="website" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="worktime" optional="YES" attributeType="String" syncable="YES"/>
@@ -48,13 +120,41 @@
     </entity>
     <entity name="Runway" representedClassName=".Runway" syncable="YES">
         <attribute name="length" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="lightsType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="magneticCourse" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="surfaceType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="thresholds" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="trafficPatterns" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="trueCourse" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lightsType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="lights_id"/>
+            </userInfo>
+        </attribute>
+        <attribute name="magneticCourse" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="kurs"/>
+            </userInfo>
+        </attribute>
+        <attribute name="surfaceType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="pokr_code"/>
+            </userInfo>
+        </attribute>
+        <attribute name="thresholds" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeys" value="porog1_lat,porog1_lon,porog2_lat,porog2_lon"/>
+            </userInfo>
+        </attribute>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="name"/>
+            </userInfo>
+        </attribute>
+        <attribute name="trafficPatterns" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="korobochka"/>
+            </userInfo>
+        </attribute>
+        <attribute name="trueCourse" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="mappedKey" value="kurs_ist"/>
+            </userInfo>
+        </attribute>
         <attribute name="width" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <relationship name="point" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Point" inverseName="runways" inverseEntity="Point" syncable="YES"/>
     </entity>
