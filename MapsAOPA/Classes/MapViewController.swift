@@ -85,7 +85,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
             self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point), animated: true)
         }
         
-        self.viewModel.loadAirfields(force: false)
+        self.viewModel.loadAirfields()
         
         let _ = self.detailsView.websiteButton?.reactive.controlEvents(.touchUpInside).observeValues({ [weak self] button in
             self?.openURL(self?.detailsView.pointDetailsViewModel?.website)
