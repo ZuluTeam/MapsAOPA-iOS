@@ -56,6 +56,9 @@ class MapViewModel
     }
     
     func loadAirfields(force: Bool = false) {
+#if DEBUG
+        let force = true
+#endif
         let date = Date()
         if !force && date.timeIntervalSince(Settings.lastUpdate) < Settings.reloadDataTimeInterval {
             return
