@@ -47,13 +47,13 @@ class MapViewModel
     fileprivate var mainContext : NSManagedObjectContext {
         return Database.sharedDatabase.managedObjectContext
     }
-    fileprivate var fetchRequest = NSFetchRequest<Point>(entityName: "Point")
+    fileprivate var fetchRequest = NSFetchRequest<Point>(entityName: Point.entityName)
     
     init() {
         self.network = Network()
         self.loader = AOPALoader(network: network)
         
-        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: "index", ascending: true) ]
+        fetchRequest.sortDescriptors = [ NSSortDescriptor(key: Point.Keys.index.rawValue, ascending: true) ]
         fetchRequest.fetchBatchSize = 100
         fetchRequest.returnsObjectsAsFaults = false
     }

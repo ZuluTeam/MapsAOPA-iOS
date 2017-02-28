@@ -29,6 +29,12 @@
                 <entry key="mappedKey" value="lon"/>
             </userInfo>
         </attribute>
+        <attribute name="searchCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="searchIndex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="searchIndexRu" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="searchRegion" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="searchTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="searchTitleRu" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES">
             <userInfo>
                 <entry key="mappedKey" value="name"/>
@@ -160,7 +166,7 @@
     </entity>
     <elements>
         <element name="Fuel" positionX="-2817" positionY="-2086" width="128" height="90"/>
-        <element name="Point" positionX="-2423" positionY="-2218" width="128" height="285"/>
+        <element name="Point" positionX="-2423" positionY="-2218" width="128" height="375"/>
         <element name="PointDetails" positionX="-2603" positionY="-2232" width="128" height="360"/>
         <element name="Runway" positionX="-2817" positionY="-1933" width="128" height="195"/>
     </elements>

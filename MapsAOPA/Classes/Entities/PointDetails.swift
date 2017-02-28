@@ -29,7 +29,11 @@ enum PointCountry : Int
 }
 
 class PointDetails: NSManagedObject {
-    
+    fileprivate enum Keys : String {
+        case countryId
+        case contacts
+        case frequencies
+    }
 }
 
 extension PointDetails: Managed {
@@ -48,11 +52,11 @@ extension PointDetails {
     
     override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
         switch key {
-        case "countryId" :
+        case PointDetails.Keys.countryId.rawValue :
             if let value = value as? String {
                 return PointCountry(code: value)?.rawValue as NSObject?
             }
-        case "contacts" :
+        case PointDetails.Keys.contacts.rawValue :
             var dictionary = value as? [[String:AnyObject]]
             if let contactsDict = value as? [String:AnyObject] {
                 dictionary = [contactsDict]
@@ -91,7 +95,7 @@ extension PointDetails {
                 return result as NSObject?
             }
             return nil
-        case "frequencies" :
+        case PointDetails.Keys.frequencies.rawValue :
             var dictionary = value as? [[String:AnyObject]]
             if let freqDict = value as? [String: AnyObject] {
                 dictionary = [freqDict]

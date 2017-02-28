@@ -58,15 +58,31 @@ import UIKit
 }
 
 class Point: NSManagedObject {
+    
+    public enum Keys : String {
+        case index
+        case belongs
+        case type
+        case runways
+        case fuel
+        case searchRegion
+        case searchIndex
+        case searchIndexRu
+        case searchCity
+        case searchTitle
+        case searchTitleRu
+    }
+    
+    
     func isServiced() -> Bool {
         return self.fuel?.count ?? 0 > 0
     }
     
     class func point(fromDictionary dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext) -> Point? {
         var dictionary = dictionary
-        if let unwrappedDictionary = dictionary, let index = dictionary?["index"] as? String {
+        if let unwrappedDictionary = dictionary, let index = dictionary?[Point.Keys.index.rawValue] as? String {
             
-            let point = findOrCreateObject(in: context, matching: NSPredicate(format: "index == %@", index), forceConfigure: true, configure: {
+            let point = findOrCreateObject(in: context, matching: NSPredicate(format: "%K == %@", Point.Keys.index.rawValue, index), forceConfigure: true, configure: {
                 (point: Point) in
                 _ = point.importDataFromDictionary(unwrappedDictionary)
                 let pointDetails = point.details ?? PointDetails.createObject(in: context, configure: {
@@ -74,6 +90,14 @@ class Point: NSManagedObject {
                     _ = details.importDataFromDictionary(unwrappedDictionary)
                 })
                 point.details = pointDetails
+                
+                point.searchRegion = pointDetails?.region?.normalizedString
+                point.searchIndex = point.index?.normalizedString
+                point.searchIndexRu = point.indexRu?.normalizedString
+                point.searchCity = pointDetails?.city?.normalizedString
+                point.searchTitle = point.title?.normalizedString
+                point.searchTitleRu = point.titleRu?.normalizedString
+                
             })
             return point
         }
@@ -105,15 +129,15 @@ extension Point {
     
     override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
         switch key {
-        case "belongs" :
+        case Point.Keys.belongs.rawValue :
             if let value = value as? String {
                 return PointBelongs(string: value).rawValue as NSObject?
             }
-        case "type" :
+        case Point.Keys.type.rawValue :
             if let value = value as? String {
                 return PointType(type: value).rawValue as NSObject?
             }
-        case "runways" :
+        case Point.Keys.runways.rawValue :
             var dictionary = value as? [[String:AnyObject]]
             if let runwaysDict = value as? [String:AnyObject] {
                 dictionary = [runwaysDict]
@@ -133,7 +157,7 @@ extension Point {
                 return runways
             }
             return nil
-        case "fuel" :
+        case Point.Keys.fuel.rawValue :
             var dictionary = value as? [[String: AnyObject]]
             if let fuelDict = value as? [String:AnyObject] {
                 dictionary = [fuelDict]
@@ -167,11 +191,11 @@ extension Point {
     
     override func addRelatedObject(_ object: Any, for key: String) {
         switch key {
-        case "runways" :
+        case Point.Keys.runways.rawValue :
             if let runwaysSet = object as? NSSet, runwaysSet.count > 0 {
                 self.runways = runwaysSet
             }
-        case "fuel" :
+        case Point.Keys.fuel.rawValue :
             if let fuel = object as? [String : [Fuel]] {
                 if let fuelArray = fuel[FuelAvailability.fuel.rawValue], fuelArray.count > 0 {
                     self.fuel = NSSet(array: fuelArray)

@@ -85,7 +85,11 @@ enum RunwayLights : Int
 }
 
 class Runway: NSManagedObject {
-    
+    fileprivate enum Keys : String {
+        case surfaceType
+        case thresholds
+        case lightsType
+    }
 }
 
 extension Runway: Managed {
@@ -100,11 +104,11 @@ extension Runway {
     
     override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
         switch key {
-        case "surfaceType" :
+        case Runway.Keys.surfaceType.rawValue :
             if let value = value as? String {
                 return RunwaySurface(code: value).rawValue as NSNumber?
             }
-        case "thresholds" :
+        case Runway.Keys.thresholds.rawValue :
             guard let value = value as? [String : String] else {
                 return nil
             }
@@ -118,7 +122,7 @@ extension Runway {
                 ]
                 return thresholds as NSObject?
             }
-        case "lightsType" :
+        case Runway.Keys.lightsType.rawValue :
             return RunwayLights(code: value as? String)?.rawValue as NSNumber?
         default:
             break

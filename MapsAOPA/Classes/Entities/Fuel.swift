@@ -41,7 +41,9 @@ enum FuelType : Int
 }
 
 class Fuel: NSManagedObject {
-    
+    fileprivate enum Keys : String {
+        case type
+    }
 }
 
 extension Fuel : Managed {
@@ -54,7 +56,7 @@ extension Fuel {
     
     override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
         switch key {
-        case "type" :
+        case Fuel.Keys.type.rawValue :
             if let value = value as? String {
                 return FuelType(type: value)?.rawValue as NSNumber?
             }

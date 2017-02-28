@@ -30,5 +30,12 @@ extension Point {
     @NSManaged var fuelOnRequest: NSSet?
     @NSManaged var parent: Point?
     @NSManaged var runways: NSSet?
+    
+    @NSManaged var searchRegion : String?
+    @NSManaged var searchIndex : String?
+    @NSManaged var searchIndexRu : String?
+    @NSManaged var searchCity : String?
+    @NSManaged var searchTitle : String?
+    @NSManaged var searchTitleRu : String?
 
 }
