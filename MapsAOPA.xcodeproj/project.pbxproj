@@ -365,7 +365,7 @@
 				TargetAttributes = {
 					B5D1C68C1CC00B08001E3294 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 2T5PYUQ25N;
+						DevelopmentTeam = 2DMTV2NW38;
 						LastSwiftMigration = 0810;
 					};
 				};
@@ -612,7 +612,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 2T5PYUQ25N;
+				DEVELOPMENT_TEAM = 2DMTV2NW38;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -632,7 +632,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 2T5PYUQ25N;
+				DEVELOPMENT_TEAM = 2DMTV2NW38;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

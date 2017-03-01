@@ -13,6 +13,11 @@
 "Button_Ok" = "Ok";
 "Button_Cancel" = "Cancel";
 
+// Numbers formats
+
+"Meters_Format" = "%@ m";
+"Feet_Format" = "%@ ft";
+
 // MARK: - Errors
 "Error_Title" = "Error";
 
@@ -26,9 +31,9 @@
 
 // MARK: - Point details
 
-"Details_Elevation_Format_m" = "Elevation: %d m";
-"Details_Elevation_Format_ft" = "Elevation: %d ft";
+"Details_Elevation_Format" = "Elevation: %@";
 "Details_Frequencies_Format" = "📻: %@ %@ MHz";
+"Details_Longest_Runway_Format" = "Longest runway: %@";
 
 // MARK: - Details
 

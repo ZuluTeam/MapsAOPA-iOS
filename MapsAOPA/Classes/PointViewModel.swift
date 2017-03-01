@@ -71,7 +71,7 @@ class PointDetailsViewModel {
     let type : PointType
     let location : CLLocationCoordinate2D
     
-    let tableViewObjects : [DetailsTableViewObject] = []
+    var tableViewObjects = [(sectionTitle: String, objects: [DetailsTableViewObject])]()
     
     init?(point: Point?) {
         guard let point = point, let index = point.index else {
@@ -109,6 +109,22 @@ class PointDetailsViewModel {
         self.runways = (point.runways as? Set<Runway>)?.flatMap({ RunwayViewModel(runway: $0) }) ?? []
         self.type = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
         self.location = CLLocationCoordinate2D(latitude: point.latitude?.doubleValue ?? 0, longitude: point.longitude?.doubleValue ?? 0)
+        
+        self.initializeDataSource(with: point)
+    }
+    
+    private func initializeDataSource(with point: Point) {
+        self.tableViewObjects.removeAll()
+        var commonObjects = [DetailsTableViewObject]()
+        
+        if let title = point.title {
+            commonObjects.append(DetailsTableViewObject(title: "Title", text: title))
+        }
+        
+        if commonObjects.count > 0 {
+            let commonInfo = (sectionTitle: "", objects: commonObjects)
+            self.tableViewObjects.append(commonInfo)
+        }
     }
 }
 

@@ -28,5 +28,11 @@ class Converter {
         return meters / feetToM
     }
     
+    static func localized(meters: Int) -> String {
+        return "Meters_Format".localized(arguments: "\(meters)")
+    }
     
+    static func localized(feet: Int) -> String {
+        return "Feet_Format".localized(arguments: "\(feet)")
+    }
 }

@@ -16,6 +16,13 @@ enum AppKeys : String
     case LastUpdate = "last_update"
     case LastRegion = "last_region"
     case PointsFilter = "points_filter"
+    case Units = "units"
+    
+    enum UnitsKeys : String {
+        case distance
+        case pressure
+        case speed
+    }
 }
 
 enum PointsFilterState : Int
@@ -31,9 +38,59 @@ struct PointsFilter
     var heliportsState : PointsFilterState
 }
 
+enum DistanceUnits : Int {
+    case meter
+    case foot
+}
+
+enum PressureUnits : Int {
+    case mmHg
+    case hPa
+    case inHg
+}
+
+enum SpeedUnits : Int {
+    case mps
+    case kph
+    case mph
+    case kt
+}
+
 class Settings
 {
+    struct Units {
+        var distance : DistanceUnits = { return (Settings.language == "ru") ? .meter : .foot }()
+        var pressure : PressureUnits = { return (Settings.language == "ru" ? .mmHg : .hPa) }()
+        var speed : SpeedUnits = { return (Settings.language == "ru" ? .kph : .kt) }()
+    }
+    
     static let reloadDataTimeInterval : TimeInterval = 7 * 24 * 60 * 60
+    
+    static var units : Units = {
+        var units = Units()
+        if let unitsDict = UserDefaults.standard.object(forKey: AppKeys.Units.rawValue) as? [String:Int] {
+            if let distanceValue = unitsDict[AppKeys.UnitsKeys.distance.rawValue], let distance = DistanceUnits(rawValue: distanceValue) {
+                units.distance = distance
+            }
+            if let pressureValue = unitsDict[AppKeys.UnitsKeys.pressure.rawValue], let pressure = PressureUnits(rawValue: pressureValue) {
+                units.pressure = pressure
+            }
+            if let speedValue = unitsDict[AppKeys.UnitsKeys.speed.rawValue], let speed = SpeedUnits(rawValue: speedValue) {
+                units.speed = speed
+            }
+        }
+        return units
+    }() {
+        didSet {
+            let unitsDict = [
+                AppKeys.UnitsKeys.distance.rawValue : units.distance.rawValue,
+                AppKeys.UnitsKeys.pressure.rawValue : units.pressure.rawValue,
+                AppKeys.UnitsKeys.speed.rawValue : units.speed.rawValue,
+                ]
+            UserDefaults.standard.set(unitsDict, forKey: AppKeys.Units.rawValue)
+            UserDefaults.standard.synchronize()
+        }
+    }
     
     static var pointsFilter : PointsFilter = {
         let filter = UserDefaults.standard.object(forKey: AppKeys.PointsFilter.rawValue) as? [String:AnyObject]
@@ -49,6 +106,7 @@ class Settings
                 "h_state" : pointsFilter.heliportsState.rawValue
             ]
             UserDefaults.standard.set(filter, forKey: AppKeys.PointsFilter.rawValue)
+            UserDefaults.standard.synchronize()
         }
     }
     
