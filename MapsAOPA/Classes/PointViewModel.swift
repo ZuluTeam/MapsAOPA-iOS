@@ -66,6 +66,8 @@ class PointDetailsViewModel {
     let type : PointType
     let location : CLLocationCoordinate2D
     
+    let tableViewObjects
+    
     init?(point: Point?) {
         guard let point = point, let index = point.index else {
             return nil

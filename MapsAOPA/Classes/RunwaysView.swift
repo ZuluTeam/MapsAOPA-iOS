@@ -25,7 +25,7 @@ class RunwaysView: UIView {
         }
     }
 
-    private static let offset : CGFloat = 10.0
+    private static let offset : CGFloat = 12.0
     private static let textAttributes : [String:Any] = [
         NSFontAttributeName : UIFont.boldSystemFont(ofSize: 12)
     ]

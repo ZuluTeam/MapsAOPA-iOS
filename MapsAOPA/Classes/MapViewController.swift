@@ -86,7 +86,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         self.viewModel.mapPoints.producer.startWithValues { [weak self] points in
             self?.refreshPoints(points)
         }
-        self.showPointInfo(self.viewModel.pointDetailsViewModel(from: self.viewModel.selectedPoint.value), animated: false)
+        
         self.viewModel.selectedPoint.producer.skip(first: 1).startWithValues { [weak self] point in
             self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point), animated: true)
         }
@@ -104,6 +104,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        self.showPointInfo(self.viewModel.pointDetailsViewModel(from: self.viewModel.selectedPoint.value), animated: false)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -159,7 +160,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         self.detailsView.pointDetailsViewModel = pointDetails
         let constraints = self.view.constraints
         for constraint in constraints {
-            if constraint.identifier == "DetailsTop" {
+            if constraint.identifier == "DetailsBottom" {
                 constraint.constant = -(CGFloat(nil == pointDetails) * self.detailsView.height)
             }
         }

@@ -10,7 +10,7 @@ import UIKit
 import UCCTransliteration
 
 @IBDesignable
-class PointDetailsView: UIView
+class PointDetailsView: UIView, UITableViewDataSource
 {
     @IBOutlet weak var titleLabel : UILabel?
     @IBOutlet weak var runwaysView : RunwaysView?
@@ -26,23 +26,16 @@ class PointDetailsView: UIView
     
     private let transliteration = UCCTransliteration()
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.tableView?.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 100
+    }
+    
     var pointDetailsViewModel : PointDetailsViewModel? {
         didSet {
             self.reloadView()
         }
-    }
-    
-    override class var layerClass: Swift.AnyClass {
-        return CAGradientLayer.self
-    }
-    
-    var gradientLayer : CAGradientLayer {
-        return self.layer as! CAGradientLayer
-    }
-    
-    override func draw(_ rect: CGRect) {
-        gradientLayer.colors = [ UIColor(hexString: "66CCFF").cgColor,
-                                 UIColor(hexString: "0080FF").cgColor ]
     }
     
     fileprivate func reloadView() {
@@ -68,6 +61,12 @@ class PointDetailsView: UIView
         
         self.runwaysView?.runways = model.runways
         self.runwaysView?.isHeliport = model.type == .heliport
+    }
+    
+    // MARK: - Table view data source
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
     }
 }
 

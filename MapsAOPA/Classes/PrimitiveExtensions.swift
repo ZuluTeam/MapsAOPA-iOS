@@ -48,6 +48,12 @@ extension CGFloat {
     }
 }
 
+extension Int {
+    init(_ value: Bool) {
+        self = value ? 1 : 0
+    }
+}
+
 extension TimeInterval {
     init(_ value: Bool) {
         self = value ? 1.0 : 0.0

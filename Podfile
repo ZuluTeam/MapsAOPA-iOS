@@ -3,7 +3,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'MapsAOPA' do
-    pod 'ReactiveCocoa', '~> 5.0.0'
+    pod 'ReactiveCocoa'
     pod 'Alamofire'
     pod 'AlamofireImage'
     pod 'CHCSVParser'
@@ -13,4 +13,5 @@ target 'MapsAOPA' do
     pod 'DynamicColor'
     pod 'UCCTransliteration'
     pod 'UIColor_Hex_Swift'
+    pod 'SwiftySunrise'
 end
