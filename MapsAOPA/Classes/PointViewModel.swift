@@ -52,6 +52,11 @@ class PointViewModel : Hashable, Equatable {
     }
 }
 
+struct DetailsTableViewObject {
+    let title : String
+    let text : String
+}
+
 class PointDetailsViewModel {
     
     let index : String
@@ -66,7 +71,7 @@ class PointDetailsViewModel {
     let type : PointType
     let location : CLLocationCoordinate2D
     
-    let tableViewObjects
+    let tableViewObjects : [DetailsTableViewObject] = []
     
     init?(point: Point?) {
         guard let point = point, let index = point.index else {

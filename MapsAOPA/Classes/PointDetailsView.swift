@@ -29,7 +29,7 @@ class PointDetailsView: UIView, UITableViewDataSource
     override func awakeFromNib() {
         super.awakeFromNib()
         self.tableView?.rowHeight = UITableViewAutomaticDimension
-        self.tableView.estimatedRowHeight = 100
+        self.tableView?.estimatedRowHeight = 100
     }
     
     var pointDetailsViewModel : PointDetailsViewModel? {
@@ -65,8 +65,17 @@ class PointDetailsView: UIView, UITableViewDataSource
     
     // MARK: - Table view data source
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath)
+        return cell
     }
 }
 
