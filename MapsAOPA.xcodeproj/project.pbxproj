@@ -11,6 +11,7 @@
 		44D3E8D61E5F2DF8000B52E9 /* AttributeDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D3E8D51E5F2DF8000B52E9 /* AttributeDescription.swift */; };
 		44D3E8D81E64608F000B52E9 /* ManagedObjectContext+Saves.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D3E8D71E64608F000B52E9 /* ManagedObjectContext+Saves.swift */; };
 		44D3E8DA1E65B801000B52E9 /* Point+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D3E8D91E65B801000B52E9 /* Point+Search.swift */; };
+		44D3E8DC1E6712E0000B52E9 /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D3E8DB1E6712E0000B52E9 /* ValueTransformer.swift */; };
 		44DAAE671E5DDD1F00A9EFB6 /* ManagedObject+Inserts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DAAE661E5DDD1F00A9EFB6 /* ManagedObject+Inserts.swift */; };
 		B52AA6631E545E8100D96767 /* AOPAError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52AA6621E545E8100D96767 /* AOPAError.swift */; };
 		B52AA6651E5481FD00D96767 /* AOPALoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52AA6641E5481FD00D96767 /* AOPALoader.swift */; };
@@ -66,6 +67,7 @@
 		44D3E8D51E5F2DF8000B52E9 /* AttributeDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeDescription.swift; sourceTree = "<group>"; };
 		44D3E8D71E64608F000B52E9 /* ManagedObjectContext+Saves.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedObjectContext+Saves.swift"; sourceTree = "<group>"; };
 		44D3E8D91E65B801000B52E9 /* Point+Search.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Point+Search.swift"; sourceTree = "<group>"; };
+		44D3E8DB1E6712E0000B52E9 /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValueTransformer.swift; path = MapsAOPA/Classes/ValueTransformer.swift; sourceTree = SOURCE_ROOT; };
 		44DAAE661E5DDD1F00A9EFB6 /* ManagedObject+Inserts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedObject+Inserts.swift"; sourceTree = "<group>"; };
 		759E18A16619C4DE65F04C3A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7BCF0BB8DB91F229929E579 /* Pods_MapsAOPA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsAOPA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +149,7 @@
 				44DAAE661E5DDD1F00A9EFB6 /* ManagedObject+Inserts.swift */,
 				44D3E8D51E5F2DF8000B52E9 /* AttributeDescription.swift */,
 				44D3E8D71E64608F000B52E9 /* ManagedObjectContext+Saves.swift */,
+				44D3E8DB1E6712E0000B52E9 /* ValueTransformer.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -365,7 +368,7 @@
 				TargetAttributes = {
 					B5D1C68C1CC00B08001E3294 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 2DMTV2NW38;
+						DevelopmentTeam = 2T5PYUQ25N;
 						LastSwiftMigration = 0810;
 					};
 				};
@@ -481,6 +484,7 @@
 				B563E21C1CC1B98900480DA2 /* Runway.swift in Sources */,
 				B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */,
 				44D3E8D81E64608F000B52E9 /* ManagedObjectContext+Saves.swift in Sources */,
+				44D3E8DC1E6712E0000B52E9 /* ValueTransformer.swift in Sources */,
 				B563E21A1CC1B98900480DA2 /* Point.swift in Sources */,
 				B5DC47DE1E5DE95700037888 /* Converter.swift in Sources */,
 				B52AA6691E5482C700D96767 /* AOPANetwork.swift in Sources */,
@@ -612,7 +616,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 2DMTV2NW38;
+				DEVELOPMENT_TEAM = 2T5PYUQ25N;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -632,7 +636,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 2DMTV2NW38;
+				DEVELOPMENT_TEAM = 2T5PYUQ25N;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

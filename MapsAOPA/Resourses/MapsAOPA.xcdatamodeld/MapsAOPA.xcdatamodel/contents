@@ -18,13 +18,18 @@
                 <entry key="mappedKey" value="index_ru"/>
             </userInfo>
         </attribute>
-        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES">
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES">
             <userInfo>
                 <entry key="mappedKey" value="lat"/>
             </userInfo>
         </attribute>
         <attribute name="lights" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES">
+        <attribute name="location" optional="YES" attributeType="Transformable" valueTransformerName="LocationTransform" customClassName=".PointLocation" syncable="YES">
+            <userInfo>
+                <entry key="mappedKeys" value="lat,lon"/>
+            </userInfo>
+        </attribute>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES">
             <userInfo>
                 <entry key="mappedKey" value="lon"/>
             </userInfo>
@@ -141,7 +146,7 @@
                 <entry key="mappedKey" value="pokr_code"/>
             </userInfo>
         </attribute>
-        <attribute name="thresholds" optional="YES" attributeType="Transformable" valueTransformerName="" syncable="YES">
+        <attribute name="thresholds" optional="YES" attributeType="Transformable" valueTransformerName="ThresholdsTransform" customClassName=".RunwayThresholds" syncable="YES">
             <userInfo>
                 <entry key="mappedKeys" value="porog1_lat,porog1_lon,porog2_lat,porog2_lon"/>
             </userInfo>
@@ -166,7 +171,7 @@
     </entity>
     <elements>
         <element name="Fuel" positionX="-2817" positionY="-2086" width="128" height="90"/>
-        <element name="Point" positionX="-2423" positionY="-2218" width="128" height="375"/>
+        <element name="Point" positionX="-2423" positionY="-2218" width="128" height="390"/>
         <element name="PointDetails" positionX="-2603" positionY="-2232" width="128" height="360"/>
         <element name="Runway" positionX="-2817" positionY="-1933" width="128" height="195"/>
     </elements>

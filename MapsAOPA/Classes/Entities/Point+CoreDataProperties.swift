@@ -11,6 +11,7 @@
 
 import Foundation
 import CoreData
+import CoreLocation
 
 extension Point {
 
@@ -18,9 +19,7 @@ extension Point {
     @NSManaged var belongs: NSNumber?
     @NSManaged var index: String?
     @NSManaged var indexRu: String?
-    @NSManaged var latitude: NSNumber?
     @NSManaged var lights: NSNumber?
-    @NSManaged var longitude: NSNumber?
     @NSManaged var title: String?
     @NSManaged var titleRu: String?
     @NSManaged var type: NSNumber?
@@ -30,6 +29,7 @@ extension Point {
     @NSManaged var fuelOnRequest: NSSet?
     @NSManaged var parent: Point?
     @NSManaged var runways: NSSet?
+    @NSManaged var location : PointLocation?
     
     @NSManaged var searchRegion : String?
     @NSManaged var searchIndex : String?

@@ -18,7 +18,7 @@ extension Runway {
     @NSManaged var lightsType: NSNumber?
     @NSManaged var magneticCourse: String?
     @NSManaged var surfaceType: NSNumber?
-    @NSManaged var thresholds: NSObject?
+    @NSManaged var thresholds: RunwayThresholds?
     @NSManaged var title: String?
     @NSManaged var trafficPatterns: String?
     @NSManaged var trueCourse: String?

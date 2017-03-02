@@ -36,7 +36,7 @@ class PointViewModel : Hashable, Equatable {
     init(point: Point) {
         self.point = point
         self.index = point.index ?? ""
-        self.location = CLLocationCoordinate2D(latitude: point.latitude?.doubleValue ?? 0, longitude: point.longitude?.doubleValue ?? 0)
+        self.location = point.location?.location ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)
         self.isServiced = point.isServiced()
         self.isActive = point.active?.boolValue ?? false
         self.isMilitary = PointBelongs(rawValue: point.belongs?.intValue ?? -1)?.isMilitary() ?? false
@@ -108,7 +108,7 @@ class PointDetailsViewModel {
         
         self.runways = (point.runways as? Set<Runway>)?.flatMap({ RunwayViewModel(runway: $0) }) ?? []
         self.type = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
-        self.location = CLLocationCoordinate2D(latitude: point.latitude?.doubleValue ?? 0, longitude: point.longitude?.doubleValue ?? 0)
+        self.location = point.location?.location ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)
         
         self.initializeDataSource(with: point)
     }
@@ -132,7 +132,7 @@ class RunwayViewModel {
     let length: Int
     let lightsType: RunwayLights
     let surfaceType: RunwaySurface
-    let thresholds: [CLLocationCoordinate2D]
+    let thresholds: RunwayThresholds?
     let title: String
     let trafficPatterns: String
     let magneticCourse: String
@@ -148,8 +148,7 @@ class RunwayViewModel {
         self.width = runway.width?.intValue ?? 0
         self.lightsType = RunwayLights(rawValue: runway.lightsType?.intValue ?? -1) ?? .unknown
         self.surfaceType = RunwaySurface(rawValue: runway.surfaceType?.intValue ?? -1) ?? .unknown
-        let thresholds = (runway.thresholds as? [[String:Double]] ?? []).map({ CLLocationCoordinate2D(latitude: $0["lat"] ?? 0, longitude: $0["lon"] ?? 0) })
-        self.thresholds = thresholds.count == 2 ? thresholds : []
+        self.thresholds = runway.thresholds
         self.title = runway.title ?? ""
         self.trafficPatterns = runway.trafficPatterns ?? ""
         self.magneticCourse = runway.magneticCourse ?? ""

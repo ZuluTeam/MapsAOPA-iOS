@@ -46,9 +46,9 @@ class RunwaysView: UIView {
         
         let drawingParameters : (minX: CGFloat, minY: CGFloat, maxX: CGFloat, maxY: CGFloat) =
             self.runways.reduce((CGFloat.infinity, CGFloat.infinity, -CGFloat.infinity, -CGFloat.infinity)) { (result, runway) -> (CGFloat, CGFloat, CGFloat, CGFloat) in
-                if runway.thresholds.count == 2 {
-                    let threshold0 = CGPoint(x: runway.thresholds[0].longitude, y: 90.0 - runway.thresholds[0].latitude)
-                    let threshold1 = CGPoint(x: runway.thresholds[1].longitude, y: 90.0 - runway.thresholds[1].latitude)
+                if let thresholds = runway.thresholds {
+                    let threshold0 = CGPoint(x: thresholds.threshold1.longitude, y: 90.0 - thresholds.threshold1.latitude)
+                    let threshold1 = CGPoint(x: thresholds.threshold2.longitude, y: 90.0 - thresholds.threshold2.latitude)
                     return (min(threshold0.x, threshold1.x, result.0),
                             min(threshold0.y, threshold1.y, result.1),
                             max(threshold0.x, threshold1.x, result.2),
@@ -72,8 +72,9 @@ class RunwaysView: UIView {
         let context = UIGraphicsGetCurrentContext()
         
         for runway in self.runways {
-            if runway.thresholds.count == 2 {
-                let thresholds : [(point: CGPoint, location: CLLocation)] = runway.thresholds.map({
+            if let runwayThresholds = runway.thresholds {
+                let thresholdsArray = [runwayThresholds.threshold1, runwayThresholds.threshold2]
+                let thresholds : [(point: CGPoint, location: CLLocation)] = thresholdsArray.map({
                     (CGPoint(x: $0.longitude, y: 90.0 - $0.latitude),
                      CLLocation(latitude: $0.latitude, longitude: $0.longitude)) })
                 let threshold0 = thresholds[0].point

@@ -20,11 +20,11 @@ class RunwaysOverlay : NSObject, MKOverlay {
     public var boundingMapRect: MKMapRect {
         let coordinates : (minX: Double, minY: Double, maxX: Double, maxY: Double) =
             pointDetailsViewModel.runways.reduce((Double.infinity, Double.infinity, -Double.infinity, -Double.infinity)) { (result, runway) -> (Double, Double, Double, Double) in
-                if runway.thresholds.count == 2 {
-                    let threshold0X = runway.thresholds[0].longitude
-                    let threshold0Y = runway.thresholds[0].latitude
-                    let threshold1X = runway.thresholds[1].longitude
-                    let threshold1Y = runway.thresholds[1].latitude
+                if let thresholds = runway.thresholds {
+                    let threshold0X = thresholds.threshold1.longitude
+                    let threshold0Y = thresholds.threshold1.latitude
+                    let threshold1X = thresholds.threshold2.longitude
+                    let threshold1Y = thresholds.threshold2.latitude
                     return (min(threshold0X, threshold1X, result.0),
                             min(threshold0Y, threshold1Y, result.1),
                             max(threshold0X, threshold1X, result.2),
@@ -54,8 +54,8 @@ class RunwaysOverlayRenderer : MKOverlayRenderer {
         
         if let overlay = self.overlay as? RunwaysOverlay {
             for runway in overlay.pointDetailsViewModel.runways {
-                if runway.thresholds.count == 2 {
-                    let threshold0 = runway.thresholds[0]
+                if let thresholds = runway.thresholds {
+                    let threshold0 = thresholds.threshold1
                     
                     let metersInDegree : Double = 111111
                     let width = Double(runway.width <= 0 ? 30 : runway.width)
@@ -63,9 +63,10 @@ class RunwaysOverlayRenderer : MKOverlayRenderer {
                     let deltaThreshold0 = CLLocationCoordinate2D(latitude: threshold0.latitude + locationRadius,
                                                                  longitude: threshold0.longitude + locationRadius)
                     let mapDeltaThreshold0 = MKMapPointForCoordinate(deltaThreshold0)
-                    let mapThresholds = runway.thresholds.map({ MKMapPointForCoordinate($0) })
-                    let mapThreshold0 = mapThresholds[0]
-                    let mapThreshold1 = mapThresholds[1]
+                    let mapThreshold0 = MKMapPointForCoordinate(thresholds.threshold1)
+                    let mapThreshold1 = MKMapPointForCoordinate(thresholds.threshold2)
+                    let mapThresholds = [mapThreshold0, mapThreshold1]
+                    
                     
                     let angle : Double
                     if mapThreshold0.x - mapThreshold1.x == 0 {

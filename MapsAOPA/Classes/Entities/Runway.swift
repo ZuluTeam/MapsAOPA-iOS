@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 import UIColor_Hex_Swift
+import CoreLocation
 
 enum RunwaySurface : Int
 {
@@ -102,6 +103,28 @@ extension Runway: Managed {
 
 extension Runway {
     
+    static func registerValueTransformers() {
+        let locationTransform = "ThresholdsTransform"
+        
+        ValueTransform<RunwayThresholds, NSData>.registerValueTransformerWithName(locationTransform, transform: { (thresholds : RunwayThresholds?) -> NSData? in
+            guard let thresholds = thresholds else {
+                return nil
+            }
+            return NSKeyedArchiver.archivedData(withRootObject: thresholds) as NSData
+        }, reverseTransform: { (data: NSData?) -> RunwayThresholds? in
+            guard let data = data else {
+                return nil
+            }
+            return NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? RunwayThresholds
+        })
+        
+    }
+    
+}
+
+
+extension Runway {
+    
     override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
         switch key {
         case Runway.Keys.surfaceType.rawValue :
@@ -112,21 +135,58 @@ extension Runway {
             guard let value = value as? [String : String] else {
                 return nil
             }
-            if let threshold1lat = Double(value["porog1_lat"] ?? ""),
-                let threshold1lon = Double(value["porog1_lon"] ?? ""),
-                let threshold2lat = Double(value["porog2_lat"] ?? ""),
-                let threshold2lon = Double(value["porog2_lon"] ?? "") {
-                let thresholds = [
-                    [ "lat" : threshold1lat, "lon" : threshold1lon ],
-                    [ "lat" : threshold2lat, "lon" : threshold2lon ]
-                ]
-                return thresholds as NSObject?
+            if let threshold1lat = Double(value["porog1_lat"] ?? "0"),
+                let threshold1lon = Double(value["porog1_lon"] ?? "0"),
+                let threshold2lat = Double(value["porog2_lat"] ?? "0"),
+                let threshold2lon = Double(value["porog2_lon"] ?? "0") {
+                
+                if threshold1lat != 0 && threshold2lat != 0 && threshold1lon != 0 && threshold2lon != 0 {
+                    let thresholds = RunwayThresholds(threshold1: CLLocationCoordinate2D(latitude: threshold1lat, longitude: threshold1lon), threshold2: CLLocationCoordinate2D(latitude: threshold2lat, longitude: threshold2lon))
+                    return thresholds as NSObject?
+                }
             }
+            return nil
         case Runway.Keys.lightsType.rawValue :
             return RunwayLights(code: value as? String)?.rawValue as NSNumber?
         default:
             break
         }
         return super.transformImortedValue(value, for: key)
+    }
+}
+
+@objc class RunwayThresholds : NSObject, NSCoding {
+    
+    private enum CodingKey : String {
+        case latitude1
+        case longitude1
+        case latitude2
+        case longitude2
+    }
+    
+    let threshold1 : CLLocationCoordinate2D
+    let threshold2 : CLLocationCoordinate2D
+    init(threshold1: CLLocationCoordinate2D, threshold2: CLLocationCoordinate2D) {
+        self.threshold1 = threshold1
+        self.threshold2 = threshold2
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        let latitude1 = aDecoder.decodeDouble(forKey: CodingKey.latitude1.rawValue)
+        let longitude1 = aDecoder.decodeDouble(forKey: CodingKey.longitude1.rawValue)
+        let latitude2 = aDecoder.decodeDouble(forKey: CodingKey.latitude2.rawValue)
+        let longitude2 = aDecoder.decodeDouble(forKey: CodingKey.longitude2.rawValue)
+        
+        self.threshold1 = CLLocationCoordinate2D(latitude: latitude1, longitude: longitude1)
+        self.threshold2 = CLLocationCoordinate2D(latitude: latitude2, longitude: longitude2)
+        super.init()
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(threshold1.latitude, forKey: CodingKey.latitude1.rawValue)
+        aCoder.encode(threshold1.longitude, forKey: CodingKey.longitude1.rawValue)
+        aCoder.encode(threshold2.latitude, forKey: CodingKey.latitude2.rawValue)
+        aCoder.encode(threshold2.longitude, forKey: CodingKey.longitude2.rawValue)
     }
 }

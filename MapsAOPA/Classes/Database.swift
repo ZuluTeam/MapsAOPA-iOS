@@ -20,24 +20,24 @@ class Database
     static func pointsPredicate(forRegion region: MKCoordinateRegion, withFilter filter: PointsFilter) -> NSPredicate
     {
         var format =
-            "latitude >= \(region.center.latitude - region.span.latitudeDelta) AND " +
-            "longitude >= \(region.center.longitude - region.span.longitudeDelta) AND " +
-            "latitude <= \(region.center.latitude + region.span.latitudeDelta) AND " +
-            "longitude <= \(region.center.longitude + region.span.longitudeDelta)"
+            "\(Point.Keys.latitude.rawValue) >= \(region.center.latitude - region.span.latitudeDelta) AND " +
+            "\(Point.Keys.longitude.rawValue) >= \(region.center.longitude - region.span.longitudeDelta) AND " +
+            "\(Point.Keys.latitude.rawValue) <= \(region.center.latitude + region.span.latitudeDelta) AND " +
+            "\(Point.Keys.longitude.rawValue) <= \(region.center.longitude + region.span.longitudeDelta)"
         
         let airportsFormat : String
         var connection : String = "OR"
         switch filter.airportsState {
-        case .all: airportsFormat = "(type = \(PointType.airport.rawValue))"
-        case .active: airportsFormat = "(type = \(PointType.airport.rawValue) AND active = 1)"
-        case .none: airportsFormat = "(type != \(PointType.airport.rawValue))"; connection = "AND"
+        case .all: airportsFormat = "(\(Point.Keys.type.rawValue) = \(PointType.airport.rawValue))"
+        case .active: airportsFormat = "(\(Point.Keys.type.rawValue) = \(PointType.airport.rawValue) AND \(Point.Keys.active.rawValue) = 1)"
+        case .none: airportsFormat = "(\(Point.Keys.type.rawValue) != \(PointType.airport.rawValue))"; connection = "AND"
         }
         
         let heliportsFormat : String
         switch filter.heliportsState {
-        case .all: heliportsFormat = "(type = \(PointType.heliport.rawValue))"
-        case .active: heliportsFormat = "(type = \(PointType.heliport.rawValue) AND active = 1)"
-        case .none: heliportsFormat = "(type != \(PointType.heliport.rawValue))"; connection = "AND"
+        case .all: heliportsFormat = "(\(Point.Keys.type.rawValue) = \(PointType.heliport.rawValue))"
+        case .active: heliportsFormat = "(\(Point.Keys.type.rawValue) = \(PointType.heliport.rawValue) AND \(Point.Keys.active.rawValue) = 1)"
+        case .none: heliportsFormat = "(\(Point.Keys.type.rawValue) != \(PointType.heliport.rawValue))"; connection = "AND"
         }
         
         format += " AND (\(airportsFormat) \(connection) \(heliportsFormat))"
@@ -64,6 +64,8 @@ class Database
     
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         // TODO: add value transformers
+        Point.registerValueTransformers()
+        Runway.registerValueTransformers()
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
         let url = self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."

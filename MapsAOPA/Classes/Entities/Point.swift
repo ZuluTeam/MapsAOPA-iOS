@@ -9,8 +9,9 @@
 import Foundation
 import CoreData
 import UIKit
+import CoreLocation
 
-@objc enum PointType : Int
+enum PointType : Int
 {
     case unknown = -1
     case airport = 0
@@ -26,7 +27,7 @@ import UIKit
     }
 }
 
-@objc enum PointBelongs : Int
+enum PointBelongs : Int
 {
     case unknown = -1
     case civil = 0
@@ -65,6 +66,10 @@ class Point: NSManagedObject {
         case type
         case runways
         case fuel
+        case location
+        case latitude
+        case longitude
+        case active
         case searchRegion
         case searchIndex
         case searchIndexRu
@@ -80,7 +85,7 @@ class Point: NSManagedObject {
     
     class func point(fromDictionary dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext) -> Point? {
         var dictionary = dictionary
-        if let unwrappedDictionary = dictionary, let index = dictionary?[Point.Keys.index.rawValue] as? String {
+        if let unwrappedDictionary = dictionary, let index = dictionary?[Point.Keys.index.rawValue] as? String, let _ = dictionary?["lat"], let _ = dictionary?["lon"] {
             
             let point = findOrCreateObject(in: context, matching: NSPredicate(format: "%K == %@", Point.Keys.index.rawValue, index), forceConfigure: true, configure: {
                 (point: Point) in
@@ -116,6 +121,27 @@ extension Point: Managed {
 
     public static var defaultSortDescriptors : [NSSortDescriptor] {
         return [NSSortDescriptor(key: #keyPath(index), ascending: true)]
+    }
+    
+}
+
+extension Point {
+    
+    static func registerValueTransformers() {
+        let locationTransform = "LocationTransform"
+        
+        ValueTransform<PointLocation, NSData>.registerValueTransformerWithName(locationTransform, transform: { (location : PointLocation?) -> NSData? in
+            guard let location = location else {
+                return nil
+            }
+            return NSKeyedArchiver.archivedData(withRootObject: location) as NSData
+        }, reverseTransform: { (data: NSData?) -> PointLocation? in
+            guard let data = data else {
+                return nil
+            }
+            return NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? PointLocation
+        })
+        
     }
     
 }
@@ -183,6 +209,16 @@ extension Point {
                 return [FuelAvailability.fuel.rawValue : fuelArray, FuelAvailability.fuelOnRequest.rawValue : fuelOnRequestArray] as NSDictionary
             }
             return nil
+        case Point.Keys.location.rawValue :
+            guard let value = value as? [String : AnyObject] else {
+                return nil
+            }
+            let latitude = (value["lat"] as? NSString)?.doubleValue
+            let longitude = (value["lon"] as? NSString)?.doubleValue
+            guard let lat = latitude, let lon = longitude else {
+                return nil
+            }
+            return PointLocation(latitude: lat, longitude: lon)
         default:
             break
         }
@@ -207,5 +243,36 @@ extension Point {
         default:
             break
         }
+    }
+}
+
+@objc class PointLocation : NSObject, NSCoding {
+    
+    private enum CodingKey : String {
+        case latitude
+        case longitude
+    }
+    
+    let location : CLLocationCoordinate2D
+    init(_ location: CLLocationCoordinate2D) {
+        self.location = location
+        super.init()
+    }
+    
+    init(latitude: Double, longitude: Double) {
+        self.location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        super.init()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        let latitude = aDecoder.decodeDouble(forKey: CodingKey.latitude.rawValue)
+        let longitude = aDecoder.decodeDouble(forKey: CodingKey.longitude.rawValue)
+        self.location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        super.init()
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(location.latitude, forKey: CodingKey.latitude.rawValue)
+        aCoder.encode(location.longitude, forKey: CodingKey.longitude.rawValue)
     }
 }
