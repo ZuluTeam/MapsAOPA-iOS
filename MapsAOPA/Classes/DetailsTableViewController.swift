@@ -33,7 +33,7 @@ class DetailsTableViewController: UITableViewController {
     
     private func call(to phone: String?) {
         if let phone = phone?.replace(" ", with: ""), let url = URL(string: "tel://\(phone)"), UIApplication.shared.canOpenURL(url) {
-            let alert = UIAlertController(title: "Call_Alert_Title".localized, message: "\(phone)?", preferredStyle: .alert)
+            let alert = UIAlertController(title: nil, message: "\(phone)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Button_Cancel".localized, style: .cancel))
             alert.addAction(UIAlertAction(title: "Call_Alert_Action".localized, style: .default, handler: { _ in
                 UIApplication.shared.openURL(url)

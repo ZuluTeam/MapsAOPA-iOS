@@ -37,7 +37,6 @@
 
 // MARK: - Details
 
-"Call_Alert_Title" = "Do you want to call";
 "Call_Alert_Action" = "Call";
 "Frequencies_Format" = "%@ MHz";
 

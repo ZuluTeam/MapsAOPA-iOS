@@ -162,6 +162,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         for constraint in constraints {
             if constraint.identifier == "DetailsBottom" {
                 constraint.constant = -(CGFloat(nil == pointDetails) * self.detailsView.height)
+            } else if constraint.identifier == "DetailsLeft" {
+                constraint.constant = -(CGFloat(nil == pointDetails) * self.detailsView.width)
             }
         }
         UIView.animate(withDuration: 0.25 * TimeInterval(animated)) {

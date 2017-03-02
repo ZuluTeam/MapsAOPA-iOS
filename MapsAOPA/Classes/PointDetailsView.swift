@@ -15,7 +15,7 @@ class PointDetailsView: UIView, UITableViewDataSource
     @IBOutlet weak var titleLabel : UILabel?
     @IBOutlet weak var runwaysView : RunwaysView?
     @IBOutlet weak var elevationLabel : UILabel?
-    @IBOutlet weak var longestRunway : UILabel?
+    @IBOutlet weak var longestRunwayLabel : UILabel?
     @IBOutlet weak var callButton : UIButton?
     @IBOutlet weak var websiteButton : UIButton?
     @IBOutlet weak var emailButton : UIButton?
@@ -57,8 +57,8 @@ class PointDetailsView: UIView, UITableViewDataSource
         }
         
         let longestRunwayLength = model.runways.reduce(0, { $0 > $1.length ? $0 : $1.length })
-        self.longestRunway?.text = "Details_Longest_Runway_Format".localized(arguments: Converter.localized(meters: longestRunwayLength))
-        self.longestRunway?.isHidden = longestRunwayLength <= 0
+        self.longestRunwayLabel?.text = "Details_Longest_Runway_Format".localized(arguments: Converter.localized(meters: longestRunwayLength))
+        self.longestRunwayLabel?.isHidden = longestRunwayLength <= 0
         
         self.callButton?.isHidden = model.contacts.count <= 0
         self.websiteButton?.isHidden = model.website == nil
@@ -66,6 +66,8 @@ class PointDetailsView: UIView, UITableViewDataSource
         
         self.runwaysView?.runways = model.runways
         self.runwaysView?.isHeliport = model.type == .heliport
+        
+        self.tableView?.reloadData()
     }
     
     // MARK: - Table view data source
