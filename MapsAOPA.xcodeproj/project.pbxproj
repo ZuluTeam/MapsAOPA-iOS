@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B8B20581E6F5AEA0050F381 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1B8B205A1E6F5AEA0050F381 /* Main.storyboard */; };
 		44ADFACB1E5DBF0600E84C4B /* ManagedObjectHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ADFACA1E5DBF0600E84C4B /* ManagedObjectHelper.swift */; };
 		44D3E8D61E5F2DF8000B52E9 /* AttributeDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D3E8D51E5F2DF8000B52E9 /* AttributeDescription.swift */; };
 		44D3E8D81E64608F000B52E9 /* ManagedObjectContext+Saves.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D3E8D71E64608F000B52E9 /* ManagedObjectContext+Saves.swift */; };
@@ -47,7 +48,6 @@
 		B5D1C6BA1CC00DB7001E3294 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5D1C6AF1CC00DB7001E3294 /* Assets.xcassets */; };
 		B5D1C6BD1CC00DB7001E3294 /* MapsAOPA.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6B41CC00DB7001E3294 /* MapsAOPA.xcdatamodeld */; };
 		B5D1C6C61CC01020001E3294 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5D1C6C41CC01020001E3294 /* LaunchScreen.storyboard */; };
-		B5D1C6C71CC01020001E3294 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5D1C6C51CC01020001E3294 /* Main.storyboard */; };
 		B5D1C6CB1CC057E6001E3294 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6CA1CC057E6001E3294 /* Network.swift */; };
 		B5D1C6D11CC05989001E3294 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6D01CC05989001E3294 /* Settings.swift */; };
 		B5DC47DE1E5DE95700037888 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DC47DD1E5DE95700037888 /* Converter.swift */; };
@@ -62,6 +62,7 @@
 
 /* Begin PBXFileReference section */
 		03D1AA5B04CFD7602072BBC1 /* Pods-MapsAOPA.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsAOPA.release.xcconfig"; path = "Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA.release.xcconfig"; sourceTree = "<group>"; };
+		1B8B20591E6F5AEA0050F381 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28AD4BCEEE7C2D17A6CDDEAA /* Pods-MapsAOPA.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsAOPA.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA.debug.xcconfig"; sourceTree = "<group>"; };
 		44ADFACA1E5DBF0600E84C4B /* ManagedObjectHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedObjectHelper.swift; sourceTree = "<group>"; };
 		44D3E8D51E5F2DF8000B52E9 /* AttributeDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributeDescription.swift; sourceTree = "<group>"; };
@@ -107,7 +108,6 @@
 		B5D1C6B51CC00DB7001E3294 /* MapsAOPA.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MapsAOPA.xcdatamodel; sourceTree = "<group>"; };
 		B5D1C6B71CC00DB7001E3294 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5D1C6C41CC01020001E3294 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B5D1C6C51CC01020001E3294 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B5D1C6CA1CC057E6001E3294 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		B5D1C6D01CC05989001E3294 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		B5DC47DD1E5DE95700037888 /* Converter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
@@ -298,7 +298,7 @@
 				B5D1C6AF1CC00DB7001E3294 /* Assets.xcassets */,
 				B5D1C6B41CC00DB7001E3294 /* MapsAOPA.xcdatamodeld */,
 				B5D1C6C41CC01020001E3294 /* LaunchScreen.storyboard */,
-				B5D1C6C51CC01020001E3294 /* Main.storyboard */,
+				1B8B205A1E6F5AEA0050F381 /* Main.storyboard */,
 				B5447D411CC12ECA0041B579 /* Localizable.strings */,
 			);
 			path = Resourses;
@@ -368,7 +368,7 @@
 				TargetAttributes = {
 					B5D1C68C1CC00B08001E3294 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = 2T5PYUQ25N;
+						DevelopmentTeam = M22R2KZW75;
 						LastSwiftMigration = 0810;
 					};
 				};
@@ -400,7 +400,7 @@
 				B5B9B6681E64953400BAD840 /* maki.ttf in Resources */,
 				B5D1C6BA1CC00DB7001E3294 /* Assets.xcassets in Resources */,
 				B5447D3F1CC12ECA0041B579 /* Localizable.strings in Resources */,
-				B5D1C6C71CC01020001E3294 /* Main.storyboard in Resources */,
+				1B8B20581E6F5AEA0050F381 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +507,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		1B8B205A1E6F5AEA0050F381 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1B8B20591E6F5AEA0050F381 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		B5447D411CC12ECA0041B579 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -616,13 +624,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 2T5PYUQ25N;
+				DEVELOPMENT_TEAM = M22R2KZW75;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAOPA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAOPA.alzan;
 				PRODUCT_NAME = MapsAOPA;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -636,12 +644,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 2T5PYUQ25N;
+				DEVELOPMENT_TEAM = M22R2KZW75;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAOPA;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAOPA.alzan;
 				PRODUCT_NAME = MapsAOPA;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;

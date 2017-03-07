@@ -22,6 +22,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     
     @IBOutlet var detailsConstraints : [NSLayoutConstraint]!
     
+    @IBOutlet weak var zoomInLayer: UIView!
+    @IBOutlet weak var zoomOutView: UIView!
+//    @IBOutlet weak var UserTrackingView: UIView!
+
+    
+    @IBAction func zoomInButton(_ sender: UIButton) {
+        zoomInMap()
+    }
+    
+    @IBAction func zoomOutButton(_ sender: UIButton) {
+        zoomOutMap()
+    }
+    
     fileprivate lazy var viewModel = MapViewModel()
     
     required init?(coder aDecoder: NSCoder) {
@@ -30,6 +43,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.addSubview(zoomInLayer)
+        mapView.addSubview(zoomOutView)
         
         self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
         let _ = self.viewModel.errorMessage.signal.on(value: { self.displayError(message: $0) })
@@ -211,6 +227,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return RunwaysOverlayRenderer(overlay: overlay)
     }
+    
+    
+    // MARK: Zoom Buttons Action
+    
+    func zoomInMap() {
+        var region = mapView.region
+        var span = MKCoordinateSpan()
+        span.latitudeDelta = region.span.latitudeDelta*0.5
+        span.longitudeDelta = region.span.longitudeDelta*0.5
+        region.span = span
+        mapView.setRegion(region, animated: true);
+    }
+    
+    func zoomOutMap() {
+        var region = mapView.region
+        var span = MKCoordinateSpan()
+        span.latitudeDelta = region.span.latitudeDelta*1.5
+        span.longitudeDelta = region.span.longitudeDelta*1.5
+        region.span = span
+        mapView.setRegion(region, animated: true);
+    }
+
     
     // MARK: - MFMailComposeViewControllerDelegate
     
