@@ -43,7 +43,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" rotateEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c1Z-jM-aBk">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" rotateEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c1Z-jM-aBk">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="692"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="ZyR-qi-24h"/>
@@ -487,7 +487,7 @@
                         <outlet property="detailsView" destination="ZtX-Ye-bTp" id="fiC-Gz-4vb"/>
                         <outlet property="loadingIndicator" destination="f2O-ml-HiT" id="hBS-1u-0gb"/>
                         <outlet property="mapView" destination="c1Z-jM-aBk" id="W5o-xO-GJs"/>
-                        <outlet property="zoomInLayer" destination="wc6-86-gGA" id="4zJ-4n-1kO"/>
+                        <outlet property="zoomInView" destination="wc6-86-gGA" id="O0H-LO-fxV"/>
                         <outlet property="zoomOutView" destination="rSf-kE-eWi" id="4hi-Ov-4VN"/>
                     </connections>
                 </viewController>

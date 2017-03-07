@@ -22,7 +22,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     
     @IBOutlet var detailsConstraints : [NSLayoutConstraint]!
     
-    @IBOutlet weak var zoomInLayer: UIView!
+    @IBOutlet weak var zoomInView: UIView!
     @IBOutlet weak var zoomOutView: UIView!
 //    @IBOutlet weak var UserTrackingView: UIView!
 
@@ -44,7 +44,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.addSubview(zoomInLayer)
+        mapView.addSubview(zoomInView)
         mapView.addSubview(zoomOutView)
         
         self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
