@@ -14,7 +14,7 @@
             <objects>
                 <navigationController navigationBarHidden="YES" toolbarHidden="NO" id="dvl-TX-rtb" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="GyH-xS-lbl">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="GyH-xS-lbl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -42,8 +42,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="736" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" rotateEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c1Z-jM-aBk">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="692"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" rotateEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c1Z-jM-aBk">
+                                <rect key="frame" x="0.0" y="0.0" width="736" height="370"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="ZyR-qi-24h"/>
                                 </connections>
@@ -214,12 +214,12 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DUG-78-Zep">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="DUG-78-Zep">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="350"/>
-                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DetailsCell" textLabel="t14-m1-Xfz" detailTextLabel="sov-sp-Ldv" style="IBUITableViewCellStyleValue1" id="86i-iy-lqY">
-                                                <rect key="frame" x="0.0" y="28" width="300" height="44"/>
+                                                <rect key="frame" x="0.0" y="56" width="300" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="86i-iy-lqY" id="sz6-kN-7XZ">
                                                     <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
@@ -254,7 +254,7 @@
                                     <constraint firstAttribute="trailing" secondItem="IOO-R4-kIF" secondAttribute="trailing" id="MI0-5V-GHs"/>
                                     <constraint firstItem="IOO-R4-kIF" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="top" id="RGZ-rA-SSq"/>
                                     <constraint firstAttribute="bottom" secondItem="DUG-78-Zep" secondAttribute="bottom" id="eaC-GM-2WI"/>
-                                    <constraint firstAttribute="trailing" secondItem="DUG-78-Zep" secondAttribute="trailing" identifier="DetailsLeft" id="kZr-tu-rPF"/>
+                                    <constraint firstAttribute="trailing" secondItem="DUG-78-Zep" secondAttribute="trailing" id="kZr-tu-rPF"/>
                                     <constraint firstItem="IOO-R4-kIF" firstAttribute="leading" secondItem="ZtX-Ye-bTp" secondAttribute="leading" id="tDJ-Pa-bJs"/>
                                     <constraint firstAttribute="width" constant="300" id="x25-IO-6ed"/>
                                     <constraint firstAttribute="bottom" secondItem="IOO-R4-kIF" secondAttribute="bottom" id="xqN-1D-jmf"/>
@@ -323,32 +323,39 @@
                             <constraint firstItem="c1Z-jM-aBk" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="PJZ-oW-noz"/>
                             <constraint firstItem="f2O-ml-HiT" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="cqP-Kv-3Si"/>
                             <constraint firstItem="c1Z-jM-aBk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hqX-Nm-FQY"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="bottom" id="jXz-mt-rVr"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="bottom" identifier="DetailsBottom" id="osf-7E-Yfg"/>
-                            <constraint firstAttribute="trailing" secondItem="ZtX-Ye-bTp" secondAttribute="trailing" id="spP-aE-ZVe"/>
+                            <constraint firstAttribute="trailing" secondItem="ZtX-Ye-bTp" secondAttribute="trailing" identifier="DetailsLeft" id="spP-aE-ZVe"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="jXz-mt-rVr"/>
+                                <exclude reference="osf-7E-Yfg"/>
                                 <exclude reference="EGy-GG-0Gr"/>
                                 <exclude reference="Mm6-Sm-hjr"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact-widthClass=compact">
                             <mask key="constraints">
+                                <include reference="jXz-mt-rVr"/>
                                 <include reference="EGy-GG-0Gr"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=compact-widthClass=regular">
                             <mask key="constraints">
+                                <include reference="jXz-mt-rVr"/>
                                 <include reference="EGy-GG-0Gr"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
+                                <include reference="osf-7E-Yfg"/>
                                 <include reference="Mm6-Sm-hjr"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=regular">
                             <mask key="constraints">
+                                <include reference="jXz-mt-rVr"/>
                                 <include reference="EGy-GG-0Gr"/>
                             </mask>
                         </variation>
@@ -391,7 +398,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="XVD-Qb-5rS">
-                                            <rect key="frame" x="8" y="8" width="40.666666666666664" height="21"/>
+                                            <rect key="frame" x="8" y="8" width="41" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="C2K-Oj-VzZ"/>
                                             </constraints>
@@ -468,7 +475,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000149011612" translatesAutoresizingMaskIntoConstraints="NO" id="8T0-M4-NJY">
-                                            <rect key="frame" x="8" y="7.9999999999999982" width="40.666666666666664" height="20.333333333333329"/>
+                                            <rect key="frame" x="8" y="8" width="41" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="oUS-Ja-a0T"/>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="zDM-3B-RyS"/>

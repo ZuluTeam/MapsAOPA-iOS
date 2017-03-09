@@ -28,15 +28,8 @@ enum FuelType : Int
         }
     }
     
-    func description() -> String
-    {
-        switch self
-        {
-        case .g100LL: return "100LL"
-        case .g92: return "AI-92"
-        case .g95: return "AI-95"
-        case .jet: return "TC-1"
-        }
+    var localized : String {
+        return "fuel_type_\(self.rawValue)"
     }
 }
 

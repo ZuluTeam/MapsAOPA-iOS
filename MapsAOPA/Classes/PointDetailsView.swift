@@ -36,6 +36,7 @@ class PointDetailsView: UIView, UITableViewDataSource
     var pointDetailsViewModel : PointDetailsViewModel? {
         didSet {
             self.reloadView()
+            self.tableView?.reloadData()
         }
     }
     
@@ -45,19 +46,18 @@ class PointDetailsView: UIView, UITableViewDataSource
         }
         
         self.titleLabel?.text = model.title
-        self.elevationLabel?.text = "Details_Elevation_Format".localized(arguments: Converter.localized(meters: model.elevation))
+        self.elevationLabel?.text = "Details_Elevation_Format".localized(arguments: Converter.localized(distanceInMeters: model.elevation))
         self.fuelLabel?.text = !model.fuels.isEmpty ? "⛽️: " + model.fuels : nil
         self.frequenciesButton?.isHidden = model.frequencies.count <= 1
         if let frequency = model.frequencies.first, model.frequencies.count <= 1 {
             self.frequencyLabel?.isHidden = false
-            let callsign = frequency.callsign.transliterated(language: Settings.language).capitalized
-            self.frequencyLabel?.text = "Details_Frequencies_Format".localized(arguments: callsign, frequency.frequency)
+            self.frequencyLabel?.text = "Details_Frequencies_Format".localized(arguments: frequency.callsign, frequency.frequency)
         } else {
             self.frequencyLabel?.isHidden = true
         }
         
         let longestRunwayLength = model.runways.reduce(0, { $0 > $1.length ? $0 : $1.length })
-        self.longestRunwayLabel?.text = "Details_Longest_Runway_Format".localized(arguments: Converter.localized(meters: longestRunwayLength))
+        self.longestRunwayLabel?.text = "Details_Longest_Runway_Format".localized(arguments: Converter.localized(distanceInMeters: longestRunwayLength))
         self.longestRunwayLabel?.isHidden = longestRunwayLength <= 0
         
         self.callButton?.isHidden = model.contacts.count <= 0
@@ -66,13 +66,11 @@ class PointDetailsView: UIView, UITableViewDataSource
         
         self.runwaysView?.runways = model.runways
         self.runwaysView?.isHeliport = model.type == .heliport
-        
-        self.tableView?.reloadData()
     }
     
     // MARK: - Table view data source
     
-    func object(at indexPath: IndexPath) -> DetailsTableViewObject {
+    func object(at indexPath: IndexPath) -> PointDetailsViewModel.TableObject {
         return self.pointDetailsViewModel!.tableViewObjects[indexPath.section].objects[indexPath.row]
     }
     
@@ -85,11 +83,20 @@ class PointDetailsView: UIView, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath)
         let object = self.object(at: indexPath)
-        cell.textLabel?.text = object.title
-        cell.detailTextLabel?.text = object.text
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath)
+        
+        cell.textLabel?.text = object.text
+        cell.detailTextLabel?.text = object.details
         return cell
+    }
+    
+    // MARK: - Table view delegate
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let section = self.pointDetailsViewModel!.tableViewObjects[section]
+        return section.sectionTitle
     }
 }
 

@@ -26,6 +26,10 @@ enum PointCountry : Int
         default: return nil
         }
     }
+    
+    var localized : String {
+        return "country_\(self.rawValue)".localized
+    }
 }
 
 class PointDetails: NSManagedObject {

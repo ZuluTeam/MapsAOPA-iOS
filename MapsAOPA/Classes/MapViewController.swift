@@ -104,7 +104,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.showPointInfo(self.viewModel.pointDetailsViewModel(from: self.viewModel.selectedPoint.value), animated: false)
+        if nil == self.viewModel.selectedPoint.value || self.detailsView.pointDetailsViewModel?.index != self.viewModel.selectedPoint.value?.index {
+            self.showPointInfo(self.viewModel.pointDetailsViewModel(from: self.viewModel.selectedPoint.value), animated: false)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

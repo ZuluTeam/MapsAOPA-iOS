@@ -56,6 +56,10 @@ enum PointBelongs : Int
         default: return false
         }
     }
+    
+    var localized : String {
+        return "belongs_\(self)".localized
+    }
 }
 
 class Point: NSManagedObject {

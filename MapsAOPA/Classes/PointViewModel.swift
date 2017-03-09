@@ -11,6 +11,7 @@ import CoreLocation
 import ReactiveSwift
 import Result
 import CoreData
+import Suntimes
 
 struct Frequency {
     let callsign : String
@@ -52,12 +53,23 @@ class PointViewModel : Hashable, Equatable {
     }
 }
 
-struct DetailsTableViewObject {
-    let title : String
-    let text : String
-}
-
 class PointDetailsViewModel {
+    
+    struct TableObject {
+        let text : String?
+        let details : String?
+        let value : String?
+        let items : [(title: String, value: String)]?
+        let imageURL : URL?
+        
+        init(text: String? = nil, details: String? = nil, value: String? = nil, items: [(title: String, value: String)]? = nil, imageURL : URL? = nil) {
+            self.text = text
+            self.details = details
+            self.value = value
+            self.items = items
+            self.imageURL = imageURL
+        }
+    }
     
     let index : String
     let title : String
@@ -71,7 +83,7 @@ class PointDetailsViewModel {
     let type : PointType
     let location : CLLocationCoordinate2D
     
-    var tableViewObjects = [(sectionTitle: String, objects: [DetailsTableViewObject])]()
+    var tableViewObjects = [(sectionTitle: String?, objects: [TableObject])]()
     
     init?(point: Point?) {
         guard let point = point, let index = point.index else {
@@ -91,19 +103,23 @@ class PointDetailsViewModel {
             guard let callsign = item["callsign"], let frequency = item["freq"] else {
                 return nil
             }
-            return Frequency(callsign: callsign, frequency: frequency, type: item["type"])
+            return Frequency(callsign: callsign.transliterated(language: Settings.language).capitalized,
+                             frequency: frequency,
+                             type: item["type"])
         })
         
         self.contacts = (point.details?.contacts as? [[String:String]] ?? []).flatMap({ (item) -> Contact? in
             guard let phone = item["value"] else {
                 return nil
             }
-            return Contact(name: item["fio"], type: item["type"], phone: phone)
+            return Contact(name: item["fio"]?.transliterated(language: Settings.language).capitalized,
+                           type: item["type"]?.transliterated(language: Settings.language).capitalized,
+                           phone: phone)
         })
         
         self.fuels = (point.fuel as? Set<Fuel> ?? Set())
             .sorted(by: { $0.type?.intValue ?? 0 < $1.type?.intValue ?? 0 })
-            .flatMap({ FuelType(rawValue: $0.type?.intValue ?? 0)?.description() })
+            .flatMap({ FuelType(rawValue: $0.type?.intValue ?? 0)?.localized })
             .joined(separator: ", ")
         
         self.runways = (point.runways as? Set<Runway>)?.flatMap({ RunwayViewModel(runway: $0) }) ?? []
@@ -115,16 +131,183 @@ class PointDetailsViewModel {
     
     private func initializeDataSource(with point: Point) {
         self.tableViewObjects.removeAll()
-        var commonObjects = [DetailsTableViewObject]()
         
-        if let title = point.title {
-            commonObjects.append(DetailsTableViewObject(title: "Title", text: title))
+        // Common information
+        
+        var commonObjects = [TableObject]()
+        
+        if let active = point.active?.boolValue {
+            commonObjects.append(TableObject(text: active ? "Details_Active".localized : "Details_Inactive".localized))
+        }
+        
+        if let international = point.details?.international?.boolValue, international {
+            commonObjects.append(TableObject(text: "Details_International".localized))
+        }
+        
+        if let location = point.location?.location {
+            var items = [(String, String)]()
+            if let countryId = point.details?.countryId?.intValue, let country = PointCountry(rawValue: countryId) {
+                items.append(("Details_Country".localized, country.localized))
+            }
+            if let region = point.details?.region {
+                items.append(("Details_Region".localized, region.transliterated(language: Settings.language)))
+            }
+            if let city = point.details?.city {
+                items.append(("Details_City".localized, city.transliterated(language: Settings.language)))
+            }
+            commonObjects.append(TableObject(text: "Details_Location".localized, value: Converter.locationString(from: location), items: items))
+        }
+        
+        commonObjects.append(TableObject(text: "Details_Title".localized, value: title))
+        
+        if let elevation = point.details?.elevation?.intValue {
+            commonObjects.append(
+                TableObject(text: "Details_Elevation".localized,
+                                    value: "\(Converter.localized(distanceInMeters: elevation)) (\(Converter.localized(pressureDegreeFromMeters: Double(elevation))))"))
+        }
+        
+        if let belongsId = point.belongs?.intValue, let belongs = PointBelongs(rawValue: belongsId) {
+            commonObjects.append(TableObject(text: "Details_Belongs".localized, value: belongs.localized))
+        }
+        
+        if let declination = point.details?.declination?.floatValue {
+            commonObjects.append(TableObject(text: "Details_Declination".localized, value: String(format: "%.1f°", declination)))
+        }
+        
+        if let location = point.location?.location, let utcOffset = point.details?.utcOffset {
+            let date = Date()
+            let offsetComponents = utcOffset.components(separatedBy: " ")
+            if let offsetString = offsetComponents.last,
+                let offset = Int(offsetString),
+                let timeZone = TimeZone(secondsFromGMT: 3600 * offset) {
+                
+                var items = [(String,String)]()
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.timeZone = timeZone
+                dateFormatter.dateStyle = .none
+                dateFormatter.timeStyle = .short
+                
+                let suntimes = Suntimes(date: date, timeZone: timeZone, latitude: location.latitude, longitude: location.longitude)
+                let sunrise = suntimes.sunrise
+                let sunset = suntimes.sunset
+                items.append(("Details_Sunrise_Sunset".localized, "\(dateFormatter.string(from: sunrise))/\(dateFormatter.string(from: sunset))"))
+                let twilightsStart = suntimes.civilTwilightStart
+                let twilightsEnd = suntimes.civilTwilightEnd
+                items.append(("Details_Twilights".localized, "\(dateFormatter.string(from: twilightsStart))/\(dateFormatter.string(from: twilightsEnd))"))
+                
+                commonObjects.append(TableObject(text: "Details_Daytime".localized, items: items))
+            }
+        }
+        
+        if let worktime = point.details?.worktime, !worktime.isEmpty {
+            commonObjects.append(TableObject(text: "Details_Worktime".localized, details: worktime))
         }
         
         if commonObjects.count > 0 {
-            let commonInfo = (sectionTitle: "", objects: commonObjects)
-            self.tableViewObjects.append(commonInfo)
+            self.tableViewObjects.append((sectionTitle: nil, objects: commonObjects))
         }
+        
+        // Runways
+        
+        var runwaysObjects = [TableObject]()
+        
+        if let runways = point.runways as? Set<Runway>
+        {
+            for runway in runways {
+                
+                var runwayItems = [(String, String)]()
+                if let title = runway.title {
+                    runwayItems.append(("Details_Title".localized, title))
+                }
+                if let length = runway.length?.intValue {
+                    runwayItems.append(("Details_Length".localized, Converter.localized(distanceInMeters: length)))
+                }
+                if let width = runway.width?.intValue {
+                    runwayItems.append(("Details_Width".localized, Converter.localized(distanceInMeters: width)))
+                }
+                if let magneticCources = runway.magneticCourse {
+                    runwayItems.append(("Details_Magnetic_Courses".localized, magneticCources))
+                }
+                if let trueCources = runway.trueCourse {
+                    runwayItems.append(("Details_True_Courses".localized, trueCources))
+                }
+                if let thresholds = runway.thresholds {
+                    runwayItems.append(("Details_Threshold1".localized, Converter.locationString(from: thresholds.threshold1)))
+                    runwayItems.append(("Details_Threshold2".localized, Converter.locationString(from: thresholds.threshold2)))
+                }
+                if let surfaceType = runway.surfaceType?.intValue, let surface = RunwaySurface(rawValue: surfaceType), surface != .unknown {
+                    runwayItems.append(("Details_Surface".localized, surface.localized))
+                }
+                if let lightsType = runway.lightsType?.intValue, let lights = RunwayLights(rawValue: lightsType), lights != .unknown {
+                    runwayItems.append(("Details_Lights".localized, lights.localized))
+                }
+                if let pattern = runway.trafficPatterns {
+                    runwayItems.append(("Details_Pattern".localized, pattern))
+                }
+                runwaysObjects.append(TableObject(items: runwayItems))
+            }
+        }
+        
+        if runwaysObjects.count > 0 {
+            self.tableViewObjects.append((sectionTitle: "Details_Runways".localized, objects: runwaysObjects))
+        }
+        
+        // Fuel
+        
+        var fuelObjects = [TableObject]()
+        
+        var fuelItems = [(String, String)]()
+        
+        if let fuels = (point.fuel as? Set<Fuel>)?.sorted(by: { $0.0.type?.intValue ?? 0 < $0.1.type?.intValue ?? 0 }) {
+            for fuel in fuels {
+                if let fuelTypeRaw = fuel.type?.intValue, let fuel = FuelType(rawValue: fuelTypeRaw) {
+                    fuelItems.append((fuel.localized, "Details_Always".localized))
+                }
+            }
+        }
+        
+        if let fuels = (point.fuelOnRequest as? Set<Fuel>)?.sorted(by: { $0.0.type?.intValue ?? 0 < $0.1.type?.intValue ?? 0 }) {
+            for fuel in fuels {
+                if let fuelTypeRaw = fuel.type?.intValue, let fuel = FuelType(rawValue: fuelTypeRaw) {
+                    fuelItems.append((fuel.localized, "Details_On_Request".localized))
+                }
+            }
+        }
+        
+        if fuelItems.count > 0 {
+            fuelObjects.append(TableObject(text: nil, items: fuelItems))
+        }
+        
+        if fuelObjects.count > 0 {
+            self.tableViewObjects.append((sectionTitle: "Details_Fuel".localized, objects: fuelObjects))
+        }
+        
+        // Frequencies
+        
+        let frequenciesObjects = self.frequencies.map({ TableObject(text: $0.type?.localized, details: $0.callsign, value: "Frequencies_Format".localized(arguments: $0.frequency)) })
+        
+        if frequenciesObjects.count > 0 {
+            self.tableViewObjects.append((sectionTitle: "Details_Frequencies".localized, objects: frequenciesObjects))
+        }
+        
+        // Contacts
+        
+        let contactsObjects = self.contacts.map({ TableObject(text: $0.type, details: $0.name, value: $0.phone) })
+        
+        if contactsObjects.count > 0 {
+            self.tableViewObjects.append((sectionTitle: "Details_Contacts".localized, objects: contactsObjects))
+        }
+        
+        // Photos
+        
+        if let plan = point.details?.imagePlan, let imageURL = URL(string: AOPANetwork.imageURL(for: plan)) {
+            self.tableViewObjects.append((sectionTitle: "Details_Image_Plan".localized, objects: [TableObject(imageURL: imageURL)]))
+        }
+        if let aerial = point.details?.imageAerial, let imageURL = URL(string: AOPANetwork.imageURL(for: aerial)) {
+            self.tableViewObjects.append((sectionTitle: "Details_Image_Aerial".localized, objects: [TableObject(imageURL: imageURL)]))
+        }
+        
     }
 }
 
