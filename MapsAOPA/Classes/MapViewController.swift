@@ -17,23 +17,20 @@ import ReactiveCocoa
 
 class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapView : MKMapView!
+    @IBOutlet weak var overlayButtonsView: UIView!
     @IBOutlet weak var detailsView : PointDetailsView!
     @IBOutlet weak var loadingIndicator : UIActivityIndicatorView!
     
     @IBOutlet var detailsConstraints : [NSLayoutConstraint]!
     
-    @IBOutlet weak var zoomInView: UIView!
-    @IBOutlet weak var zoomOutView: UIView!
-//    @IBOutlet weak var UserTrackingView: UIView!
-
-    
-    @IBAction func zoomInButton(_ sender: UIButton) {
+    @IBAction func zoomInButtonPress(_ sender: UIButton) {
         zoomInMap()
     }
     
-    @IBAction func zoomOutButton(_ sender: UIButton) {
+    @IBAction func zoomOutButtonPress(_ sender: UIButton) {
         zoomOutMap()
     }
+
     
     fileprivate lazy var viewModel = MapViewModel()
     
@@ -44,8 +41,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView.addSubview(zoomInView)
-        mapView.addSubview(zoomOutView)
+        mapView.addSubview(overlayButtonsView)
         
         self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
         let _ = self.viewModel.errorMessage.signal.on(value: { self.displayError(message: $0) })
