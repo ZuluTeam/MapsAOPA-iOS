@@ -23,16 +23,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     
     @IBOutlet var detailsConstraints : [NSLayoutConstraint]!
     
-    @IBAction func zoomInButtonPress(_ sender: UIButton) {
-        zoomInMap()
-    }
-    
-    @IBAction func zoomOutButtonPress(_ sender: UIButton) {
-        zoomOutMap()
-    }
-
-    
     fileprivate lazy var viewModel = MapViewModel()
+    
+    private static let zoomPercent: CLLocationDegrees = 0.5
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -188,7 +181,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
             self.mapView.removeOverlays(self.mapView.overlays)
         }
     }
+    
+    
+    // MARK: - Actions
 
+    @IBAction func zoomInButtonPress(_ sender: UIButton) {
+        zoomInMap()
+    }
+    
+    @IBAction func zoomOutButtonPress(_ sender: UIButton) {
+        zoomOutMap()
+    }
+    
+    
     // MARK: - MKMapViewDelegate
  
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -230,8 +235,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     func zoomInMap() {
         var region = mapView.region
         var span = MKCoordinateSpan()
-        span.latitudeDelta = region.span.latitudeDelta*0.5
-        span.longitudeDelta = region.span.longitudeDelta*0.5
+        span.latitudeDelta = region.span.latitudeDelta * (1.0 - MapViewController.zoomPercent)
+        span.longitudeDelta = region.span.longitudeDelta * (1.0 - MapViewController.zoomPercent)
         region.span = span
         mapView.setRegion(region, animated: true);
     }
@@ -239,8 +244,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     func zoomOutMap() {
         var region = mapView.region
         var span = MKCoordinateSpan()
-        span.latitudeDelta = region.span.latitudeDelta*1.5
-        span.longitudeDelta = region.span.longitudeDelta*1.5
+        span.latitudeDelta = region.span.latitudeDelta * (1.0 + MapViewController.zoomPercent)
+        span.longitudeDelta = region.span.longitudeDelta * (1.0 + MapViewController.zoomPercent)
         region.span = span
         mapView.setRegion(region, animated: true);
     }
