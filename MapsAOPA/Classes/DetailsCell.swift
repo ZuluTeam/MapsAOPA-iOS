@@ -7,50 +7,98 @@
 //
 
 import UIKit
+import Alamofire
 
 protocol DetailsCell {
     
-    func configure(for object: PointDetailsViewModel.TableObject)
+    func configure(with object: PointDetailsViewModel.TableObject)
 }
 
 class TextDetailsCell : UITableViewCell, DetailsCell {
-    func configure(for object: PointDetailsViewModel.TableObject) {
-        self.textLabel?.text = object.text
-    }
-}
-
-class DetailedDetailsCell : UITableViewCell, DetailsCell {
-    func configure(for object: PointDetailsViewModel.TableObject) {
-        self.textLabel?.text = object.text
-        self.detailTextLabel?.text = object.details
-    }
-}
-
-class ValueDetailsCell : UITableViewCell, DetailsCell {
-    @IBOutlet var valueLabel : UILabel!
+    @IBOutlet var mainTextLabel : UILabel?
+    @IBOutlet var valueLabel : UILabel?
     
-    func configure(for object: PointDetailsViewModel.TableObject) {
-        self.textLabel?.text = object.text
-        self.detailTextLabel?.text = object.details
-        self.valueLabel.text = object.value
+    func configure(with object: PointDetailsViewModel.TableObject) {
+        self.mainTextLabel?.text = object.text
+        self.valueLabel?.text = object.value
+        if let font = self.valueLabel?.font, let size = object.value?.size(attributes: [ NSFontAttributeName : font ]) {
+            for constraint in self.valueLabel?.constraints ?? [] {
+                if constraint.identifier == "width" {
+                    constraint.constant = ceil(size.width)
+                }
+            }
+        }
     }
 }
 
-class ItemsDetailsCell : UITableViewCell, DetailsCell {
-    @IBOutlet var itemsView : UIStackView!
+class DetailedDetailsCell : TextDetailsCell {
+    @IBOutlet var detailsLabel: UILabel?
+    
+    override func configure(with object: PointDetailsViewModel.TableObject) {
+        super.configure(with: object)
+        self.detailsLabel?.text = object.details
+    }
+}
+
+class ValueDetailsCell : DetailedDetailsCell {
+    
+    override func configure(with object: PointDetailsViewModel.TableObject) {
+        super.configure(with: object)
+    }
+}
+
+class ItemsDetailsCell : DetailedDetailsCell {
+    @IBOutlet var itemsView : UIStackView?
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        while itemsView.arrangedSubviews.count > 0 {
-            let view = itemsView.arrangedSubviews.first!
-            itemsView.removeArrangedSubview(view)
+        while itemsView?.arrangedSubviews.count ?? 0 > 0 {
+            if let view = itemsView?.arrangedSubviews.first {
+                itemsView?.removeArrangedSubview(view)
+                view.removeFromSuperview()
+            }
         }
     }
     
-    func configure(for object: PointDetailsViewModel.TableObject) {
-        self.textLabel?.text = object.text
-        self.detailTextLabel?.text = object.details
-        
-        
+    override func configure(with object: PointDetailsViewModel.TableObject) {
+        super.configure(with: object)
+        if let items = object.items {
+            for item in items {
+                if let view = DetailsItemView.view(with: item) {
+                    self.itemsView?.addArrangedSubview(view)
+                }
+            }
+        }
+    }
+}
+
+class ImageDetailsCell : UITableViewCell, DetailsCell {
+    @IBOutlet var mainImageView : UIImageView?
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        mainImageView?.af_cancelImageRequest()
+        mainImageView?.image = nil
+    }
+    
+    func configure(with object: PointDetailsViewModel.TableObject) {
+        if let url = object.imageURL {
+            mainImageView?.af_setImage(withURL: url, completion: { [weak self] response in
+                if let cell = self, let image = response.value {
+                    if image.size.width > 0 {
+                        let width = cell.width
+                        let height = image.size.height * width / image.size.width
+                        for constraint in cell.mainImageView?.constraints ?? [] {
+                            if constraint.identifier == "width" {
+                                constraint.constant = width
+                            }
+                            if constraint.identifier == "height" {
+                                constraint.constant = height
+                            }
+                        }
+                    }
+                }
+            })
+        }
     }
 }

@@ -34,6 +34,7 @@
 
 // MARK: - Point details
 
+"Details_Common_Info" = "Common Information";
 "Details_Elevation_Format" = "Elevation: %@";
 "Details_Frequencies_Format" = "📻: %@ %@ MHz";
 "Details_Longest_Runway_Format" = "Longest runway: %@";
@@ -51,6 +52,7 @@
 "Details_Daytime" = "Daytime";
 "Details_Sunrise_Sunset" = "Sunrise/sunset (local time)";
 "Details_Twilights" = "Civil twilights start/end (local time)";
+"Details_UTC_Offcet" = "UTC Offset";
 "Details_Worktime" = "Working time";
 "Details_Runways" = "Runways";
 "Details_Length" = "Length";
@@ -67,6 +69,8 @@
 "Details_On_Request" = "On request";
 "Details_Frequencies" = "Frequencies";
 "Details_Contacts" = "Contacts";
+"Details_Email" = "E-mail";
+"Details_website" = "Website";
 "Details_Image_Plan" = "Airfield plan";
 "Details_Image_Aerial" = "Aerial photo";
 

@@ -24,6 +24,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     
     fileprivate lazy var viewModel = MapViewModel()
     
+    fileprivate var pointDetailsViewController : PointDetailsTableViewController?
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -112,9 +114,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationViewController = segue.destination as? DetailsTableViewController {
             switch segue.identifier ?? "" {
-            case Segue.ContactsSegue.rawValue:
+            case Segue.Contacts.rawValue:
                 destinationViewController.viewModel = DetailsViewModel(contacts: self.detailsView.pointDetailsViewModel?.contacts ?? [])
-            case Segue.FrequenciesSegue.rawValue:
+            case Segue.Frequencies.rawValue:
                 destinationViewController.viewModel = DetailsViewModel(frequencies: self.detailsView.pointDetailsViewModel?.frequencies ?? [])
             default: break
             }
@@ -122,6 +124,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
             destinationViewController.title = self.detailsView.pointDetailsViewModel?.title
             let height : CGFloat = 300.0
             destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
+        }
+        if segue.identifier == Segue.PointDetails.rawValue {
+            self.pointDetailsViewController = segue.destination as? PointDetailsTableViewController
         }
     }
     
@@ -160,6 +165,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     fileprivate func showPointInfo(_ pointDetails: PointDetailsViewModel?, animated: Bool)
     {
         self.detailsView.pointDetailsViewModel = pointDetails
+        self.pointDetailsViewController?.pointDetailsViewModel = pointDetails
         let constraints = self.view.constraints
         for constraint in constraints {
             if constraint.identifier == "DetailsBottom" {

@@ -10,7 +10,7 @@ import UIKit
 import UCCTransliteration
 
 @IBDesignable
-class PointDetailsView: UIView, UITableViewDataSource
+class PointDetailsView: UIView
 {
     @IBOutlet weak var titleLabel : UILabel?
     @IBOutlet weak var runwaysView : RunwaysView?
@@ -22,21 +22,17 @@ class PointDetailsView: UIView, UITableViewDataSource
     @IBOutlet weak var fuelLabel : UILabel?
     @IBOutlet weak var frequenciesButton : UIButton?
     @IBOutlet weak var frequencyLabel : UILabel?
-
-    @IBOutlet weak var tableView : UITableView?
     
     private let transliteration = UCCTransliteration()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.tableView?.rowHeight = UITableViewAutomaticDimension
-        self.tableView?.estimatedRowHeight = 100
+        
     }
     
     var pointDetailsViewModel : PointDetailsViewModel? {
         didSet {
             self.reloadView()
-            self.tableView?.reloadData()
         }
     }
     
@@ -66,37 +62,6 @@ class PointDetailsView: UIView, UITableViewDataSource
         
         self.runwaysView?.runways = model.runways
         self.runwaysView?.isHeliport = model.type == .heliport
-    }
-    
-    // MARK: - Table view data source
-    
-    func object(at indexPath: IndexPath) -> PointDetailsViewModel.TableObject {
-        return self.pointDetailsViewModel!.tableViewObjects[indexPath.section].objects[indexPath.row]
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return self.pointDetailsViewModel?.tableViewObjects.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.pointDetailsViewModel?.tableViewObjects[section].objects.count ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let object = self.object(at: indexPath)
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath)
-        
-        cell.textLabel?.text = object.text
-        cell.detailTextLabel?.text = object.details
-        return cell
-    }
-    
-    // MARK: - Table view delegate
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = self.pointDetailsViewModel!.tableViewObjects[section]
-        return section.sectionTitle
     }
 }
 

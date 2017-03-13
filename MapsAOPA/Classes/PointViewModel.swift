@@ -55,19 +55,27 @@ class PointViewModel : Hashable, Equatable {
 
 class PointDetailsViewModel {
     
+    enum DetailsAction {
+        case call
+        case mail
+        case web
+    }
+    
     struct TableObject {
         let text : String?
         let details : String?
         let value : String?
         let items : [(title: String, value: String)]?
         let imageURL : URL?
+        let action : DetailsAction?
         
-        init(text: String? = nil, details: String? = nil, value: String? = nil, items: [(title: String, value: String)]? = nil, imageURL : URL? = nil) {
+        init(text: String? = nil, details: String? = nil, value: String? = nil, items: [(title: String, value: String)]? = nil, imageURL : URL? = nil, action: DetailsAction? = nil) {
             self.text = text
             self.details = details
             self.value = value
             self.items = items
             self.imageURL = imageURL
+            self.action = action
         }
     }
     
@@ -114,7 +122,7 @@ class PointDetailsViewModel {
             }
             return Contact(name: item["fio"]?.transliterated(language: Settings.language).capitalized,
                            type: item["type"]?.transliterated(language: Settings.language).capitalized,
-                           phone: phone)
+                           phone: phone.replace(" ", with: ""))
         })
         
         self.fuels = (point.fuel as? Set<Fuel> ?? Set())
@@ -136,6 +144,8 @@ class PointDetailsViewModel {
         
         var commonObjects = [TableObject]()
         
+        commonObjects.append(TableObject(text: "Details_Title".localized, value: title))
+        
         if let active = point.active?.boolValue {
             commonObjects.append(TableObject(text: active ? "Details_Active".localized : "Details_Inactive".localized))
         }
@@ -150,15 +160,13 @@ class PointDetailsViewModel {
                 items.append(("Details_Country".localized, country.localized))
             }
             if let region = point.details?.region {
-                items.append(("Details_Region".localized, region.transliterated(language: Settings.language)))
+                items.append(("Details_Region".localized, region.transliterated(language: Settings.language).capitalized))
             }
             if let city = point.details?.city {
-                items.append(("Details_City".localized, city.transliterated(language: Settings.language)))
+                items.append(("Details_City".localized, city.transliterated(language: Settings.language).capitalized))
             }
             commonObjects.append(TableObject(text: "Details_Location".localized, value: Converter.locationString(from: location), items: items))
         }
-        
-        commonObjects.append(TableObject(text: "Details_Title".localized, value: title))
         
         if let elevation = point.details?.elevation?.intValue {
             commonObjects.append(
@@ -200,12 +208,16 @@ class PointDetailsViewModel {
             }
         }
         
+        if let utcOffset = point.details?.utcOffset {
+            commonObjects.append(TableObject(text: "Details_UTC_Offcet".localized, value: utcOffset))
+        }
+        
         if let worktime = point.details?.worktime, !worktime.isEmpty {
             commonObjects.append(TableObject(text: "Details_Worktime".localized, details: worktime))
         }
         
         if commonObjects.count > 0 {
-            self.tableViewObjects.append((sectionTitle: nil, objects: commonObjects))
+            self.tableViewObjects.append((sectionTitle: "Details_Common_Info".localized, objects: commonObjects))
         }
         
         // Runways
@@ -293,11 +305,21 @@ class PointDetailsViewModel {
         
         // Contacts
         
-        let contactsObjects = self.contacts.map({ TableObject(text: $0.type, details: $0.name, value: $0.phone) })
+        var contactsObjects = self.contacts.map({ TableObject(text: $0.type, details: $0.name, value: $0.phone, action: .call) })
+        
+        if let email = self.email {
+            contactsObjects.append(TableObject(text: "Details_Email".localized, value: email, action: .mail))
+        }
+        
+        if let website = self.website {
+            contactsObjects.append(TableObject(text: "Details_Website".localized, value: website, action: .web))
+        }
         
         if contactsObjects.count > 0 {
             self.tableViewObjects.append((sectionTitle: "Details_Contacts".localized, objects: contactsObjects))
         }
+        
+        
         
         // Photos
         

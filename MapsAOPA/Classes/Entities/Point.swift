@@ -25,6 +25,10 @@ enum PointType : Int
         }
         
     }
+    
+    var localized : String {
+        return "point_type_\(self.rawValue)".localized
+    }
 }
 
 enum PointBelongs : Int
@@ -58,7 +62,7 @@ enum PointBelongs : Int
     }
     
     var localized : String {
-        return "belongs_\(self)".localized
+        return "belongs_\(self.rawValue)".localized
     }
 }
 

@@ -29,7 +29,7 @@ enum FuelType : Int
     }
     
     var localized : String {
-        return "fuel_type_\(self.rawValue)"
+        return "fuel_type_\(self.rawValue)".localized
     }
 }
 
