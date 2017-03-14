@@ -83,22 +83,7 @@ class ImageDetailsCell : UITableViewCell, DetailsCell {
     
     func configure(with object: PointDetailsViewModel.TableObject) {
         if let url = object.imageURL {
-            mainImageView?.af_setImage(withURL: url, completion: { [weak self] response in
-                if let cell = self, let image = response.value {
-                    if image.size.width > 0 {
-                        let width = cell.width
-                        let height = image.size.height * width / image.size.width
-                        for constraint in cell.mainImageView?.constraints ?? [] {
-                            if constraint.identifier == "width" {
-                                constraint.constant = width
-                            }
-                            if constraint.identifier == "height" {
-                                constraint.constant = height
-                            }
-                        }
-                    }
-                }
-            })
+            mainImageView?.af_setImage(withURL: url)
         }
     }
 }

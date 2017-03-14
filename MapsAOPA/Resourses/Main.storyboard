@@ -573,18 +573,17 @@
                                     <outlet property="mainTextLabel" destination="aXp-AR-Y0V" id="Pwu-Cx-pw4"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImageDetailsCell" rowHeight="75" id="MUg-te-y7l" customClass="ImageDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="301" width="300" height="75"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImageDetailsCell" rowHeight="320" id="MUg-te-y7l" customClass="ImageDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="301" width="300" height="320"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MUg-te-y7l" id="Jtk-EQ-ib0">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="74"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="319"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dDY-q9-b6Z">
-                                            <rect key="frame" x="8" y="8" width="50" height="50"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dDY-q9-b6Z">
+                                            <rect key="frame" x="8" y="8" width="284" height="284"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="50" identifier="height" id="KkG-Qr-tlh"/>
-                                                <constraint firstAttribute="width" constant="50" identifier="width" id="X65-9C-bfa"/>
+                                                <constraint firstAttribute="width" secondItem="dDY-q9-b6Z" secondAttribute="height" multiplier="1:1" id="ast-Hy-8g9"/>
                                             </constraints>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -595,7 +594,7 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="dDY-q9-b6Z" secondAttribute="bottom" constant="8" id="2mM-vR-WqA"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dDY-q9-b6Z" secondAttribute="trailing" constant="8" id="eKW-n0-Fsf"/>
+                                        <constraint firstAttribute="trailing" secondItem="dDY-q9-b6Z" secondAttribute="trailing" constant="8" id="eKW-n0-Fsf"/>
                                         <constraint firstItem="dDY-q9-b6Z" firstAttribute="top" secondItem="Jtk-EQ-ib0" secondAttribute="top" constant="8" id="fnm-1d-ubk"/>
                                         <constraint firstItem="dDY-q9-b6Z" firstAttribute="leading" secondItem="Jtk-EQ-ib0" secondAttribute="leading" constant="8" id="heW-UO-tsE"/>
                                     </constraints>
@@ -614,7 +613,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zDD-sb-lP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1724" y="-429"/>
+            <point key="canvasLocation" x="1723.3695652173915" y="-430.43478260869568"/>
         </scene>
         <!--Details Table View Controller-->
         <scene sceneID="dY7-Vd-d3g">
