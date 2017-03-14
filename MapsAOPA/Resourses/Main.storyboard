@@ -495,8 +495,50 @@
                                     <outlet property="valueLabel" destination="fIX-0C-3jI" id="n6g-7a-zrT"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailsOnlyDetailsCell" rowHeight="52" id="BXp-rP-Wgz" customClass="ValueDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="187" width="300" height="52"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BXp-rP-Wgz" id="drq-ot-bR6">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="51"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Details" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hEj-sC-NNv">
+                                            <rect key="frame" x="8" y="8" width="45.666666666666664" height="35"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="LKE-9z-Mg3"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="right" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hVD-BO-WZq">
+                                            <rect key="frame" x="241.66666666666669" y="8" width="50.000000000000057" height="17"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="Zn7-HI-xai"/>
+                                                <constraint firstAttribute="width" constant="50" identifier="width" id="vKu-RS-DPb"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="hVD-BO-WZq" firstAttribute="top" secondItem="drq-ot-bR6" secondAttribute="top" constant="8" id="3Iy-Af-Sd1"/>
+                                        <constraint firstItem="hEj-sC-NNv" firstAttribute="top" secondItem="drq-ot-bR6" secondAttribute="top" constant="8" id="ECE-OG-LN4"/>
+                                        <constraint firstItem="hEj-sC-NNv" firstAttribute="leading" secondItem="drq-ot-bR6" secondAttribute="leading" constant="8" id="bSO-DF-LZv"/>
+                                        <constraint firstAttribute="bottom" secondItem="hEj-sC-NNv" secondAttribute="bottom" constant="8" id="cF5-Ow-A2s"/>
+                                        <constraint firstItem="hVD-BO-WZq" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hEj-sC-NNv" secondAttribute="trailing" constant="4" id="j3W-Qx-URc"/>
+                                        <constraint firstAttribute="trailing" secondItem="hVD-BO-WZq" secondAttribute="trailing" constant="8" id="mge-eB-ZSu"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="detailsLabel" destination="hEj-sC-NNv" id="NOD-Jk-0KL"/>
+                                    <outlet property="valueLabel" destination="hVD-BO-WZq" id="EZc-sn-PJ3"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ItemsDetailsCell" rowHeight="62" id="cr2-CQ-IXR" customClass="ItemsDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="187" width="300" height="62"/>
+                                <rect key="frame" x="0.0" y="239" width="300" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cr2-CQ-IXR" id="CrS-Xw-l8g">
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="61"/>
@@ -532,7 +574,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImageDetailsCell" rowHeight="75" id="MUg-te-y7l" customClass="ImageDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="249" width="300" height="75"/>
+                                <rect key="frame" x="0.0" y="301" width="300" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MUg-te-y7l" id="Jtk-EQ-ib0">
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="74"/>

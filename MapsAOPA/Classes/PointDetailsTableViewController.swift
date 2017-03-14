@@ -31,6 +31,7 @@ class PointDetailsTableViewController: UITableViewController {
         case (_, _, _, _, true): return "ImageDetailsCell"
         case (_, _, _, true, _): return "ItemsDetailsCell"
         case (true, true, true, _, _): return "ValueDetailsCell"
+        case (_, true, true, _, _): return "DetailsOnlyDetailsCell"
         case (true, true, _, _, _): return "DetailedDetailsCell"
         default:
             return "TextDetailsCell"
