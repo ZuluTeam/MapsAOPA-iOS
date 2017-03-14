@@ -15,7 +15,7 @@ import ReactiveSwift
 import ReactiveCocoa
 
 
-class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapView : MKMapView!
     @IBOutlet weak var detailsView : PointDetailsView!
     @IBOutlet weak var loadingIndicator : UIActivityIndicatorView!
@@ -34,7 +34,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         super.viewDidLoad()
         
         self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
-        let _ = self.viewModel.errorMessage.signal.on(value: { self.displayError(message: $0) })
+        let _ = self.viewModel.errorMessage.signal.on(value: { [weak self] message in
+            self?.displayError(message: message)
+        })
         
         let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
         let mapStyleItem = MultipleStatesBarButtonItem(states: ["Sch" as AnyObject, "Hyb" as AnyObject, "Sat" as AnyObject ], currentState: 0) { [ weak self] (state) in
@@ -100,7 +102,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         })
         
         let _ = self.detailsView.emailButton?.reactive.controlEvents(.touchUpInside).observeValues({ [weak self] button in
-            self?.sendEmail(self?.detailsView.pointDetailsViewModel?.email)
+            self?.mail(to: self?.detailsView.pointDetailsViewModel?.email)
         })
     }
     
@@ -218,33 +220,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return RunwaysOverlayRenderer(overlay: overlay)
-    }
-    
-    // MARK: - MFMailComposeViewControllerDelegate
-    
-    func sendEmail(_ email: String?) {
-        guard let email = email else {
-            return
-        }
-        if MFMailComposeViewController.canSendMail()
-        {
-            let controller = MFMailComposeViewController()
-            controller.setToRecipients([ email ])
-            controller.mailComposeDelegate = self
-            self.present(controller, animated: true, completion: nil)
-        }
-        else
-        {
-            if let url = URL(string: "mailto:?to=\(email)"), UIApplication.shared.canOpenURL(url)
-            {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
-    
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - UIPopoverPresentationControllerDelegate
