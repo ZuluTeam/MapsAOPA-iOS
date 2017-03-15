@@ -27,6 +27,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     @IBOutlet var searchTableContainer : UIView!
     @IBOutlet var searchTableView : UITableView!
     
+    fileprivate static let zoomToPointSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    
     fileprivate lazy var viewModel = MapViewModel()
     
     fileprivate var pointDetailsViewController : PointDetailsTableViewController?
@@ -189,7 +191,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         self.mapView.removeAnnotations(annotationsToRemove)
         
         for point in points {
-            self.mapView.addAnnotation(PointAnnotation(pointViewModel: point))
+            let annotation = PointAnnotation(pointViewModel: point)
+            self.mapView.addAnnotation(annotation)
+            if point == self.viewModel.selectedPoint.value {
+                self.mapView.selectAnnotation(annotation, animated: true)
+            }
         }
     }
     
@@ -216,8 +222,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         }
     }
     
-    fileprivate func zoom(to point: PointViewModel?) {
-        
+    fileprivate func zoom(to point: PointViewModel) {
+        let region = MKCoordinateRegion(center: point.location,
+                                        span: MapViewController.zoomToPointSpan)
+        self.mapView.setRegion(region, animated: true)
     }
     
     // MARK: - Gesture Recognizer Delegate
@@ -315,6 +323,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let pointModel = self.viewModel.foundedPoints.value[indexPath.row]
+        self.viewModel.selectedPoint.value = pointModel
+        self.zoom(to: pointModel)
+        for annotation in self.mapView.annotations {
+            if let annotation = annotation as? PointAnnotation, annotation.pointViewModel == pointModel {
+                self.mapView.selectAnnotation(annotation, animated: true)
+            }
+        }
         self.cancelSearching()
     }
     

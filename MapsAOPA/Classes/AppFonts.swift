@@ -89,4 +89,5 @@ enum AppIcons : String {
 // MARK: - Awesome icons
     
     case AwesomeMenu = "\u{f0c9}"
+    case AwesomeRunway = "\u{f018}"
 }
