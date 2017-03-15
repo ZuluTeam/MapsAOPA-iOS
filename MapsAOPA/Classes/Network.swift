@@ -22,8 +22,9 @@ class Network {
                 let fileURL = documentsURL.appendingPathComponent(destination)
                 return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
             }
-            
+            UIApplication.shared.isNetworkActivityIndicatorVisible = true
             let request = Alamofire.download(url, method: .get, parameters: parameters, to: destination).response { response in
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 if let destination = response.destinationURL {
                     observer.send(value: destination)
                     observer.sendCompleted()
@@ -45,7 +46,9 @@ class Network {
                 observer.send(value: image)
                 observer.sendCompleted()
             } else {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = true
                 let request = Alamofire.request(url).responseImage { [weak self] response in
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     if let image = response.result.value {
                         self?.imageCache.add(image, withIdentifier: url)
                         observer.send(value: image)

@@ -32,6 +32,8 @@ class PointViewModel : Hashable, Equatable {
     let isActive : Bool
     let isMilitary : Bool
     let pointType : PointType
+    let title : String
+    let region : String
     let point : Point
     
     init(point: Point) {
@@ -42,6 +44,24 @@ class PointViewModel : Hashable, Equatable {
         self.isActive = point.active?.boolValue ?? false
         self.isMilitary = PointBelongs(rawValue: point.belongs?.intValue ?? -1)?.isMilitary() ?? false
         self.pointType = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
+        
+        if Settings.language == "ru" {
+            self.title = "\(point.titleRu ?? "") \(point.index ?? "")/\(point.indexRu ?? "")"
+        } else {
+            self.title = "\(point.title ?? "") \(point.index ?? "")"
+        }
+        
+        var region = [String]()
+        if let countryId = point.details?.countryId?.intValue, let country = PointCountry(rawValue: countryId) {
+            region.append(country.localized)
+        }
+        if let pointRegion = point.details?.region {
+            region.append(pointRegion.transliterated(language: Settings.language).capitalized)
+        }
+        if let city = point.details?.city {
+            region.append(city.transliterated(language: Settings.language).capitalized)
+        }
+        self.region = region.joined(separator: ", ")
     }
     
     public var hashValue: Int {
@@ -91,6 +111,7 @@ class PointDetailsViewModel {
     let type : PointType
     let location : CLLocationCoordinate2D
     
+    
     var tableViewObjects = [(sectionTitle: String?, objects: [TableObject])]()
     
     init?(point: Point?) {
@@ -133,7 +154,6 @@ class PointDetailsViewModel {
         self.runways = (point.runways as? Set<Runway>)?.flatMap({ RunwayViewModel(runway: $0) }) ?? []
         self.type = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
         self.location = point.location?.location ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)
-        
         self.initializeDataSource(with: point)
     }
     

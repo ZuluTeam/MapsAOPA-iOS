@@ -88,7 +88,10 @@ class Point: NSManagedObject {
     
     
     func isServiced() -> Bool {
-        return self.fuel?.count ?? 0 > 0
+        if let fuel = self.fuel as? Set<Fuel> {
+            return fuel.count > 0
+        }
+        return false
     }
     
     class func point(fromDictionary dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext) -> Point? {
