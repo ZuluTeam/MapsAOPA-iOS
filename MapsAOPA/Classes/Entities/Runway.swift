@@ -62,6 +62,10 @@ enum RunwaySurface : Int
         default: return UIColor(hexString: "66CDAA").withAlphaComponent(aplha)
         }
     }
+    
+    var localized : String {
+        return "runway_surface_\(self.rawValue)".localized
+    }
 }
 
 enum RunwayLights : Int
@@ -82,6 +86,10 @@ enum RunwayLights : Int
         case "4": self = .pilotControlled
         default: self = .unknown
         }
+    }
+    
+    var localized : String {
+        return "runway_lights_\(self.rawValue)".localized
     }
 }
 

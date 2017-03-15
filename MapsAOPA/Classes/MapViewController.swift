@@ -15,7 +15,7 @@ import ReactiveSwift
 import ReactiveCocoa
 
 
-class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewControllerDelegate, UIPopoverPresentationControllerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapView : MKMapView!
     @IBOutlet weak var overlayButtonsView: UIView!
     @IBOutlet weak var detailsView : PointDetailsView!
@@ -24,6 +24,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     @IBOutlet var detailsConstraints : [NSLayoutConstraint]!
     
     fileprivate lazy var viewModel = MapViewModel()
+    
+    fileprivate var pointDetailsViewController : PointDetailsTableViewController?
     
     private static let zoomPercent: CLLocationDegrees = 0.5
     
@@ -37,7 +39,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         mapView.addSubview(overlayButtonsView)
         
         self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
-        let _ = self.viewModel.errorMessage.signal.on(value: { self.displayError(message: $0) })
+        let _ = self.viewModel.errorMessage.signal.on(value: { [weak self] message in
+            self?.displayError(message: message)
+        })
         
         let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
         let mapStyleItem = MultipleStatesBarButtonItem(states: ["Sch" as AnyObject, "Hyb" as AnyObject, "Sat" as AnyObject ], currentState: 0) { [ weak self] (state) in
@@ -103,21 +107,23 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
         })
         
         let _ = self.detailsView.emailButton?.reactive.controlEvents(.touchUpInside).observeValues({ [weak self] button in
-            self?.sendEmail(self?.detailsView.pointDetailsViewModel?.email)
+            self?.mail(to: self?.detailsView.pointDetailsViewModel?.email)
         })
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.showPointInfo(self.viewModel.pointDetailsViewModel(from: self.viewModel.selectedPoint.value), animated: false)
+        if nil == self.viewModel.selectedPoint.value || self.detailsView.pointDetailsViewModel?.index != self.viewModel.selectedPoint.value?.index {
+            self.showPointInfo(self.viewModel.pointDetailsViewModel(from: self.viewModel.selectedPoint.value), animated: false)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationViewController = segue.destination as? DetailsTableViewController {
             switch segue.identifier ?? "" {
-            case Segue.ContactsSegue.rawValue:
+            case Segue.Contacts.rawValue:
                 destinationViewController.viewModel = DetailsViewModel(contacts: self.detailsView.pointDetailsViewModel?.contacts ?? [])
-            case Segue.FrequenciesSegue.rawValue:
+            case Segue.Frequencies.rawValue:
                 destinationViewController.viewModel = DetailsViewModel(frequencies: self.detailsView.pointDetailsViewModel?.frequencies ?? [])
             default: break
             }
@@ -125,6 +131,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
             destinationViewController.title = self.detailsView.pointDetailsViewModel?.title
             let height : CGFloat = 300.0
             destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
+        }
+        if segue.identifier == Segue.PointDetails.rawValue {
+            self.pointDetailsViewController = segue.destination as? PointDetailsTableViewController
         }
     }
     
@@ -163,6 +172,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, MFMailComposeViewC
     fileprivate func showPointInfo(_ pointDetails: PointDetailsViewModel?, animated: Bool)
     {
         self.detailsView.pointDetailsViewModel = pointDetails
+        self.pointDetailsViewController?.pointDetailsViewModel = pointDetails
         let constraints = self.view.constraints
         for constraint in constraints {
             if constraint.identifier == "DetailsBottom" {

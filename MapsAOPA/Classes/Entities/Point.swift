@@ -25,6 +25,10 @@ enum PointType : Int
         }
         
     }
+    
+    var localized : String {
+        return "point_type_\(self.rawValue)".localized
+    }
 }
 
 enum PointBelongs : Int
@@ -55,6 +59,10 @@ enum PointBelongs : Int
         case .military, .fss, .experimantal: return true
         default: return false
         }
+    }
+    
+    var localized : String {
+        return "belongs_\(self.rawValue)".localized
     }
 }
 
