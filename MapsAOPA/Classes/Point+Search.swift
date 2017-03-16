@@ -13,7 +13,13 @@ extension Point {
     
     public static func searchPredicate(_ searchString: String) -> NSPredicate {
         let normalizedString = searchString.normalizedString ?? ""
-        return NSPredicate(format: "%K contains[n] %@ OR %K contains[n] %@ OR %K contains[n] %@ OR %K contains[n] %@ OR %K contains[n] %@ OR %K contains[n] %@", Point.Keys.searchRegion.rawValue, normalizedString, Point.Keys.searchIndex.rawValue, normalizedString, Point.Keys.searchTitleRu.rawValue, normalizedString, Point.Keys.searchCity.rawValue, normalizedString, Point.Keys.searchTitle.rawValue, normalizedString, Point.Keys.searchTitleRu.rawValue, normalizedString)
+        return NSPredicate(format: "%K contains[n] %@ OR %K contains[n] %@ OR %K contains[n] %@ OR %K contains[n] %@ OR %K contains[n] %@ OR %K contains[n] %@",
+                           Point.Keys.searchIndex.rawValue, normalizedString,
+                           Point.Keys.searchIndexRu.rawValue, normalizedString,
+                           Point.Keys.searchCity.rawValue, normalizedString,
+                           Point.Keys.searchRegion.rawValue, normalizedString,
+                           Point.Keys.searchTitle.rawValue, normalizedString,
+                           Point.Keys.searchTitleRu.rawValue, normalizedString)
     }
     
     public static func searchByRegionPredicate(_ searchString: String) -> NSPredicate {

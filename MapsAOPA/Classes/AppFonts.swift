@@ -13,11 +13,15 @@ extension UIFont {
     static func makiFont(ofSize size: CGFloat) -> UIFont {
         return UIFont(name: "Maki", size: size)!
     }
+    
+    static func awesomeFont(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: "FontAwesome", size: size)!
+    }
 }
 
 enum AppIcons : String {
     
-// MARK: Maki icons
+// MARK: - Maki icons
     case MakiAbovegroundRail = "\u{e800}"
     case MakiAirfield = "\u{e801}"
     case MakiAirport = "\u{e802}"
@@ -81,4 +85,9 @@ enum AppIcons : String {
     case MakiTree1 = "\u{e83e}"
     case MakiTree2 = "\u{e83f}"
     case MakiWarehouse = "\u{e840}"
+    
+// MARK: - Awesome icons
+    
+    case AwesomeMenu = "\u{f0c9}"
+    case AwesomeRunway = "\u{f018}"
 }

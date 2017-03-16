@@ -88,3 +88,9 @@ extension UIView {
     }
     
 }
+
+@IBDesignable
+class DesignableUIView : UIView {}
+
+@IBDesignable
+class DesignableUIButton : UIButton {}

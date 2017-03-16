@@ -41,6 +41,7 @@
 		B563E2201CC1B98900480DA2 /* Fuel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2161CC1B98900480DA2 /* Fuel.swift */; };
 		B563E2211CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */; };
 		B563E2221CC1B98900480DA2 /* PointDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2181CC1B98900480DA2 /* PointDetails.swift */; };
+		B564C0DC1E7969B6000DAC6F /* fontawesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B564C0DB1E7969B6000DAC6F /* fontawesome.ttf */; };
 		B56FBEF11E5F416F008886AF /* RunwaysOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */; };
 		B5867E4A1E77FBA0005C01E0 /* UIViewController+Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5867E491E77FBA0005C01E0 /* UIViewController+Contacts.swift */; };
 		B5B9B6651E648AD600BAD840 /* UIView+Designable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */; };
@@ -104,6 +105,7 @@
 		B563E2161CC1B98900480DA2 /* Fuel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Fuel.swift; path = Entities/Fuel.swift; sourceTree = "<group>"; };
 		B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PointDetails+CoreDataProperties.swift"; path = "Entities/PointDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2181CC1B98900480DA2 /* PointDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointDetails.swift; path = Entities/PointDetails.swift; sourceTree = "<group>"; };
+		B564C0DB1E7969B6000DAC6F /* fontawesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fontawesome.ttf; sourceTree = "<group>"; };
 		B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunwaysOverlay.swift; sourceTree = "<group>"; };
 		B5867E491E77FBA0005C01E0 /* UIViewController+Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Contacts.swift"; path = "MapsAOPA/Classes/UIViewController+Contacts.swift"; sourceTree = SOURCE_ROOT; };
 		B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Designable.swift"; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			isa = PBXGroup;
 			children = (
 				B5B9B6671E64953400BAD840 /* maki.ttf */,
+				B564C0DB1E7969B6000DAC6F /* fontawesome.ttf */,
 			);
 			name = Fonts;
 			path = MapsAOPA/Resourses/Fonts;
@@ -413,6 +416,7 @@
 				B5FB20A81CC1DA3A007DA15E /* aopa-points-export.xml in Resources */,
 				B5D1C6C61CC01020001E3294 /* LaunchScreen.storyboard in Resources */,
 				B5B9B6681E64953400BAD840 /* maki.ttf in Resources */,
+				B564C0DC1E7969B6000DAC6F /* fontawesome.ttf in Resources */,
 				B5D1C6BA1CC00DB7001E3294 /* Assets.xcassets in Resources */,
 				B550117A1E76DCB600ABB184 /* DetailsItemView.xib in Resources */,
 				B5447D3F1CC12ECA0041B579 /* Localizable.strings in Resources */,

@@ -12,4 +12,5 @@ target 'MapsAOPA' do
     pod 'UCCTransliteration'
     pod 'UIColor_Hex_Swift'
     pod 'Suntimes'
+    pod 'SwiftyTimer'
 end

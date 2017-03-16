@@ -24,6 +24,7 @@ class MapViewModel
         }
     }
     var mapPoints : Property<[PointViewModel]> { return Property(_mapPoints) }
+    var foundedPoints : Property<[PointViewModel]> { return Property(_foundedPoints) }
     
     var pointsFilter = Settings.pointsFilter {
         didSet {
@@ -38,6 +39,7 @@ class MapViewModel
     fileprivate let _errorMessage = MutableProperty<String?>(nil)
     
     fileprivate let _mapPoints = MutableProperty<[PointViewModel]>([])
+    fileprivate let _foundedPoints = MutableProperty<[PointViewModel]>([])
     
     fileprivate let network : Network
     fileprivate let loader : AOPALoader
@@ -48,6 +50,8 @@ class MapViewModel
         return Database.sharedDatabase.managedObjectContext
     }
     fileprivate var fetchRequest = NSFetchRequest<Point>(entityName: Point.entityName)
+    fileprivate var searchFetchRequest = NSFetchRequest<Point>(entityName: Point.entityName)
+    fileprivate var searchString : String?
     
     init() {
         self.network = Network()
@@ -56,6 +60,14 @@ class MapViewModel
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: Point.Keys.index.rawValue, ascending: true) ]
         fetchRequest.fetchBatchSize = 100
         fetchRequest.returnsObjectsAsFaults = false
+        
+        searchFetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: Point.Keys.index.rawValue, ascending: true),
+            NSSortDescriptor(key: Point.Keys.searchTitle.rawValue, ascending: true),
+            NSSortDescriptor(key: Point.Keys.searchTitleRu.rawValue, ascending: true)
+        ]
+        searchFetchRequest.fetchBatchSize = 100
+        searchFetchRequest.returnsObjectsAsFaults = false
     }
     
     func loadAirfields(force: Bool = false) {
@@ -130,5 +142,32 @@ class MapViewModel
             return nil
         }
         return PointDetailsViewModel(point: pointViewModel.point)
+    }
+    
+    // MARK: - Search
+    
+    func searchPoints(with string: String) {
+        self.searchString = string
+        self.searchFetchRequest.predicate = Point.searchPredicate(string)
+        DispatchQueue.global().async(execute: {
+            do {
+                let points = try self.mainContext.fetch(self.searchFetchRequest)
+                let pointModels = points.map({
+                    PointViewModel(point: $0)
+                })
+                
+                if self.searchString != string {
+                    return
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    self._foundedPoints.value = pointModels
+                })
+            }
+            catch let error as NSError
+            {
+                print(error.localizedDescription)
+            }
+        })
     }
 }
