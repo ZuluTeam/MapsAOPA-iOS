@@ -17,7 +17,6 @@ import ReactiveCocoa
 
 class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapView : MKMapView!
-    @IBOutlet weak var overlayButtonsView: UIView!
     @IBOutlet weak var detailsView : PointDetailsView!
     @IBOutlet weak var loadingIndicator : UIActivityIndicatorView!
     
@@ -35,8 +34,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        mapView.addSubview(overlayButtonsView)
         
         self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
         let _ = self.viewModel.errorMessage.signal.on(value: { [weak self] message in
