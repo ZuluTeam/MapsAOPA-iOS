@@ -25,21 +25,8 @@ class DetailsTableViewController: UITableViewController {
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 100
         self.viewModel?.phoneNumber.producer.startWithValues({ [weak self] phone in
-            self?.call(to: phone)
+            self?.call(phone: phone)
         })
-    }
-    
-    // MARK: - Private
-    
-    private func call(to phone: String?) {
-        if let phone = phone?.replace(" ", with: ""), let url = URL(string: "tel://\(phone)"), UIApplication.shared.canOpenURL(url) {
-            let alert = UIAlertController(title: nil, message: "\(phone)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Button_Cancel".localized, style: .cancel))
-            alert.addAction(UIAlertAction(title: "Call_Alert_Action".localized, style: .default, handler: { _ in
-                UIApplication.shared.openURL(url)
-            }))
-            self.present(alert, animated: true)
-        }
     }
 
     // MARK: - Table view data source

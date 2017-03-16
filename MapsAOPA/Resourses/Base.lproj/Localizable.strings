@@ -13,10 +13,13 @@
 "Button_Ok" = "Ok";
 "Button_Cancel" = "Cancel";
 
-// Numbers formats
+// MARK: - Numbers formats
 
 "Meters_Format" = "%@ m";
 "Feet_Format" = "%@ ft";
+"hPa_Format" = "%@ hPa";
+"mmHg_Format" = "%@ mmHg";
+"inHg_Format" = "%@ inHg";
 
 // MARK: - Errors
 "Error_Title" = "Error";
@@ -31,19 +34,101 @@
 
 // MARK: - Point details
 
+"Details_Common_Info" = "Common Information";
 "Details_Elevation_Format" = "Elevation: %@";
 "Details_Frequencies_Format" = "📻: %@ %@ MHz";
 "Details_Longest_Runway_Format" = "Longest runway: %@";
-
-// MARK: - Details
+"Details_Active" = "Active";
+"Details_Inactive" = "Inactive";
+"Details_International" = "International";
+"Details_Country" = "Country";
+"Details_Region" = "Region";
+"Details_City" = "City";
+"Details_Location" = "Location";
+"Details_Title" = "Title";
+"Details_Elevation" = "Elevation";
+"Details_Belongs" = "Belongs";
+"Details_Declination" = "Magnetic declination";
+"Details_Daytime" = "Daytime";
+"Details_Sunrise_Sunset" = "Sunrise/sunset (local time)";
+"Details_Twilights" = "Civil twilights start/end (local time)";
+"Details_UTC_Offcet" = "UTC Offset";
+"Details_Worktime" = "Working time";
+"Details_Runways" = "Runways";
+"Details_Length" = "Length";
+"Details_Width" = "Width";
+"Details_Magnetic_Courses" = "Magnetic courses";
+"Details_True_Courses" = "True courses";
+"Details_Threshold1" = "Threshold 1";
+"Details_Threshold2" = "Threshold 2";
+"Details_Surface" = "Surface";
+"Details_Lights" = "Lights";
+"Details_Pattern" = "Pattern";
+"Details_Fuel" = "Fuel";
+"Details_Always" = "Always";
+"Details_On_Request" = "On request";
+"Details_Frequencies" = "Frequencies";
+"Details_Contacts" = "Contacts";
+"Details_Email" = "E-mail";
+"Details_Website" = "Website";
+"Details_Image_Plan" = "Airfield plan";
+"Details_Image_Aerial" = "Aerial photo";
 
 "Call_Alert_Action" = "Call";
 "Frequencies_Format" = "%@ MHz";
 
-// MARK: Frequency types
+// MARK: - Frequency types
 
 "app" = "Approach";
 "ati" = "ATIS";
 "gnd" = "Ground";
 "rdr" = "Radar";
 "twr" = "Tower";
+"str" = "Tower";
+
+// MARK: - Countries
+
+"country_0" = "Russia";
+"country_1" = "Ukraine";
+"country_2" = "Kazakhstan";
+"country_3" = "Belarus";
+
+// MARK: - Belongs
+
+"belongs_-1" = "Unknown";
+"belongs_0" = "Civil Aviation";
+"belongs_1" = "Ministry of Defence";
+"belongs_2" = "General Aviation";
+"belongs_3" = "FSS";
+"belongs_4" = "DOSAAF";
+"belongs_5" = "Experimantal Aviation";
+
+// MARK: - Surface
+
+"runway_surface_-1" = "Unknown";
+"runway_surface_0" = "Water";
+"runway_surface_1" = "Soft";
+"runway_surface_2" = "Soft (Dirt)";
+"runway_surface_3" = "Soft (Gravel)";
+"runway_surface_4" = "Hard";
+"runway_surface_5" = "Hard (Asphalt)";
+"runway_surface_6" = "Hard (Armored concrete)";
+"runway_surface_7" = "Hard (Concrete)";
+"runway_surface_8" = "Hard (Bituminus concrete)";
+"runway_surface_9" = "Hard (Metal)";
+"runway_surface_10" = "Hard (Cement)";
+
+// MARK: - Lights
+
+"runway_lights_-1" = "Unknown";
+"runway_lights_0" = "None";
+"runway_lights_1" = "Always";
+"runway_lights_2" = "On request";
+"runway_lights_3" = "Pilot controlled";
+
+// MARK: - Fuel
+
+"fuel_type_0" = "100LL";
+"fuel_type_1" = "AI-95";
+"fuel_type_2" = "AI-92";
+"fuel_type_3" = "TC-1";

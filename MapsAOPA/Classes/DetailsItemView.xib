@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DetailsItemView" customModule="MapsAOPA" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="48"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HMZ-7n-mlv">
+                    <rect key="frame" x="317" y="4" width="50" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="Yj5-7b-hPb"/>
+                        <constraint firstAttribute="width" constant="50" identifier="width" id="xnD-p6-hIT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ocB-PG-nRb">
+                    <rect key="frame" x="12" y="4" width="36" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="3wG-CH-W3E"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="ocB-PG-nRb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="68B-pR-ufm"/>
+                <constraint firstItem="ocB-PG-nRb" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="12" id="6oF-LY-76d"/>
+                <constraint firstItem="HMZ-7n-mlv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ocB-PG-nRb" secondAttribute="trailing" constant="8" id="HSp-xU-YBj"/>
+                <constraint firstAttribute="trailing" secondItem="HMZ-7n-mlv" secondAttribute="trailing" constant="8" id="VxI-Cy-iDq"/>
+                <constraint firstItem="HMZ-7n-mlv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="c9S-dF-bCL"/>
+                <constraint firstAttribute="bottom" secondItem="ocB-PG-nRb" secondAttribute="bottom" constant="4" id="uGA-p9-VbJ"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="titleLabel" destination="ocB-PG-nRb" id="PmM-M8-aJA"/>
+                <outlet property="valueLabel" destination="HMZ-7n-mlv" id="iFk-0R-Fph"/>
+            </connections>
+            <point key="canvasLocation" x="34.5" y="-255"/>
+        </view>
+    </objects>
+</document>

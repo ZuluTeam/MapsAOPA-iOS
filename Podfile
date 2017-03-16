@@ -6,12 +6,10 @@ target 'MapsAOPA' do
     pod 'ReactiveCocoa'
     pod 'Alamofire'
     pod 'AlamofireImage'
-    pod 'CHCSVParser'
-    pod 'XMLDictionary'
     pod 'Sugar'
     pod 'INTULocationManager'
     pod 'DynamicColor'
     pod 'UCCTransliteration'
     pod 'UIColor_Hex_Swift'
-    pod 'SwiftySunrise'
+    pod 'Suntimes'
 end
