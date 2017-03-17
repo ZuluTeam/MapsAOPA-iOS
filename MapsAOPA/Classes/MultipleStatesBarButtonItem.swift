@@ -38,7 +38,6 @@ class MultipleStatesBarButtonItem: UIBarButtonItem {
     
     fileprivate func updateState()
     {
-        print(self.currentState)
         let state = self.states[self.currentState]
         self.title = state.text
         self.tintColor = state.color
