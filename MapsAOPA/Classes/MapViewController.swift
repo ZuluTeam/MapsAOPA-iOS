@@ -58,7 +58,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         
         
         let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
-        let mapStyleItem = MultipleStatesBarButtonItem(states: ["Sch" as AnyObject, "Hyb" as AnyObject, "Sat" as AnyObject ], currentState: 0) { [ weak self] (state) in
+        let mapStyleItem = MultipleStatesBarButtonItem(
+            states: [("Sch", UIColor(hexString: "177EFB")),
+                     ("Hyb", UIColor(hexString: "177EFB")),
+                     ("Sat", UIColor(hexString: "177EFB")) ],
+            currentState: 0,
+            font: UIFont.systemFont(ofSize: 17)) { [ weak self] (state) in
             switch state
             {
             case 0: self?.mapView.mapType = MKMapType.standard
@@ -69,26 +74,29 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         }
         
         let spacerItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let airportsFilterItem = MultipleStatesBarButtonItem(states: ["\(AppIcons.MakiAirfield.rawValue) None" as AnyObject,
-                                                                      "\(AppIcons.MakiAirfield.rawValue) Active" as AnyObject,
-                                                                      "\(AppIcons.MakiAirfield.rawValue) All" as AnyObject],
-                                                             currentState: Settings.pointsFilter.airportsState.rawValue,
-                                                             action: { [weak self] (state) -> () in
-                                                                if var filter = self?.viewModel.pointsFilter {
-                                                                    filter.airportsState = PointsFilterState(rawValue: state) ?? .active
-                                                                    self?.viewModel.pointsFilter = filter
-                                                                }
+        let airportsFilterItem = MultipleStatesBarButtonItem(
+            states: [(AppIcons.MakiAirfield.rawValue, UIColor(hexString: "FB3817")),
+                     (AppIcons.MakiAirfield.rawValue, UIColor(hexString: "177EFB")),
+                     (AppIcons.MakiAirfield.rawValue, UIColor(hexString: "36FB17"))],
+            currentState: Settings.pointsFilter.airportsState.rawValue,
+            font: UIFont.makiFont(ofSize: 20),
+            action: { [weak self] (state) -> () in
+                if var filter = self?.viewModel.pointsFilter {
+                    filter.airportsState = PointsFilterState(rawValue: state) ?? .active
+                    self?.viewModel.pointsFilter = filter
+                }
         })
-        airportsFilterItem.setTitleTextAttributes([ NSFontAttributeName: UIFont.makiFont(ofSize: 20) ], for: .normal)
-        let heliportsFilterItem = MultipleStatesBarButtonItem(states: ["\(AppIcons.MakiHeliport.rawValue) None" as AnyObject,
-                                                                       "\(AppIcons.MakiHeliport.rawValue) Active" as AnyObject,
-                                                                       "\(AppIcons.MakiHeliport.rawValue) All" as AnyObject],
-                                                              currentState: Settings.pointsFilter.heliportsState.rawValue,
-                                                              action:  { [weak self] (state) -> () in
-                                                                if var filter = self?.viewModel.pointsFilter {
-                                                                    filter.heliportsState = PointsFilterState(rawValue: state) ?? .active
-                                                                    self?.viewModel.pointsFilter = filter
-                                                                }
+        let heliportsFilterItem = MultipleStatesBarButtonItem(
+            states: [(AppIcons.MakiHeliport.rawValue, UIColor(hexString: "FB3817")),
+                     (AppIcons.MakiHeliport.rawValue, UIColor(hexString: "177EFB")),
+                     (AppIcons.MakiHeliport.rawValue, UIColor(hexString: "36FB17"))],
+            currentState: Settings.pointsFilter.heliportsState.rawValue,
+            font: UIFont.makiFont(ofSize: 20),
+            action:  { [weak self] (state) -> () in
+                if var filter = self?.viewModel.pointsFilter {
+                    filter.heliportsState = PointsFilterState(rawValue: state) ?? .active
+                    self?.viewModel.pointsFilter = filter
+                }
         })
         heliportsFilterItem.setTitleTextAttributes([ NSFontAttributeName: UIFont.makiFont(ofSize: 20) ], for: .normal)
         
@@ -125,16 +133,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         }
         
         self.viewModel.loadAirfields()
-        
-        let _ = self.detailsView.websiteButton?.reactive.controlEvents(.touchUpInside).observeValues({ [weak self] button in
-            self?.openURL(self?.detailsView.pointDetailsViewModel?.website)
-        })
-        
-        let _ = self.detailsView.emailButton?.reactive.controlEvents(.touchUpInside).observeValues({ [weak self] button in
-            self?.mail(to: self?.detailsView.pointDetailsViewModel?.email)
-        })
-        
-//        let _ = self.searchBar.reactive.text
     }
     
     override func viewDidLayoutSubviews() {
@@ -164,17 +162,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     }
     
     // MARK: - Private
-    
-    fileprivate func openURL(_ url: String?) {
-        if var website = url {
-            if(!website.contains("://")) {
-                website = "http://" + website
-            }
-            if let url = URL(string: website), UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.openURL(url)
-            }
-        }
-    }
     
     fileprivate func refreshPoints(_ points : [PointViewModel]) {
         var points = points
@@ -248,6 +235,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     @IBAction func menuAction(_ sender: AnyObject?) {
         
+    }
+    
+    @IBAction func zoomInAction(_ sender: AnyObject?) {
+        if let selectedPoint = self.viewModel.selectedPoint.value {
+            self.zoom(to: selectedPoint)
+        }
+    }
+    
+    @IBAction func websiteAction(_ sender: AnyObject?) {
+        self.open(url: self.detailsView.pointDetailsViewModel?.website)
+    }
+    
+    @IBAction func mailAction(_ sender: AnyObject?) {
+        self.mail(to: self.detailsView.pointDetailsViewModel?.email)
     }
 
     // MARK: - MKMapViewDelegate
