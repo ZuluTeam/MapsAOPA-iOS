@@ -18,7 +18,7 @@ class MapViewModel
     var isLoading : Property<Bool> { return Property(_loading) }
     var errorMessage : Property<String?> { return Property(_errorMessage) }
     
-    var mapRegion = Settings.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate) {
+    var mapRegion = Settings.current.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate) {
         didSet {
             self.updateRegion(mapRegion, withFilter: self.pointsFilter)
         }
@@ -26,9 +26,9 @@ class MapViewModel
     var mapPoints : Property<[PointViewModel]> { return Property(_mapPoints) }
     var foundedPoints : Property<[PointViewModel]> { return Property(_foundedPoints) }
     
-    var pointsFilter = Settings.pointsFilter {
+    var pointsFilter = Settings.current.pointsFilter.value {
         didSet {
-            Settings.pointsFilter = pointsFilter
+            Settings.current.pointsFilter.value = pointsFilter
             self.updateRegion(self.mapRegion, withFilter: pointsFilter)
         }
     }
@@ -71,8 +71,11 @@ class MapViewModel
     }
     
     func loadAirfields(force: Bool = false) {
+        if _loading.value {
+            return
+        }
         let date = Date()
-        if !force && date.timeIntervalSince(Settings.lastUpdate) < Settings.reloadDataTimeInterval {
+        if !force && date.timeIntervalSince(Settings.current.lastUpdate.value) < Settings.reloadDataTimeInterval {
             return
         }
         _loading.value = true
@@ -90,7 +93,7 @@ class MapViewModel
               completed: { [weak self] in
                 self?.xmlParser = nil
                 self?._loading.value = false
-                Settings.lastUpdate = Date()
+                Settings.current.lastUpdate.value = Date()
                 Database.sharedDatabase.saveContext(Database.sharedDatabase.backgroundManagedObjectContext)
                 if let selfInstance = self {
                     selfInstance.updateRegion(selfInstance.mapRegion, withFilter: selfInstance.pointsFilter)
@@ -114,7 +117,7 @@ class MapViewModel
     }
     
     private func updateRegion(_ region: MKCoordinateRegion, withFilter filter: PointsFilter) {
-        Settings.saveRegion(region)
+        Settings.current.saveRegion(region)
         self.fetchRequest.predicate = Database.pointsPredicate(forRegion: region, withFilter: filter)
         DispatchQueue.global().async(execute: {
             do {

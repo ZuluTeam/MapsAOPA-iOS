@@ -13,13 +13,28 @@
 "Button_Ok" = "Ok";
 "Button_Cancel" = "Cancel";
 
+// MARK: - Menu
+
+"Menu_Last_Update_Format" = "Last update:\n%@";
+"Menu_Units_Distance_0" = "meters";
+"Menu_Units_Distance_1" = "feet";
+"Menu_Units_Pressure_0" = "mmHg";
+"Menu_Units_Pressure_1" = "hPa";
+"Menu_Units_Pressure_2" = "inHg";
+"Menu_Units_Speed_0" = "mps";
+"Menu_Units_Speed_1" = "kmph";
+"Menu_Units_Speed_2" = "st. mph";
+"Menu_Units_Speed_3" = "kt";
+"Menu_Reload_Message" = "Do you want to reload airfields data? It takes about 10MB of data and it will take about 5 min";
+"Menu_Reload_Button" = "Reload";
+
 // MARK: - Numbers formats
 
 "Meters_Format" = "%@ m";
 "Feet_Format" = "%@ ft";
-"hPa_Format" = "%@ hPa";
-"mmHg_Format" = "%@ mmHg";
-"inHg_Format" = "%@ inHg";
+"hPa_Format" = "%.0f hPa";
+"mmHg_Format" = "%.0f mmHg";
+"inHg_Format" = "%.2f inHg";
 
 // MARK: - Errors
 "Error_Title" = "Error";

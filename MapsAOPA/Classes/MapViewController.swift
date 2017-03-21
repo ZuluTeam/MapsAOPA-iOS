@@ -29,7 +29,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     fileprivate static let zoomToPointSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     
-    fileprivate lazy var viewModel = MapViewModel()
+    var viewModel: MapViewModel!
     
     fileprivate var pointDetailsViewController : PointDetailsTableViewController?
     
@@ -42,6 +42,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Settings.current.mapType.producer.startWithValues { mapType in
+            self.mapView.mapType = mapType
+        }
         
         self.searchBar.resignFirstResponder()
         self.setSearchHidden(true, animated: false)
@@ -57,52 +61,38 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         keyboardObserver?.activate()
         
         
-        let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
-        let mapStyleItem = MultipleStatesBarButtonItem(
-            states: [("Sch", UIColor(hexString: "177EFB")),
-                     ("Hyb", UIColor(hexString: "177EFB")),
-                     ("Sat", UIColor(hexString: "177EFB")) ],
-            currentState: 0,
-            font: UIFont.systemFont(ofSize: 17)) { [ weak self] (state) in
-            switch state
-            {
-            case 0: self?.mapView.mapType = MKMapType.standard
-            case 1: self?.mapView.mapType = MKMapType.hybrid
-            case 2: self?.mapView.mapType = MKMapType.satellite
-            default: break
-            }
-        }
+//        let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
+//        
+//        let spacerItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+//        let airportsFilterItem = MultipleStatesBarButtonItem(
+//            states: [(AppIcons.MakiAirfield.rawValue, UIColor(hexString: "FB3817")),
+//                     (AppIcons.MakiAirfield.rawValue, UIColor(hexString: "177EFB")),
+//                     (AppIcons.MakiAirfield.rawValue, UIColor(hexString: "36FB17"))],
+//            currentState: Settings.pointsFilter.airportsState.rawValue,
+//            font: UIFont.makiFont(ofSize: 20),
+//            action: { [weak self] (state) -> () in
+//                if var filter = self?.viewModel.pointsFilter {
+//                    filter.airportsState = PointsFilterState(rawValue: state) ?? .active
+//                    self?.viewModel.pointsFilter = filter
+//                }
+//        })
+//        let heliportsFilterItem = MultipleStatesBarButtonItem(
+//            states: [(AppIcons.MakiHeliport.rawValue, UIColor(hexString: "FB3817")),
+//                     (AppIcons.MakiHeliport.rawValue, UIColor(hexString: "177EFB")),
+//                     (AppIcons.MakiHeliport.rawValue, UIColor(hexString: "36FB17"))],
+//            currentState: Settings.pointsFilter.heliportsState.rawValue,
+//            font: UIFont.makiFont(ofSize: 20),
+//            action:  { [weak self] (state) -> () in
+//                if var filter = self?.viewModel.pointsFilter {
+//                    filter.heliportsState = PointsFilterState(rawValue: state) ?? .active
+//                    self?.viewModel.pointsFilter = filter
+//                }
+//        })
+//        heliportsFilterItem.setTitleTextAttributes([ NSFontAttributeName: UIFont.makiFont(ofSize: 20) ], for: .normal)
+//        
+//        self.toolbarItems = [userTrackingItem, spacerItem, airportsFilterItem, heliportsFilterItem]
         
-        let spacerItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let airportsFilterItem = MultipleStatesBarButtonItem(
-            states: [(AppIcons.MakiAirfield.rawValue, UIColor(hexString: "FB3817")),
-                     (AppIcons.MakiAirfield.rawValue, UIColor(hexString: "177EFB")),
-                     (AppIcons.MakiAirfield.rawValue, UIColor(hexString: "36FB17"))],
-            currentState: Settings.pointsFilter.airportsState.rawValue,
-            font: UIFont.makiFont(ofSize: 20),
-            action: { [weak self] (state) -> () in
-                if var filter = self?.viewModel.pointsFilter {
-                    filter.airportsState = PointsFilterState(rawValue: state) ?? .active
-                    self?.viewModel.pointsFilter = filter
-                }
-        })
-        let heliportsFilterItem = MultipleStatesBarButtonItem(
-            states: [(AppIcons.MakiHeliport.rawValue, UIColor(hexString: "FB3817")),
-                     (AppIcons.MakiHeliport.rawValue, UIColor(hexString: "177EFB")),
-                     (AppIcons.MakiHeliport.rawValue, UIColor(hexString: "36FB17"))],
-            currentState: Settings.pointsFilter.heliportsState.rawValue,
-            font: UIFont.makiFont(ofSize: 20),
-            action:  { [weak self] (state) -> () in
-                if var filter = self?.viewModel.pointsFilter {
-                    filter.heliportsState = PointsFilterState(rawValue: state) ?? .active
-                    self?.viewModel.pointsFilter = filter
-                }
-        })
-        heliportsFilterItem.setTitleTextAttributes([ NSFontAttributeName: UIFont.makiFont(ofSize: 20) ], for: .normal)
-        
-        self.toolbarItems = [userTrackingItem, mapStyleItem, spacerItem, airportsFilterItem, heliportsFilterItem]
-        
-        self.mapView.setRegion(Settings.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate), animated: false)
+        self.mapView.setRegion(Settings.current.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate), animated: false)
         
         INTULocationManager.sharedInstance().requestLocation(withDesiredAccuracy: .block, timeout: TimeInterval(CGFloat.greatestFiniteMagnitude), delayUntilAuthorized: false, block: { [weak self] (location, accuracy, status) in
             var mapLocation : CLLocationCoordinate2D = Settings.defaultCoordinate
@@ -110,7 +100,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
                 self?.mapView.showsUserLocation = true
                 mapLocation = (location?.coordinate)!
             }
-            let mapRegion = Settings.mapRegion(withDefaultCoordinate: mapLocation)
+            let mapRegion = Settings.current.mapRegion(withDefaultCoordinate: mapLocation)
             self?.mapView.setRegion(mapRegion, animated: true)
         })
         
