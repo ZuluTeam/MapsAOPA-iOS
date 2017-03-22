@@ -32,6 +32,10 @@ enum PointsFilterState : Int
     case none
     case active
     case all
+    
+    var localized : String {
+        return "Menu_Filter_\(self.rawValue)".localized
+    }
 }
 
 struct PointsFilter

@@ -16,6 +16,11 @@ import ReactiveCocoa
 import Sugar
 import SwiftyTimer
 
+protocol MapViewControllerDelegate : NSObjectProtocol {
+    var statusBarStyle : UIStatusBarStyle { get set }
+    func showMenu()
+}
+
 
 class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentationControllerDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
 
@@ -31,6 +36,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     var viewModel: MapViewModel!
     
+    weak var delegate : MapViewControllerDelegate?
+    
     fileprivate var pointDetailsViewController : PointDetailsTableViewController?
     
     required init?(coder aDecoder: NSCoder) {
@@ -39,12 +46,22 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     fileprivate var keyboardObserver : KeyboardObserver?
     fileprivate var searchTimer : Timer?
+    
+    override public var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            if self.mapView?.mapType != MKMapType.standard {
+                return .lightContent
+            }
+            return .default
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Settings.current.mapType.producer.startWithValues { mapType in
-            self.mapView.mapType = mapType
+        Settings.current.mapType.producer.startWithValues { [weak self] mapType in
+            self?.mapView.mapType = mapType
+            self?.delegate?.statusBarStyle = self?.preferredStatusBarStyle ?? .default
         }
         
         self.searchBar.resignFirstResponder()
@@ -59,38 +76,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         handler.scrollView = self.searchTableView
         keyboardObserver = KeyboardObserver(handler: handler)
         keyboardObserver?.activate()
-        
-        
-//        let userTrackingItem = MKUserTrackingBarButtonItem(mapView: self.mapView)
-//        
-//        let spacerItem = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-//        let airportsFilterItem = MultipleStatesBarButtonItem(
-//            states: [(AppIcons.MakiAirfield.rawValue, UIColor(hexString: "FB3817")),
-//                     (AppIcons.MakiAirfield.rawValue, UIColor(hexString: "177EFB")),
-//                     (AppIcons.MakiAirfield.rawValue, UIColor(hexString: "36FB17"))],
-//            currentState: Settings.pointsFilter.airportsState.rawValue,
-//            font: UIFont.makiFont(ofSize: 20),
-//            action: { [weak self] (state) -> () in
-//                if var filter = self?.viewModel.pointsFilter {
-//                    filter.airportsState = PointsFilterState(rawValue: state) ?? .active
-//                    self?.viewModel.pointsFilter = filter
-//                }
-//        })
-//        let heliportsFilterItem = MultipleStatesBarButtonItem(
-//            states: [(AppIcons.MakiHeliport.rawValue, UIColor(hexString: "FB3817")),
-//                     (AppIcons.MakiHeliport.rawValue, UIColor(hexString: "177EFB")),
-//                     (AppIcons.MakiHeliport.rawValue, UIColor(hexString: "36FB17"))],
-//            currentState: Settings.pointsFilter.heliportsState.rawValue,
-//            font: UIFont.makiFont(ofSize: 20),
-//            action:  { [weak self] (state) -> () in
-//                if var filter = self?.viewModel.pointsFilter {
-//                    filter.heliportsState = PointsFilterState(rawValue: state) ?? .active
-//                    self?.viewModel.pointsFilter = filter
-//                }
-//        })
-//        heliportsFilterItem.setTitleTextAttributes([ NSFontAttributeName: UIFont.makiFont(ofSize: 20) ], for: .normal)
-//        
-//        self.toolbarItems = [userTrackingItem, spacerItem, airportsFilterItem, heliportsFilterItem]
         
         self.mapView.setRegion(Settings.current.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate), animated: false)
         
@@ -181,6 +166,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         self.detailsView.pointDetailsViewModel = pointDetails
         self.pointDetailsViewController?.pointDetailsViewModel = pointDetails
         let constraints = self.view.constraints
+//        self.detailsView.isHidden = false
         for constraint in constraints {
             if constraint.identifier == "DetailsBottom" {
                 constraint.constant = -(CGFloat(nil == pointDetails) * self.detailsView.height)
@@ -188,8 +174,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
                 constraint.constant = -(CGFloat(nil == pointDetails) * self.detailsView.width)
             }
         }
-        UIView.animate(withDuration: 0.25 * TimeInterval(animated)) {
+        UIView.animate(withDuration: 0.25 * TimeInterval(animated), animations: {
             self.detailsView.layoutIfNeeded()
+        }) { _ in
+//            self.detailsView.isHidden = nil == pointDetails
         }
         
         if let pointDetails = pointDetails {
@@ -224,7 +212,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     }
     
     @IBAction func menuAction(_ sender: AnyObject?) {
-        
+        self.delegate?.showMenu()
     }
     
     @IBAction func zoomInAction(_ sender: AnyObject?) {

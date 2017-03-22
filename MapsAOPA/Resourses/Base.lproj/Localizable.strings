@@ -25,8 +25,11 @@
 "Menu_Units_Speed_1" = "kmph";
 "Menu_Units_Speed_2" = "st. mph";
 "Menu_Units_Speed_3" = "kt";
-"Menu_Reload_Message" = "Do you want to reload airfields data? It takes about 10MB of data and it will take about 5 min";
+"Menu_Reload_Message" = "Do you want to reload airfields data? Download about 10MB of data using your mobile network or wi-fi and it will take about 5 min";
 "Menu_Reload_Button" = "Reload";
+"Menu_Filter_0" = "None";
+"Menu_Filter_2" = "All";
+"Menu_Filter_1" = "Active";
 
 // MARK: - Numbers formats
 

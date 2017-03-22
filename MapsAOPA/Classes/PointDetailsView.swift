@@ -44,8 +44,10 @@ class PointDetailsView: UIView
         
         self.titleLabel?.text = model.title
         
+        let elevation = model.elevation
+        
         self.elevationLabel.reactive.text <~ Settings.current.units.map({ _ in
-            return "Details_Elevation_Format".localized(arguments: Converter.localized(distanceInMeters: model.elevation))
+            return "Details_Elevation_Format".localized(arguments: "\(Converter.localized(distanceInMeters: elevation)) (\(Converter.localized(pressureDegreeFromMeters: Double(elevation))))")
         })
         let longestRunwayLength = model.runways.reduce(0, { $0 > $1.length ? $0 : $1.length })
         self.longestRunwayLabel.reactive.text <~ Settings.current.units.map({ _ in

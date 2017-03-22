@@ -26,13 +26,6 @@ class MapViewModel
     var mapPoints : Property<[PointViewModel]> { return Property(_mapPoints) }
     var foundedPoints : Property<[PointViewModel]> { return Property(_foundedPoints) }
     
-    var pointsFilter = Settings.current.pointsFilter.value {
-        didSet {
-            Settings.current.pointsFilter.value = pointsFilter
-            self.updateRegion(self.mapRegion, withFilter: pointsFilter)
-        }
-    }
-    
     var selectedPoint = MutableProperty<PointViewModel?>(nil)
     
     fileprivate let _loading = MutableProperty<Bool>(false)
@@ -53,9 +46,18 @@ class MapViewModel
     fileprivate var searchFetchRequest = NSFetchRequest<Point>(entityName: Point.entityName)
     fileprivate var searchString : String?
     
+    fileprivate var pointsFilter : PointsFilter = Settings.current.pointsFilter.value
+    
     init() {
         self.network = Network()
         self.loader = AOPALoader(network: network)
+        
+        Settings.current.pointsFilter.producer.startWithValues { [weak self] filter in
+            if let selfInstance = self {
+                selfInstance.pointsFilter = filter
+                selfInstance.updateRegion(selfInstance.mapRegion, withFilter: filter)
+            }
+        }
         
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: Point.Keys.index.rawValue, ascending: true) ]
         fetchRequest.fetchBatchSize = 100

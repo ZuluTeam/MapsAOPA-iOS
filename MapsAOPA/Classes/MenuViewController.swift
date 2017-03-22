@@ -11,6 +11,9 @@ import MapKit
 import ReactiveSwift
 
 class MenuViewController: UIViewController {
+    @IBOutlet var airportsFilterControl : UISegmentedControl!
+    @IBOutlet var heliportsFilterControl : UISegmentedControl!
+    
     @IBOutlet var mapTypeControl : UISegmentedControl!
     @IBOutlet var distanceUnitsControl : UISegmentedControl!
     @IBOutlet var pressureControl : UISegmentedControl!
@@ -36,6 +39,20 @@ class MenuViewController: UIViewController {
             return "Menu_Last_Update_Format".localized(arguments: self?.dateFormatter.string(from: date) ?? "")
         })
         
+        self.airportsFilterControl.removeAllSegments()
+        self.airportsFilterControl.insertSegment(withTitle: PointsFilterState.none.localized, at: PointsFilterState.none.rawValue, animated: false)
+        self.airportsFilterControl.insertSegment(withTitle: PointsFilterState.active.localized, at: PointsFilterState.active.rawValue, animated: false)
+        self.airportsFilterControl.insertSegment(withTitle: PointsFilterState.all.localized, at: PointsFilterState.all.rawValue, animated: false)
+        
+        self.airportsFilterControl.selectedSegmentIndex = Settings.current.pointsFilter.value.airportsState.rawValue
+        
+        self.heliportsFilterControl.removeAllSegments()
+        self.heliportsFilterControl.insertSegment(withTitle: PointsFilterState.none.localized, at: PointsFilterState.none.rawValue, animated: false)
+        self.heliportsFilterControl.insertSegment(withTitle: PointsFilterState.active.localized, at: PointsFilterState.active.rawValue, animated: false)
+        self.heliportsFilterControl.insertSegment(withTitle: PointsFilterState.all.localized, at: PointsFilterState.all.rawValue, animated: false)
+        
+        self.heliportsFilterControl.selectedSegmentIndex = Settings.current.pointsFilter.value.heliportsState.rawValue
+        
         self.distanceUnitsControl.removeAllSegments()
         self.distanceUnitsControl.insertSegment(withTitle: DistanceUnits.meter.localized, at: DistanceUnits.meter.rawValue, animated: false)
         self.distanceUnitsControl.insertSegment(withTitle: DistanceUnits.foot.localized, at: DistanceUnits.foot.rawValue, animated: false)
@@ -59,6 +76,22 @@ class MenuViewController: UIViewController {
     
     // MARK: - Actions
     
+    @IBAction func airportsFilterChanged(_ sender: UISegmentedControl!) {
+        if let state = PointsFilterState(rawValue: sender.selectedSegmentIndex) {
+            var filter = Settings.current.pointsFilter.value
+            filter.airportsState = state
+            Settings.current.pointsFilter.value = filter
+        }
+    }
+    
+    @IBAction func heliportsFilterChanged(_ sender: UISegmentedControl!) {
+        if let state = PointsFilterState(rawValue: sender.selectedSegmentIndex) {
+            var filter = Settings.current.pointsFilter.value
+            filter.heliportsState = state
+            Settings.current.pointsFilter.value = filter
+        }
+    }
+    
     @IBAction func mapTypeChanged(_ sender: UISegmentedControl!) {
         if let mapType = MKMapType(rawValue: UInt(sender.selectedSegmentIndex)) {
             Settings.current.mapType.value = mapType
@@ -79,7 +112,6 @@ class MenuViewController: UIViewController {
             units.pressure = pressureUnits
             Settings.current.units.value = units
         }
-
     }
     
     @IBAction func reloadAction(_ sender: AnyObject!) {
