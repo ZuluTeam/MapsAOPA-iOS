@@ -40,6 +40,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     fileprivate var pointDetailsViewController : PointDetailsTableViewController?
     
+    fileprivate static let zoomPercent: CLLocationDegrees = 0.5
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -229,6 +231,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         self.mail(to: self.detailsView.pointDetailsViewModel?.email)
     }
 
+    @IBAction func zoomInButtonPress(_ sender: UIButton) {
+        zoomInMap()
+    }
+    
+    @IBAction func zoomOutButtonPress(_ sender: UIButton) {
+        zoomOutMap()
+    }
+    
+    
     // MARK: - MKMapViewDelegate
  
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -263,6 +274,28 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return RunwaysOverlayRenderer(overlay: overlay)
     }
+    
+    
+    // MARK: Zoom Buttons Action
+    
+    func zoomInMap() {
+        var region = mapView.region
+        var span = MKCoordinateSpan()
+        span.latitudeDelta = region.span.latitudeDelta * (1.0 - MapViewController.zoomPercent)
+        span.longitudeDelta = region.span.longitudeDelta * (1.0 - MapViewController.zoomPercent)
+        region.span = span
+        mapView.setRegion(region, animated: true);
+    }
+    
+    func zoomOutMap() {
+        var region = mapView.region
+        var span = MKCoordinateSpan()
+        span.latitudeDelta = region.span.latitudeDelta * (1.0 + MapViewController.zoomPercent)
+        span.longitudeDelta = region.span.longitudeDelta * (1.0 + MapViewController.zoomPercent)
+        region.span = span
+        mapView.setRegion(region, animated: true);
+    }
+
     
     // MARK: - UIPopoverPresentationControllerDelegate
     

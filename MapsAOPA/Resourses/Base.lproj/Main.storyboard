@@ -25,7 +25,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Qz4-Oh-lGb">
-                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="724" width="1024" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -133,6 +133,73 @@
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="f2O-ml-HiT">
                                 <rect key="frame" x="12" y="84" width="20" height="20"/>
                             </activityIndicatorView>
+                            <view autoresizesSubviews="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="wc6-86-gGA" userLabel="Overlay Buttons View" customClass="DesignableUIView" customModule="MapsAOPA" customModuleProvider="target">
+                                <rect key="frame" x="403" y="458" width="50" height="108"/>
+                                <subviews>
+                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZP-et-vVm" customClass="DesignableUIButton" customModule="MapsAOPA" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="bZP-et-vVm" secondAttribute="height" multiplier="1:1" id="JcG-fU-yv3"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="4"/>
+                                        <state key="normal" title="+"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="makeCircle" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="zoomInButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6YU-oU-9Qf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Un-TN-8C0" userLabel="-" customClass="DesignableUIButton" customModule="MapsAOPA" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="58" width="50" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="0Un-TN-8C0" secondAttribute="height" multiplier="1:1" id="hQK-at-Hfp"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="4"/>
+                                        <state key="normal" title="−"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="makeCircle" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="zoomOutButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AIh-cc-Wik"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="bZP-et-vVm" firstAttribute="leading" secondItem="wc6-86-gGA" secondAttribute="leading" id="3LK-5t-F26"/>
+                                    <constraint firstAttribute="trailing" secondItem="bZP-et-vVm" secondAttribute="trailing" id="FJt-Ol-JcP"/>
+                                    <constraint firstAttribute="trailing" secondItem="0Un-TN-8C0" secondAttribute="trailing" id="H6S-rU-ie8"/>
+                                    <constraint firstAttribute="width" constant="50" id="cCA-TG-i8F"/>
+                                    <constraint firstItem="0Un-TN-8C0" firstAttribute="top" secondItem="bZP-et-vVm" secondAttribute="bottom" constant="8" id="gcc-25-CNC"/>
+                                    <constraint firstAttribute="bottom" secondItem="0Un-TN-8C0" secondAttribute="bottom" id="iGy-bl-4Jh"/>
+                                    <constraint firstItem="0Un-TN-8C0" firstAttribute="leading" secondItem="wc6-86-gGA" secondAttribute="leading" id="oua-1e-rbI"/>
+                                    <constraint firstItem="bZP-et-vVm" firstAttribute="top" secondItem="wc6-86-gGA" secondAttribute="top" id="tmf-h1-YhX"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZtX-Ye-bTp" customClass="PointDetailsView" customModule="MapsAOPA" customModuleProvider="target">
                                 <rect key="frame" x="461" y="0.0" width="307" height="1024"/>
                                 <subviews>
@@ -433,6 +500,7 @@
                         <constraints>
                             <constraint firstItem="f2O-ml-HiT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="12" id="0sw-Sx-nIM"/>
                             <constraint firstItem="Yps-wh-9F4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="1vN-bg-eNg"/>
+                            <constraint firstItem="ZtX-Ye-bTp" firstAttribute="leading" secondItem="wc6-86-gGA" secondAttribute="trailing" constant="8" id="3W6-Er-3CJ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="c1Z-jM-aBk" secondAttribute="bottom" id="6J3-o1-NUL"/>
                             <constraint firstAttribute="trailing" secondItem="c1Z-jM-aBk" secondAttribute="trailing" id="76L-Yf-MLC"/>
                             <constraint firstItem="ZtX-Ye-bTp" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.4" id="Csq-hd-eh4"/>
@@ -448,10 +516,12 @@
                             <constraint firstItem="c1Z-jM-aBk" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gsP-cD-YDx"/>
                             <constraint firstItem="f2O-ml-HiT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="12" id="icx-6x-3fO"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="bottom" id="jXz-mt-rVr"/>
+                            <constraint firstItem="wc6-86-gGA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="k3L-gO-2x1"/>
                             <constraint firstAttribute="trailing" secondItem="Yps-wh-9F4" secondAttribute="trailing" id="mPG-cp-EA7"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="bottom" identifier="DetailsBottom" id="osf-7E-Yfg"/>
                             <constraint firstAttribute="trailing" secondItem="zB6-3S-Cmn" secondAttribute="trailing" id="sSf-Za-Z5J"/>
                             <constraint firstAttribute="trailing" secondItem="ZtX-Ye-bTp" secondAttribute="trailing" identifier="DetailsLeft" id="spP-aE-ZVe"/>
+                            <constraint firstAttribute="trailing" secondItem="wc6-86-gGA" secondAttribute="trailing" constant="8" id="wMs-uD-yJk"/>
                             <constraint firstItem="zB6-3S-Cmn" firstAttribute="top" secondItem="Yps-wh-9F4" secondAttribute="bottom" id="wfZ-uY-vs8"/>
                         </constraints>
                         <variation key="default">
@@ -463,6 +533,8 @@
                                 <exclude reference="GYu-1k-zsU"/>
                                 <exclude reference="HQM-Nx-QqX"/>
                                 <exclude reference="Mm6-Sm-hjr"/>
+                                <exclude reference="3W6-Er-3CJ"/>
+                                <exclude reference="wMs-uD-yJk"/>
                                 <exclude reference="jXz-mt-rVr"/>
                                 <exclude reference="osf-7E-Yfg"/>
                             </mask>
@@ -473,6 +545,7 @@
                                 <include reference="EGy-GG-0Gr"/>
                                 <include reference="GYu-1k-zsU"/>
                                 <include reference="HQM-Nx-QqX"/>
+                                <include reference="3W6-Er-3CJ"/>
                                 <include reference="jXz-mt-rVr"/>
                             </mask>
                         </variation>
@@ -482,6 +555,7 @@
                                 <include reference="EGy-GG-0Gr"/>
                                 <include reference="GYu-1k-zsU"/>
                                 <include reference="HQM-Nx-QqX"/>
+                                <include reference="3W6-Er-3CJ"/>
                                 <include reference="jXz-mt-rVr"/>
                             </mask>
                         </variation>
@@ -490,6 +564,7 @@
                                 <include reference="mPG-cp-EA7"/>
                                 <include reference="sSf-Za-Z5J"/>
                                 <include reference="Mm6-Sm-hjr"/>
+                                <include reference="wMs-uD-yJk"/>
                                 <include reference="osf-7E-Yfg"/>
                             </mask>
                         </variation>
@@ -499,6 +574,7 @@
                                 <include reference="EGy-GG-0Gr"/>
                                 <include reference="GYu-1k-zsU"/>
                                 <include reference="HQM-Nx-QqX"/>
+                                <include reference="3W6-Er-3CJ"/>
                                 <include reference="jXz-mt-rVr"/>
                             </mask>
                         </variation>
@@ -524,7 +600,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1926.0869565217392" y="239.67391304347828"/>
+            <point key="canvasLocation" x="1925.78125" y="239.64843749999997"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="iLG-Po-Tmg">
@@ -867,7 +943,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="307" height="449"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dDY-q9-b6Z">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dDY-q9-b6Z">
                                             <rect key="frame" x="8" y="8" width="291" height="291"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="dDY-q9-b6Z" secondAttribute="height" multiplier="1:1" id="ast-Hy-8g9"/>
