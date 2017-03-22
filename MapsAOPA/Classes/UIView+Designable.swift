@@ -32,6 +32,16 @@ extension UIView {
     }
     
     @IBInspectable
+    var makeCircle : Bool {
+        get {
+            return self.cornerRadius == self.width * 0.5 && self.cornerRadius == self.height * 0.5
+        }
+        set {
+            self.cornerRadius = min(self.width, self.height) * 0.5
+        }
+    }
+    
+    @IBInspectable
     var borderColor : UIColor? {
         get {
             if let color = self.layer.borderColor {

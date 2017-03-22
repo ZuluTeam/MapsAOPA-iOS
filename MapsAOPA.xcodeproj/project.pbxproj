@@ -42,6 +42,8 @@
 		B563E2211CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */; };
 		B563E2221CC1B98900480DA2 /* PointDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B563E2181CC1B98900480DA2 /* PointDetails.swift */; };
 		B564C0DC1E7969B6000DAC6F /* fontawesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B564C0DB1E7969B6000DAC6F /* fontawesome.ttf */; };
+		B56BD2EE1E80341B000BAA06 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BD2ED1E80341B000BAA06 /* MenuViewController.swift */; };
+		B56BD2F01E80356B000BAA06 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56BD2EF1E80356B000BAA06 /* MainViewController.swift */; };
 		B56FBEF11E5F416F008886AF /* RunwaysOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */; };
 		B5867E4A1E77FBA0005C01E0 /* UIViewController+Contacts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5867E491E77FBA0005C01E0 /* UIViewController+Contacts.swift */; };
 		B5B9B6651E648AD600BAD840 /* UIView+Designable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */; };
@@ -106,6 +108,8 @@
 		B563E2171CC1B98900480DA2 /* PointDetails+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PointDetails+CoreDataProperties.swift"; path = "Entities/PointDetails+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B563E2181CC1B98900480DA2 /* PointDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PointDetails.swift; path = Entities/PointDetails.swift; sourceTree = "<group>"; };
 		B564C0DB1E7969B6000DAC6F /* fontawesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = fontawesome.ttf; sourceTree = "<group>"; };
+		B56BD2ED1E80341B000BAA06 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		B56BD2EF1E80356B000BAA06 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunwaysOverlay.swift; sourceTree = "<group>"; };
 		B5867E491E77FBA0005C01E0 /* UIViewController+Contacts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Contacts.swift"; path = "MapsAOPA/Classes/UIViewController+Contacts.swift"; sourceTree = SOURCE_ROOT; };
 		B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Designable.swift"; sourceTree = "<group>"; };
@@ -171,8 +175,6 @@
 			children = (
 				B53826B71D009B8300828A95 /* Details */,
 				B5D1C6AD1CC00DB7001E3294 /* MapViewController.swift */,
-				B5DC775D1CC7E2B700226660 /* MapViewModel.swift */,
-				B54BB5811E56FA4A00C0FC5E /* PointViewModel.swift */,
 				B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */,
 				B56FBEF01E5F416E008886AF /* RunwaysOverlay.swift */,
 			);
@@ -243,6 +245,23 @@
 			name = Entities;
 			sourceTree = "<group>";
 		};
+		B56BD2EC1E8033ED000BAA06 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				B56BD2ED1E80341B000BAA06 /* MenuViewController.swift */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		B56BD2F11E803705000BAA06 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B5DC775D1CC7E2B700226660 /* MapViewModel.swift */,
+				B54BB5811E56FA4A00C0FC5E /* PointViewModel.swift */,
+			);
+			name = ViewModels;
+			sourceTree = "<group>";
+		};
 		B5B9B6661E64953400BAD840 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,6 +320,9 @@
 				B54BB5801E55BC7C00C0FC5E /* Error */,
 				B54978B21CC2A9F0005434D5 /* Network */,
 				B53587781CC6AE9D0068D3C9 /* Map */,
+				B56BD2EC1E8033ED000BAA06 /* Menu */,
+				B56BD2EF1E80356B000BAA06 /* MainViewController.swift */,
+				B56BD2F11E803705000BAA06 /* ViewModels */,
 				B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */,
 				B5D1C6D01CC05989001E3294 /* Settings.swift */,
 			);
@@ -483,6 +505,7 @@
 				44ADFACB1E5DBF0600E84C4B /* ManagedObjectHelper.swift in Sources */,
 				B54BB5821E56FA4A00C0FC5E /* PointViewModel.swift in Sources */,
 				B5447D481CC14DDE0041B579 /* Segue.swift in Sources */,
+				B56BD2EE1E80341B000BAA06 /* MenuViewController.swift in Sources */,
 				B52AA6631E545E8100D96767 /* AOPAError.swift in Sources */,
 				B5447D431CC137A30041B579 /* Database.swift in Sources */,
 				B5D1C6CB1CC057E6001E3294 /* Network.swift in Sources */,
@@ -517,6 +540,7 @@
 				B52AA6651E5481FD00D96767 /* AOPALoader.swift in Sources */,
 				B53826BE1D009EEE00828A95 /* RunwaysView.swift in Sources */,
 				44D3E8D61E5F2DF8000B52E9 /* AttributeDescription.swift in Sources */,
+				B56BD2F01E80356B000BAA06 /* MainViewController.swift in Sources */,
 				B54BB57F1E55BC6200C0FC5E /* AOPANetworkError.swift in Sources */,
 				B5447D461CC13DB60041B579 /* PrimitiveExtensions.swift in Sources */,
 				B52AA66B1E5489AE00D96767 /* AOPADataError.swift in Sources */,

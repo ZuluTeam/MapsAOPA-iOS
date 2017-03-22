@@ -8,14 +8,15 @@
 
 import UIKit
 import UCCTransliteration
+import ReactiveSwift
 
 @IBDesignable
 class PointDetailsView: UIView
 {
     @IBOutlet weak var titleLabel : UILabel?
     @IBOutlet weak var runwaysView : RunwaysView?
-    @IBOutlet weak var elevationLabel : UILabel?
-    @IBOutlet weak var longestRunwayLabel : UILabel?
+    @IBOutlet weak var elevationLabel : UILabel!
+    @IBOutlet weak var longestRunwayLabel : UILabel!
     @IBOutlet weak var callButton : UIButton?
     @IBOutlet weak var websiteButton : UIButton?
     @IBOutlet weak var emailButton : UIButton?
@@ -42,7 +43,18 @@ class PointDetailsView: UIView
         }
         
         self.titleLabel?.text = model.title
-        self.elevationLabel?.text = "Details_Elevation_Format".localized(arguments: Converter.localized(distanceInMeters: model.elevation))
+        
+        let elevation = model.elevation
+        
+        self.elevationLabel.reactive.text <~ Settings.current.units.map({ _ in
+            return "Details_Elevation_Format".localized(arguments: "\(Converter.localized(distanceInMeters: elevation)) (\(Converter.localized(pressureDegreeFromMeters: Double(elevation))))")
+        })
+        let longestRunwayLength = model.runways.reduce(0, { $0 > $1.length ? $0 : $1.length })
+        self.longestRunwayLabel.reactive.text <~ Settings.current.units.map({ _ in
+            return "Details_Longest_Runway_Format".localized(arguments: Converter.localized(distanceInMeters: longestRunwayLength))
+        })
+        self.longestRunwayLabel.isHidden = longestRunwayLength <= 0
+        
         self.fuelLabel?.text = !model.fuels.isEmpty ? "⛽️: " + model.fuels : nil
         self.frequenciesButton?.isHidden = model.frequencies.count <= 1
         if let frequency = model.frequencies.first, model.frequencies.count <= 1 {
@@ -52,9 +64,6 @@ class PointDetailsView: UIView
             self.frequencyLabel?.isHidden = true
         }
         
-        let longestRunwayLength = model.runways.reduce(0, { $0 > $1.length ? $0 : $1.length })
-        self.longestRunwayLabel?.text = "Details_Longest_Runway_Format".localized(arguments: Converter.localized(distanceInMeters: longestRunwayLength))
-        self.longestRunwayLabel?.isHidden = longestRunwayLength <= 0
         
         self.callButton?.isHidden = model.contacts.count <= 0
         self.websiteButton?.isHidden = model.website == nil

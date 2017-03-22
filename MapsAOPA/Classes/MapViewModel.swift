@@ -18,20 +18,13 @@ class MapViewModel
     var isLoading : Property<Bool> { return Property(_loading) }
     var errorMessage : Property<String?> { return Property(_errorMessage) }
     
-    var mapRegion = Settings.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate) {
+    var mapRegion = Settings.current.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate) {
         didSet {
             self.updateRegion(mapRegion, withFilter: self.pointsFilter)
         }
     }
     var mapPoints : Property<[PointViewModel]> { return Property(_mapPoints) }
     var foundedPoints : Property<[PointViewModel]> { return Property(_foundedPoints) }
-    
-    var pointsFilter = Settings.pointsFilter {
-        didSet {
-            Settings.pointsFilter = pointsFilter
-            self.updateRegion(self.mapRegion, withFilter: pointsFilter)
-        }
-    }
     
     var selectedPoint = MutableProperty<PointViewModel?>(nil)
     
@@ -53,9 +46,18 @@ class MapViewModel
     fileprivate var searchFetchRequest = NSFetchRequest<Point>(entityName: Point.entityName)
     fileprivate var searchString : String?
     
+    fileprivate var pointsFilter : PointsFilter = Settings.current.pointsFilter.value
+    
     init() {
         self.network = Network()
         self.loader = AOPALoader(network: network)
+        
+        Settings.current.pointsFilter.producer.startWithValues { [weak self] filter in
+            if let selfInstance = self {
+                selfInstance.pointsFilter = filter
+                selfInstance.updateRegion(selfInstance.mapRegion, withFilter: filter)
+            }
+        }
         
         fetchRequest.sortDescriptors = [ NSSortDescriptor(key: Point.Keys.index.rawValue, ascending: true) ]
         fetchRequest.fetchBatchSize = 100
@@ -71,8 +73,11 @@ class MapViewModel
     }
     
     func loadAirfields(force: Bool = false) {
+        if _loading.value {
+            return
+        }
         let date = Date()
-        if !force && date.timeIntervalSince(Settings.lastUpdate) < Settings.reloadDataTimeInterval {
+        if !force && date.timeIntervalSince(Settings.current.lastUpdate.value) < Settings.reloadDataTimeInterval {
             return
         }
         _loading.value = true
@@ -90,7 +95,7 @@ class MapViewModel
               completed: { [weak self] in
                 self?.xmlParser = nil
                 self?._loading.value = false
-                Settings.lastUpdate = Date()
+                Settings.current.lastUpdate.value = Date()
                 Database.sharedDatabase.saveContext(Database.sharedDatabase.backgroundManagedObjectContext)
                 if let selfInstance = self {
                     selfInstance.updateRegion(selfInstance.mapRegion, withFilter: selfInstance.pointsFilter)
@@ -114,7 +119,7 @@ class MapViewModel
     }
     
     private func updateRegion(_ region: MKCoordinateRegion, withFilter filter: PointsFilter) {
-        Settings.saveRegion(region)
+        Settings.current.saveRegion(region)
         self.fetchRequest.predicate = Database.pointsPredicate(forRegion: region, withFilter: filter)
         DispatchQueue.global().async(execute: {
             do {

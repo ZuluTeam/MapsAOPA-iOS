@@ -7,6 +7,9 @@
 //
 
 enum Segue: String {
+    case Map
+    case Menu
+    
     case PointDetails
     
     case Contacts
