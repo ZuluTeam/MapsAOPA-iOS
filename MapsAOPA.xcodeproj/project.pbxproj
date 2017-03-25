@@ -386,6 +386,7 @@
 				B5D1C68B1CC00B08001E3294 /* Resources */,
 				7F37F72441DFF58226E08F05 /* [CP] Embed Pods Frameworks */,
 				5784F0BD41E812C2279DCFFB /* [CP] Copy Pods Resources */,
+				B5DD9AA71E86BBA600D1E27D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -478,6 +479,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MapsAOPA/Pods-MapsAOPA-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B5DD9AA71E86BBA600D1E27D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 836a31e7cbeeec9fc9c2e3c2d20be534a25a2a54 76dedfa802d50fd7132300a7a8cffc2f93b0cd893dfe78d8310065fa56358f2e";
 		};
 		FE2A670C6B2A132749909B4E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -678,7 +692,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAOPA;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.zuluteam.MapsAOPA;
 				PRODUCT_NAME = MapsAOPA;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -697,7 +711,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/MapsAOPA/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.MapsAOPA;
+				PRODUCT_BUNDLE_IDENTIFIER = tech.zuluteam.MapsAOPA;
 				PRODUCT_NAME = MapsAOPA;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;

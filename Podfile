@@ -13,4 +13,6 @@ target 'MapsAOPA' do
     pod 'UIColor_Hex_Swift'
     pod 'Suntimes'
     pod 'SwiftyTimer'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
