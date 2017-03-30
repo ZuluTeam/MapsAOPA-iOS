@@ -88,9 +88,12 @@ class Settings
     
 // MARK: - Reload
     static let reloadDataTimeInterval : TimeInterval = 7 * 24 * 60 * 60
-    let lastUpdate : MutableProperty<Date> = {
-        let date = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: AppKeys.LastUpdate.rawValue))
-        return MutableProperty(date)
+    let lastUpdate : MutableProperty<Date?> = {
+        if let timeInterval = UserDefaults.standard.object(forKey: AppKeys.LastUpdate.rawValue) as? TimeInterval {
+            let date = Date(timeIntervalSince1970: timeInterval)
+            return MutableProperty(date)
+        }
+        return MutableProperty(nil)
     }()
     
 // MARK: - Map
@@ -176,8 +179,10 @@ class Settings
             UserDefaults.standard.synchronize()
         }
         self.lastUpdate.producer.startWithValues { date in
-            UserDefaults.standard.set(date.timeIntervalSince1970, forKey: AppKeys.LastUpdate.rawValue)
-            UserDefaults.standard.synchronize()
+            if let date = date {
+                UserDefaults.standard.set(date.timeIntervalSince1970, forKey: AppKeys.LastUpdate.rawValue)
+                UserDefaults.standard.synchronize()
+            }
         }
         self.units.producer.startWithValues { units in
             let unitsDict = [

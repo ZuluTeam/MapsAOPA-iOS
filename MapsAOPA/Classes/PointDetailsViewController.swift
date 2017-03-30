@@ -1,5 +1,5 @@
 //
-//  PointDetailsTableViewController.swift
+//  PointDetailsViewController.swift
 //  MapsAOPA
 //
 //  Created by Konstantin Zyryanov on 3/13/17.
@@ -8,9 +8,14 @@
 
 import UIKit
 
-class PointDetailsTableViewController: UITableViewController {
-    var pointDetailsViewModel : PointDetailsViewModel? {
+class PointDetailsViewController: UITableViewController {
+    var headerView : PointDetailsView? {
+        return self.tableView.tableHeaderView as? PointDetailsView
+    }
+    
+    var viewModel : PointDetailsViewModel? {
         didSet {
+            self.headerView?.pointDetailsViewModel = viewModel
             self.tableView?.reloadData()
         }
     }
@@ -18,6 +23,8 @@ class PointDetailsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.headerView?.pointDetailsViewModel = self.viewModel
         
         self.tableView?.rowHeight = UITableViewAutomaticDimension
         self.tableView?.estimatedRowHeight = 300
@@ -39,15 +46,15 @@ class PointDetailsTableViewController: UITableViewController {
     }
     
     func object(at indexPath: IndexPath) -> PointDetailsViewModel.TableObject {
-        return self.pointDetailsViewModel!.tableViewObjects[indexPath.section].objects[indexPath.row]
+        return self.viewModel!.tableViewObjects[indexPath.section].objects[indexPath.row]
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return self.pointDetailsViewModel?.tableViewObjects.count ?? 0
+        return self.viewModel?.tableViewObjects.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.pointDetailsViewModel?.tableViewObjects[section].objects.count ?? 0
+        return self.viewModel?.tableViewObjects[section].objects.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,8 +75,8 @@ class PointDetailsTableViewController: UITableViewController {
     // MARK: - Table view delegate
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let section = self.pointDetailsViewModel!.tableViewObjects[section]
-        return section.sectionTitle
+        let section = self.viewModel?.tableViewObjects[section]
+        return section?.sectionTitle
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -36,7 +36,13 @@ class MenuViewController: UIViewController {
         self.mapTypeControl.selectedSegmentIndex = Int(Settings.current.mapType.value.rawValue)
         
         self.lastUpdateLabel.reactive.text <~ Settings.current.lastUpdate.map({ [weak self] date in
-            return "Menu_Last_Update_Format".localized(arguments: self?.dateFormatter.string(from: date) ?? "")
+            let dateString : String
+            if let date = date, let string = self?.dateFormatter.string(from: date) {
+                dateString = string
+            } else {
+                dateString = "Never".localized
+            }
+            return "Menu_Last_Update_Format".localized(arguments: dateString)
         })
         
         self.airportsFilterControl.removeAllSegments()

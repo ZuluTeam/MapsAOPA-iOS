@@ -25,12 +25,12 @@ protocol MapViewControllerDelegate : NSObjectProtocol {
 class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentationControllerDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet var mapView : MKMapView!
-    @IBOutlet var detailsView : PointDetailsView!
     @IBOutlet var loadingIndicator : UIActivityIndicatorView!
     @IBOutlet var searchBar : UISearchBar!
     @IBOutlet var searchBackgroundView : UIView!
     @IBOutlet var searchTableContainer : UIView!
     @IBOutlet var searchTableView : UITableView!
+    @IBOutlet var detailsViewContainer : UIView!
     
     fileprivate static let zoomToPointSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     
@@ -38,7 +38,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     weak var delegate : MapViewControllerDelegate?
     
-    fileprivate var pointDetailsViewController : PointDetailsTableViewController?
+    fileprivate var pointDetailsViewController : PointDetailsViewController?
     
     fileprivate static let zoomPercent: CLLocationDegrees = 0.5
     
@@ -105,36 +105,30 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
             }
         })
         
-        self.viewModel.selectedPoint.producer.skip(first: 1).startWithValues { [weak self] point in
-            self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point), animated: true)
+        self.viewModel.selectedPoint.producer.startWithValues { [weak self] pointViewModel in
+            let pointDetails = self?.viewModel.pointDetailsViewModel(from: pointViewModel)
+            self?.pointDetailsViewController?.viewModel = pointDetails
         }
         
         self.viewModel.loadAirfields()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if nil == self.viewModel.selectedPoint.value || self.detailsView.pointDetailsViewModel?.index != self.viewModel.selectedPoint.value?.index {
-            self.showPointInfo(self.viewModel.pointDetailsViewModel(from: self.viewModel.selectedPoint.value), animated: false)
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationViewController = segue.destination as? DetailsTableViewController {
             switch segue.identifier ?? "" {
             case Segue.Contacts.rawValue:
-                destinationViewController.viewModel = DetailsViewModel(contacts: self.detailsView.pointDetailsViewModel?.contacts ?? [])
+                destinationViewController.viewModel = DetailsViewModel(contacts: self.pointDetailsViewController?.viewModel?.contacts ?? [])
             case Segue.Frequencies.rawValue:
-                destinationViewController.viewModel = DetailsViewModel(frequencies: self.detailsView.pointDetailsViewModel?.frequencies ?? [])
+                destinationViewController.viewModel = DetailsViewModel(frequencies: self.pointDetailsViewController?.viewModel?.frequencies ?? [])
             default: break
             }
             destinationViewController.popoverPresentationController?.delegate = self
-            destinationViewController.title = self.detailsView.pointDetailsViewModel?.title
+            destinationViewController.title = self.pointDetailsViewController?.viewModel?.title
             let height : CGFloat = 300.0
             destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
         }
         if segue.identifier == Segue.PointDetails.rawValue {
-            self.pointDetailsViewController = segue.destination as? PointDetailsTableViewController
+            self.pointDetailsViewController = segue.destination as? PointDetailsViewController
         }
     }
     
@@ -163,30 +157,39 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         }
     }
     
-    fileprivate func showPointInfo(_ pointDetails: PointDetailsViewModel?, animated: Bool)
-    {
-        self.detailsView.pointDetailsViewModel = pointDetails
-        self.pointDetailsViewController?.pointDetailsViewModel = pointDetails
-        let constraints = self.view.constraints
-//        self.detailsView.isHidden = false
-        for constraint in constraints {
-            if constraint.identifier == "DetailsBottom" {
-                constraint.constant = -(CGFloat(nil == pointDetails) * self.detailsView.height)
-            } else if constraint.identifier == "DetailsLeft" {
-                constraint.constant = -(CGFloat(nil == pointDetails) * self.detailsView.width)
-            }
+    fileprivate func select(annotationView view: MKAnnotationView) {
+        if let pointViewModel = (view.annotation as? PointAnnotation)?.pointViewModel {
+            self.viewModel.selectedPoint.value = pointViewModel
+                /*
+                if let pointDetails = self.viewModel.pointDetailsViewModel(from: pointViewModel) {
+                    //self.detailsViewContainer.userIn
+                    self.mapView.add(RunwaysOverlay(pointDetailsViewModel: pointDetails))
+                    let pointDetailsViewController = self.storyboard?.instantiateViewController(withIdentifier: "PointDetailsViewController") as? PointDetailsViewController
+                    self.pointDetailsViewControllers[view] = pointDetailsViewController
+                    pointDetailsViewController?.tableView.isScrollEnabled = false
+                    if let detailsViewController = pointDetailsViewController, let detailsView = detailsViewController.view {
+                        detailsViewController.viewModel = pointDetails
+                        self.addChildViewController(detailsViewController)
+                        self.detailsViewContainer.addSubview(detailsView)
+                        detailsViewController.didMove(toParentViewController: self)
+                    }
+                }*/
         }
-        UIView.animate(withDuration: 0.25 * TimeInterval(animated), animations: {
-            self.detailsView.layoutIfNeeded()
-        }) { _ in
-//            self.detailsView.isHidden = nil == pointDetails
+    }
+    
+    fileprivate func deselect(annotationView view: MKAnnotationView) {
+        self.viewModel.selectedPoint.value = nil
+        /*
+        if let pointDetailsViewController = self.pointDetailsViewControllers[view] {
+            pointDetailsViewController.view.alpha = 1.0
+            UIView.animate(withDuration: 0.25, animations: { 
+                pointDetailsViewController.view.alpha = 0.0
+            }, completion: { _ in
+                pointDetailsViewController.view.removeFromSuperview()
+                pointDetailsViewController.removeFromParentViewController()
+            })
         }
-        
-        if let pointDetails = pointDetails {
-            self.mapView.add(RunwaysOverlay(pointDetailsViewModel: pointDetails))
-        } else {
-            self.mapView.removeOverlays(self.mapView.overlays)
-        }
+        self.mapView.removeOverlays(self.mapView.overlays)*/
     }
     
     fileprivate func zoom(to point: PointViewModel) {
@@ -217,25 +220,25 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         self.delegate?.showMenu()
     }
     
-    @IBAction func zoomInAction(_ sender: AnyObject?) {
+    @IBAction func zoomToPointAction(_ sender: AnyObject?) {
         if let selectedPoint = self.viewModel.selectedPoint.value {
             self.zoom(to: selectedPoint)
         }
     }
     
     @IBAction func websiteAction(_ sender: AnyObject?) {
-        self.open(url: self.detailsView.pointDetailsViewModel?.website)
+//        self.open(url: self.pointDetailsViewController?.viewModel?.website)
     }
     
     @IBAction func mailAction(_ sender: AnyObject?) {
-        self.mail(to: self.detailsView.pointDetailsViewModel?.email)
+//        self.mail(to: self.pointDetailsViewController?.viewModel?.email)
     }
 
-    @IBAction func zoomInButtonPress(_ sender: UIButton) {
+    @IBAction func zoomInAction(_ sender: UIButton) {
         zoomInMap()
     }
     
-    @IBAction func zoomOutButtonPress(_ sender: UIButton) {
+    @IBAction func zoomOutAction(_ sender: UIButton) {
         zoomOutMap()
     }
     
@@ -262,13 +265,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if let pointViewModel = (view.annotation as? PointAnnotation)?.pointViewModel {
-            self.viewModel.selectedPoint.value = pointViewModel
-        }
+        self.select(annotationView: view)
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        self.viewModel.selectedPoint.value = nil
+        self.deselect(annotationView: view)
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {

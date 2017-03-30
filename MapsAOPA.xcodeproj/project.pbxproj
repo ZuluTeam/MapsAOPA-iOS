@@ -49,7 +49,7 @@
 		B5B9B6651E648AD600BAD840 /* UIView+Designable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */; };
 		B5B9B6681E64953400BAD840 /* maki.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B5B9B6671E64953400BAD840 /* maki.ttf */; };
 		B5B9B66A1E64957400BAD840 /* AppFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9B6691E64957400BAD840 /* AppFonts.swift */; };
-		B5CA69AC1E77044500654684 /* PointDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CA69AB1E77044500654684 /* PointDetailsTableViewController.swift */; };
+		B5CA69AC1E77044500654684 /* PointDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CA69AB1E77044500654684 /* PointDetailsViewController.swift */; };
 		B5D1C6A61CC00C11001E3294 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5D1C6A51CC00C11001E3294 /* MapKit.framework */; };
 		B5D1C6B81CC00DB7001E3294 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */; };
 		B5D1C6B91CC00DB7001E3294 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D1C6AD1CC00DB7001E3294 /* MapViewController.swift */; };
@@ -115,7 +115,7 @@
 		B5B9B6641E648AD600BAD840 /* UIView+Designable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Designable.swift"; sourceTree = "<group>"; };
 		B5B9B6671E64953400BAD840 /* maki.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = maki.ttf; sourceTree = "<group>"; };
 		B5B9B6691E64957400BAD840 /* AppFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFonts.swift; sourceTree = "<group>"; };
-		B5CA69AB1E77044500654684 /* PointDetailsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointDetailsTableViewController.swift; sourceTree = "<group>"; };
+		B5CA69AB1E77044500654684 /* PointDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointDetailsViewController.swift; sourceTree = "<group>"; };
 		B5D1C68D1CC00B08001E3294 /* MapsAOPA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapsAOPA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5D1C6A51CC00C11001E3294 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 			children = (
 				B53826BD1D009EEE00828A95 /* RunwaysView.swift */,
 				B53826BB1D009BB100828A95 /* PointDetailsView.swift */,
-				B5CA69AB1E77044500654684 /* PointDetailsTableViewController.swift */,
+				B5CA69AB1E77044500654684 /* PointDetailsViewController.swift */,
 				B555BD911E71C15600A48304 /* DetailsCell.swift */,
 				B55011771E76DCA800ABB184 /* DetailsItemView.swift */,
 				B55011791E76DCB600ABB184 /* DetailsItemView.xib */,
@@ -558,7 +558,7 @@
 				B54BB57F1E55BC6200C0FC5E /* AOPANetworkError.swift in Sources */,
 				B5447D461CC13DB60041B579 /* PrimitiveExtensions.swift in Sources */,
 				B52AA66B1E5489AE00D96767 /* AOPADataError.swift in Sources */,
-				B5CA69AC1E77044500654684 /* PointDetailsTableViewController.swift in Sources */,
+				B5CA69AC1E77044500654684 /* PointDetailsViewController.swift in Sources */,
 				B5B9B66A1E64957400BAD840 /* AppFonts.swift in Sources */,
 				B5DC47E01E5DEFAD00037888 /* DetailsViewModel.swift in Sources */,
 				B5DC775E1CC7E2B700226660 /* MapViewModel.swift in Sources */,
@@ -610,7 +610,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

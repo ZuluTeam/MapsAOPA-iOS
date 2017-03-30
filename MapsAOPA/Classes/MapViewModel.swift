@@ -77,7 +77,8 @@ class MapViewModel
             return
         }
         let date = Date()
-        if !force && date.timeIntervalSince(Settings.current.lastUpdate.value) < Settings.reloadDataTimeInterval {
+        let lastUpdate = Settings.current.lastUpdate.value
+        if !force && nil != lastUpdate && date.timeIntervalSince(lastUpdate!) < Settings.reloadDataTimeInterval {
             return
         }
         _loading.value = true
