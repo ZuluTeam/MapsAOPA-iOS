@@ -40,6 +40,9 @@ enum PointsFilterState : Int
 
 struct PointsFilter
 {
+    struct Base {}
+    struct Extended {}
+    
     var airportsState : PointsFilterState
     var heliportsState : PointsFilterState
 }

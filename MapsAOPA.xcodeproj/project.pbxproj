@@ -65,6 +65,7 @@
 		B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */; };
 		B5FB20A81CC1DA3A007DA15E /* aopa-points-export.xml in Resources */ = {isa = PBXBuildFile; fileRef = B5FB20A71CC1DA3A007DA15E /* aopa-points-export.xml */; };
 		B5FBF58F1E5309E500137491 /* ArrayXMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FBF58E1E5309E500137491 /* ArrayXMLParser.swift */; };
+		B5FD49B61E8D734C00C5093E /* PointsFilterInputViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FD49B51E8D734C00C5093E /* PointsFilterInputViewFactory.swift */; };
 		D6CE83C5E41FDC50FF7A8D20 /* Pods_MapsAOPA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7BCF0BB8DB91F229929E579 /* Pods_MapsAOPA.framework */; };
 /* End PBXBuildFile section */
 
@@ -133,6 +134,7 @@
 		B5E6E51E1CC9145D00B175FD /* PointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointAnnotation.swift; sourceTree = "<group>"; };
 		B5FB20A71CC1DA3A007DA15E /* aopa-points-export.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "aopa-points-export.xml"; sourceTree = "<group>"; };
 		B5FBF58E1E5309E500137491 /* ArrayXMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrayXMLParser.swift; path = MapsAOPA/Classes/ArrayXMLParser.swift; sourceTree = SOURCE_ROOT; };
+		B5FD49B51E8D734C00C5093E /* PointsFilterInputViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointsFilterInputViewFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,10 +323,10 @@
 				B54978B21CC2A9F0005434D5 /* Network */,
 				B53587781CC6AE9D0068D3C9 /* Map */,
 				B56BD2EC1E8033ED000BAA06 /* Menu */,
-				B56BD2EF1E80356B000BAA06 /* MainViewController.swift */,
+				B5FD49B41E8D730900C5093E /* Settings */,
 				B56BD2F11E803705000BAA06 /* ViewModels */,
 				B5D1C6AC1CC00DB7001E3294 /* AppDelegate.swift */,
-				B5D1C6D01CC05989001E3294 /* Settings.swift */,
+				B56BD2EF1E80356B000BAA06 /* MainViewController.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -371,6 +373,15 @@
 				B5B9B6691E64957400BAD840 /* AppFonts.swift */,
 			);
 			name = UI;
+			sourceTree = "<group>";
+		};
+		B5FD49B41E8D730900C5093E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B5D1C6D01CC05989001E3294 /* Settings.swift */,
+				B5FD49B51E8D734C00C5093E /* PointsFilterInputViewFactory.swift */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -539,6 +550,7 @@
 				44DAAE671E5DDD1F00A9EFB6 /* ManagedObject+Inserts.swift in Sources */,
 				B5464E7A1D1C5DD3004BBDD6 /* DetailsTableViewController.swift in Sources */,
 				B5D1C6B81CC00DB7001E3294 /* AppDelegate.swift in Sources */,
+				B5FD49B61E8D734C00C5093E /* PointsFilterInputViewFactory.swift in Sources */,
 				B563E21B1CC1B98900480DA2 /* Runway+CoreDataProperties.swift in Sources */,
 				B563E21C1CC1B98900480DA2 /* Runway.swift in Sources */,
 				B5E6E51F1CC9145D00B175FD /* PointAnnotation.swift in Sources */,
