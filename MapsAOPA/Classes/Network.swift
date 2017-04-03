@@ -29,7 +29,7 @@ class Network {
                     observer.send(value: destination)
                     observer.sendCompleted()
                 } else {
-                    if let error = response.error as? NSError {
+                    if let error = response.error as NSError? {
                         observer.send(error: error)
                     }
                 }
@@ -54,7 +54,7 @@ class Network {
                         observer.send(value: image)
                         observer.sendCompleted()
                     } else {
-                        if let error = response.error as? NSError {
+                        if let error = response.error as NSError? {
                             observer.send(error: error)
                         }
                     }
