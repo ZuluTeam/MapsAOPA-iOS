@@ -14,8 +14,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Points" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfO-ET-VfW">
-                    <rect key="frame" x="159.5" y="16" width="57.5" height="23"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Point types" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MfO-ET-VfW">
+                    <rect key="frame" x="137" y="24" width="103" height="23"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="10" id="EGw-3U-eg7"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="Z0i-Kp-lBh"/>
@@ -24,8 +24,8 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="c9r-Zs-0ex">
-                    <rect key="frame" x="51" y="47" width="272" height="69"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="c9r-Zs-0ex">
+                    <rect key="frame" x="51" y="79" width="272" height="89"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ku9-zd-AlI">
                             <rect key="frame" x="0.0" y="0.0" width="272" height="28"/>
@@ -56,7 +56,7 @@
                                     </connections>
                                 </segmentedControl>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="npn-AT-qdW" secondAttribute="trailing" id="KqG-d8-8oT"/>
                                 <constraint firstItem="npn-AT-qdW" firstAttribute="leading" secondItem="2tg-R2-Pgh" secondAttribute="trailing" constant="8" id="bz6-If-khb"/>
@@ -67,7 +67,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQK-ds-PG3">
-                            <rect key="frame" x="0.0" y="40" width="272" height="29"/>
+                            <rect key="frame" x="0.0" y="60" width="272" height="29"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Heliports" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DSM-js-U8Y">
                                     <rect key="frame" x="0.0" y="4.5" width="70" height="20.5"/>
@@ -95,7 +95,7 @@
                                     </connections>
                                 </segmentedControl>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="AHk-aL-dAz" secondAttribute="bottom" id="K1c-kh-H0j"/>
                                 <constraint firstItem="AHk-aL-dAz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="DSM-js-U8Y" secondAttribute="trailing" constant="8" id="KH9-gT-xZV"/>
@@ -108,11 +108,11 @@
                     </subviews>
                 </stackView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="MfO-ET-VfW" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="BSQ-ih-bEY"/>
-                <constraint firstItem="c9r-Zs-0ex" firstAttribute="top" secondItem="MfO-ET-VfW" secondAttribute="bottom" constant="8" id="QvL-t7-ebp"/>
-                <constraint firstItem="MfO-ET-VfW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="VvS-8b-jyl"/>
+                <constraint firstItem="c9r-Zs-0ex" firstAttribute="top" secondItem="MfO-ET-VfW" secondAttribute="bottom" constant="32" id="QvL-t7-ebp"/>
+                <constraint firstItem="MfO-ET-VfW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="24" id="VvS-8b-jyl"/>
                 <constraint firstItem="c9r-Zs-0ex" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="eBs-1n-yuS"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -123,7 +123,7 @@
                 <outlet property="airportsSegmentedControl" destination="npn-AT-qdW" id="4OW-t6-aD1"/>
                 <outlet property="heliportsSegmentedControl" destination="AHk-aL-dAz" id="dzJ-Wb-cOQ"/>
             </connections>
-            <point key="canvasLocation" x="-138.5" y="54"/>
+            <point key="canvasLocation" x="-138.5" y="14"/>
         </view>
         <view contentMode="scaleToFill" id="c07-WT-x5Y">
             <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>

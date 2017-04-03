@@ -214,6 +214,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     }
     
     @IBAction func menuAction(_ sender: AnyObject?) {
+        self.searchBar.resignFirstResponder()
         self.delegate?.showMenu()
     }
     

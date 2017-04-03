@@ -86,6 +86,9 @@ class MainViewController: UIViewController, MapViewControllerDelegate {
     }
     
     private func setMenuHidden(_ hidden: Bool, animated: Bool) {
+        if hidden {
+            self.view.endEditing(true)
+        }
         self.isMenuHidden = hidden
         let hiddenAlpha = CGFloat(hidden)
         self.menuBackgroundView.isHidden = false

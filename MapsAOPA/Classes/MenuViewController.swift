@@ -19,7 +19,7 @@ class MenuViewController: UIViewController {
     @IBOutlet var loadingIndicator : UIActivityIndicatorView!
     @IBOutlet var lastUpdateLabel : UILabel!
     
-    @IBOutlet var pointFilterBaseLabel: PointsFilterKeyView!
+    @IBOutlet var pointFilterBaseView: PointsFilterKeyView!
     @IBOutlet var airportsLabel : UILabel!
     @IBOutlet var heliportsLabel : UILabel!
     
@@ -38,6 +38,9 @@ class MenuViewController: UIViewController {
         self.mapTypeControl.selectedSegmentIndex = Int(Settings.current.mapType.value.rawValue)
         
         self.lastUpdateLabel.reactive.text <~ Settings.current.lastUpdate.map({ [weak self] date in
+            if date.timeIntervalSince1970 <= 0 {
+                return ""
+            }
             return "Menu_Last_Update_Format".localized(arguments: self?.dateFormatter.string(from: date) ?? "")
         })
         
@@ -61,7 +64,7 @@ class MenuViewController: UIViewController {
             }
         }
         
-        self.pointFilterBaseLabel.settingsType = PointsFilter.Base.self
+        self.pointFilterBaseView.settingsType = PointsFilter.Base.self
         Settings.current.pointsFilter.producer.startWithValues { [weak self] filter in
             let airportsString = NSMutableAttributedString()
             airportsString.append(NSAttributedString(string: AppIcons.MakiAirfield.rawValue, attributes: [
@@ -81,12 +84,18 @@ class MenuViewController: UIViewController {
                 NSFontAttributeName : UIFont.systemFont(ofSize: 12)
                 ]))
             
-            self?.airportsLabel.attributedText = heliportsString
+            self?.heliportsLabel.attributedText = heliportsString
         }
         
     }
     
     // MARK: - Actions
+    
+    @IBAction func tapAction(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            self.view.endEditing(true)
+        }
+    }
     
     @IBAction func mapTypeChanged(_ sender: UISegmentedControl!) {
         if let mapType = MKMapType(rawValue: UInt(sender.selectedSegmentIndex)) {

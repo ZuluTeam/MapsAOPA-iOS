@@ -44,8 +44,35 @@ struct PointsFilter
     class Base {}
     class Extended {}
     
+    // Base
     var airportsState : PointsFilterState
     var heliportsState : PointsFilterState
+    
+    // Extended
+    var fuels : Set<FuelType>?
+    var minimumLength : Int?
+    var belongs : Set<PointBelongs>?
+    var hardSurface : Bool
+    var lights : Bool
+    var international : Bool
+    
+    init(airportsState: PointsFilterState,
+         heliportsState: PointsFilterState,
+         fuels: Set<FuelType>? = nil,
+         minimumLength: Int? = nil,
+         belongs: Set<PointBelongs>? = nil,
+         hardSurface: Bool = false,
+         lights: Bool = false,
+         international: Bool = false) {
+        self.airportsState = airportsState
+        self.heliportsState = heliportsState
+        self.fuels = fuels
+        self.minimumLength = minimumLength
+        self.belongs = belongs
+        self.hardSurface = hardSurface
+        self.lights = lights
+        self.international = international
+    }
 }
 
 enum DistanceUnits : Int {

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class PointsFilterKeyView : UILabel, UIKeyInput {
+class PointsFilterKeyView : UIView, UIKeyInput {
     var settingsType : AnyClass?
     
     private var tapGestureRecognizer: UITapGestureRecognizer!
@@ -76,8 +76,8 @@ class PointsFilterBaseInputView : UIView {
         return nil
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    override func awakeFromNib() {
+        super.awakeFromNib()
         self.airportsSegmentedControl.removeAllSegments()
         self.airportsSegmentedControl.insertSegment(withTitle: PointsFilterState.none.localized, at: PointsFilterState.none.rawValue, animated: false)
         self.airportsSegmentedControl.insertSegment(withTitle: PointsFilterState.active.localized, at: PointsFilterState.active.rawValue, animated: false)
