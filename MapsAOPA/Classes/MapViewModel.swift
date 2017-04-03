@@ -39,9 +39,10 @@ class MapViewModel
     
     fileprivate var xmlParser : ArrayXMLParser?
     
-    fileprivate var mainContext : NSManagedObjectContext {
-        return Database.sharedDatabase.managedObjectContext
+    fileprivate var backgroundContext : NSManagedObjectContext {
+        return Database.sharedDatabase.backgroundManagedObjectContext
     }
+    
     fileprivate var fetchRequest = NSFetchRequest<Point>(entityName: Point.entityName)
     fileprivate var searchFetchRequest = NSFetchRequest<Point>(entityName: Point.entityName)
     fileprivate var searchString : String?
@@ -123,7 +124,7 @@ class MapViewModel
         self.fetchRequest.predicate = Database.pointsPredicate(forRegion: region, withFilter: filter)
         DispatchQueue.global().async(execute: {
             do {
-                let points = try self.mainContext.fetch(self.fetchRequest)
+                let points = try self.backgroundContext.fetch(self.fetchRequest)
                 var pointModels = points.map({
                     PointViewModel(point: $0)
                 })
@@ -156,7 +157,7 @@ class MapViewModel
         self.searchFetchRequest.predicate = Point.searchPredicate(string)
         DispatchQueue.global().async(execute: {
             do {
-                let points = try self.mainContext.fetch(self.searchFetchRequest)
+                let points = try self.backgroundContext.fetch(self.searchFetchRequest)
                 let pointModels = points.map({
                     PointViewModel(point: $0)
                 })
