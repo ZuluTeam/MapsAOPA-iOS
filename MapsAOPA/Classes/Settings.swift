@@ -41,9 +41,6 @@ enum PointsFilterState : Int
 
 struct PointsFilter
 {
-    class Base {}
-    class Extended {}
-    
     // Base
     var airportsState : PointsFilterState
     var heliportsState : PointsFilterState

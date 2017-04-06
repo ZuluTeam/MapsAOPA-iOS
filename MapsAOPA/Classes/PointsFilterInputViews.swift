@@ -32,32 +32,10 @@ class PointsFilterKeyView : UIView, UIKeyInput {
         return true
     }
     
-    override var inputView: UIView? {
-        return PointsFilterInputViewFactory.inputView(for: self.settingsType)
-    }
-    
     func tapAction(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             self.becomeFirstResponder()
         }
-    }
-}
-
-class PointsFilterInputViewFactory {
-    static func inputView(for settingsType: AnyClass?) -> UIView? {
-        if let type = settingsType {
-            switch type {
-            case is PointsFilter.Base.Type:
-                return PointsFilterBaseInputView.view()
-            case is PointsFilter.Extended.Type:
-                return PointsFilterExtendedInputView.view()
-            case is Settings.Units.Type:
-                return UnitsSettingsInputView.view()
-            default:
-                return nil
-            }
-        }
-        return nil
     }
 }
 

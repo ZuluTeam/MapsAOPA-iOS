@@ -107,13 +107,13 @@ class RunwaysView: UIView {
                 
                 let angle : CGFloat
                 if screenThreshold0.x - screenThreshold1.x == 0 {
-                    angle = CGFloat(M_PI_2)
+                    angle = CGFloat.pi * 0.5
                 } else {
                     angle = atan((screenThreshold0.y - screenThreshold1.y) / (screenThreshold0.x - screenThreshold1.x))
                 }
                 
-                let cosLeft = cos(CGFloat(M_PI_2) + angle)
-                let sinLeft = sin(CGFloat(M_PI_2) + angle)
+                let cosLeft = cos(CGFloat.pi * 0.5 + angle)
+                let sinLeft = sin(CGFloat.pi * 0.5 + angle)
                 let cosRight = -cosLeft
                 let sinRight = -sinLeft
                 let left = CGPoint(x: (radius * cosLeft), y: (radius * sinLeft))
@@ -137,7 +137,7 @@ class RunwaysView: UIView {
                 context?.restoreGState()
                 
                 let titleComponents = runway.title.components(separatedBy: "/")
-                let angles = [angle + CGFloat(M_PI_2), angle - CGFloat(M_PI_2)]
+                let angles = [angle + CGFloat.pi * 0.5, angle - CGFloat.pi * 0.5]
                 if titleComponents.count == 2 {
                     for (index, title) in titleComponents.enumerated() {
                         context?.saveGState()

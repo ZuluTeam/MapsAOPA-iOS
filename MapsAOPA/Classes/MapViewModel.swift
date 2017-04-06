@@ -26,7 +26,7 @@ class MapViewModel
     var mapPoints : Property<[PointViewModel]> { return Property(_mapPoints) }
     var foundedPoints : Property<[PointViewModel]> { return Property(_foundedPoints) }
     
-    var selectedPoint = MutableProperty<PointViewModel?>(nil)
+    var selectedPoint = MutableProperty<(point: PointViewModel, zoomIn: Bool)?>(nil)
     
     fileprivate let _loading = MutableProperty<Bool>(false)
     fileprivate let _errorMessage = MutableProperty<String?>(nil)
@@ -127,7 +127,7 @@ class MapViewModel
                 var pointModels = points.map({
                     PointViewModel(point: $0)
                 })
-                if let selectedPoint = self.selectedPoint.value {
+                if let selectedPoint = self.selectedPoint.value?.point {
                     pointModels.append(selectedPoint)
                 }
                 

@@ -14,29 +14,17 @@ import MessageUI
 import ReactiveSwift
 import ReactiveCocoa
 import Sugar
-import SwiftyTimer
-
-protocol MapViewControllerDelegate : NSObjectProtocol {
-    var statusBarStyle : UIStatusBarStyle { get set }
-    func showMenu()
-}
 
 
-class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentationControllerDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentationControllerDelegate {
 
     @IBOutlet var mapView : MKMapView!
     @IBOutlet var detailsView : PointDetailsView!
     @IBOutlet var loadingIndicator : UIActivityIndicatorView!
-    @IBOutlet var searchBar : UISearchBar!
-    @IBOutlet var searchBackgroundView : UIView!
-    @IBOutlet var searchTableContainer : UIView!
-    @IBOutlet var searchTableView : UITableView!
     
     fileprivate static let zoomToPointSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     
     var viewModel: MapViewModel!
-    
-    weak var delegate : MapViewControllerDelegate?
     
     fileprivate var pointDetailsViewController : PointDetailsTableViewController?
     
@@ -63,21 +51,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         
         Settings.current.mapType.producer.startWithValues { [weak self] mapType in
             self?.mapView.mapType = mapType
-            self?.delegate?.statusBarStyle = self?.preferredStatusBarStyle ?? .default
         }
-        
-        self.searchBar.resignFirstResponder()
-        self.setSearchHidden(true, animated: false)
         
         self.loadingIndicator.reactive.isAnimating <~ self.viewModel.isLoading
         let _ = self.viewModel.errorMessage.signal.on(value: { [weak self] message in
             self?.displayError(message: message)
         })
-        
-        let handler = InsetKeyboardHandler()
-        handler.scrollView = self.searchTableView
-        keyboardObserver = KeyboardObserver(handler: handler)
-        keyboardObserver?.activate()
         
         self.mapView.setRegion(Settings.current.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate), animated: false)
         
@@ -95,28 +74,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
             self?.refreshPoints(points)
         }
         
-        self.viewModel.foundedPoints.producer.startWithValues({ [weak self] points in
-            self?.searchTableView.reloadData()
-            self?.searchTableView.setContentOffset(.zero, animated: true)
-            if points.count > 0 {
-                self?.searchTableView.separatorStyle = .singleLine
+        self.viewModel.selectedPoint.producer.startWithValues { [weak self] point in
+            if let point = point, point.zoomIn {
+                self?.zoom(to: point.point)
             } else {
-                self?.searchTableView.separatorStyle = .none
+                self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point?.point), animated: true)
             }
-        })
-        
-        self.viewModel.selectedPoint.producer.skip(first: 1).startWithValues { [weak self] point in
-            self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point), animated: true)
         }
         
         self.viewModel.loadAirfields()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if nil == self.viewModel.selectedPoint.value || self.detailsView.pointDetailsViewModel?.index != self.viewModel.selectedPoint.value?.index {
-            self.showPointInfo(self.viewModel.pointDetailsViewModel(from: self.viewModel.selectedPoint.value), animated: false)
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -157,7 +123,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         for point in points {
             let annotation = PointAnnotation(pointViewModel: point)
             self.mapView.addAnnotation(annotation)
-            if point == self.viewModel.selectedPoint.value {
+            if point == self.viewModel.selectedPoint.value?.point {
                 self.mapView.selectAnnotation(annotation, animated: true)
             }
         }
@@ -195,31 +161,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         self.mapView.setRegion(region, animated: true)
     }
     
-    // MARK: - Gesture Recognizer Delegate
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if let view = touch.view, view is UITableViewCell || (view != self.searchTableView && view.isDescendant(of: self.searchTableView)) {
-            return false
-        }
-        return true
-        
-    }
-    
-    // MARK: - Actions 
-    
-    @IBAction func tapBackgroundAction(_ sender: UITapGestureRecognizer) {
-        if sender.state == .ended {
-            self.searchBar.resignFirstResponder()
-        }
-    }
-    
-    @IBAction func menuAction(_ sender: AnyObject?) {
-        self.searchBar.resignFirstResponder()
-        self.delegate?.showMenu()
-    }
+    // MARK: - Actions
     
     @IBAction func zoomInAction(_ sender: AnyObject?) {
-        if let selectedPoint = self.viewModel.selectedPoint.value {
+        if let selectedPoint = self.viewModel.selectedPoint.value?.point {
             self.zoom(to: selectedPoint)
         }
     }
@@ -264,7 +209,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let pointViewModel = (view.annotation as? PointAnnotation)?.pointViewModel {
-            self.viewModel.selectedPoint.value = pointViewModel
+            self.viewModel.selectedPoint.value = (pointViewModel, false)
         }
     }
     
@@ -311,81 +256,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
             let alert = UIAlertController(title: "Error_Title".localized(), message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Button_Ok".localized(), style: .destructive))
             self.present(alert, animated: true)
-        }
-    }
-    
-    // MARK: - Search Table View Data Source
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.foundedPoints.value.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MapSearchCell", for: indexPath)
-        let pointModel = self.viewModel.foundedPoints.value[indexPath.row]
-        cell.textLabel?.text = pointModel.title
-        cell.detailTextLabel?.text = pointModel.region
-        return cell
-    }
-    
-    // MARK: - Search Table View Delegate
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let pointModel = self.viewModel.foundedPoints.value[indexPath.row]
-        self.viewModel.selectedPoint.value = pointModel
-        self.zoom(to: pointModel)
-        for annotation in self.mapView.annotations {
-            if let annotation = annotation as? PointAnnotation, annotation.pointViewModel == pointModel {
-                self.mapView.selectAnnotation(annotation, animated: true)
-            }
-        }
-        self.cancelSearching()
-    }
-    
-    // MARK: - Search Bar Delegate
-    
-    fileprivate func cancelSearching() {
-        self.searchBar.text = nil
-        self.viewModel.searchPoints(with: "")
-        self.searchBar.resignFirstResponder()
-    }
-    
-    fileprivate func setSearchHidden(_ hidden : Bool, animated: Bool) {
-        let startAlpha = CGFloat(hidden)
-        let backgroundColorAlpha = 0.25 * CGFloat(!hidden)
-        self.searchTableContainer.alpha = startAlpha
-        self.searchTableContainer.isHidden = false
-        
-        UIView.animate(withDuration: 0.25 * TimeInterval(animated), animations: { 
-            self.searchBackgroundView.backgroundColor = UIColor.black.withAlphaComponent(backgroundColorAlpha)
-            self.searchTableContainer.alpha = 1.0 - startAlpha
-            self.searchBar.showsCancelButton = !hidden
-        }) { _ in
-            self.searchTableContainer.isHidden = hidden
-        }
-    }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.setSearchHidden(false, animated: true)
-    }
-    
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.setSearchHidden(true, animated: true)
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.cancelSearching()
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.searchTimer?.invalidate()
-        self.searchTimer = Timer.after(100.ms) { [weak self] in
-            self?.viewModel.searchPoints(with: searchText)
         }
     }
 }

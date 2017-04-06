@@ -12,6 +12,8 @@ import ReactiveSwift
 
 class MenuViewController: UIViewController {
     
+    
+    
     @IBOutlet var mapTypeControl : UISegmentedControl!
     @IBOutlet var distanceUnitsControl : UISegmentedControl!
     @IBOutlet var pressureControl : UISegmentedControl!
@@ -19,9 +21,8 @@ class MenuViewController: UIViewController {
     @IBOutlet var loadingIndicator : UIActivityIndicatorView!
     @IBOutlet var lastUpdateLabel : UILabel!
     
-    @IBOutlet var pointFilterBaseView: PointsFilterKeyView!
-    @IBOutlet var airportsLabel : UILabel!
-    @IBOutlet var heliportsLabel : UILabel!
+    @IBOutlet var airportsButton : UIButton!
+    @IBOutlet var heliportsButton : UIButton!
     
     var viewModel : MapViewModel!
     
@@ -64,7 +65,6 @@ class MenuViewController: UIViewController {
             }
         }
         
-        self.pointFilterBaseView.settingsType = PointsFilter.Base.self
         Settings.current.pointsFilter.producer.startWithValues { [weak self] filter in
             let airportsString = NSMutableAttributedString()
             airportsString.append(NSAttributedString(string: AppIcons.MakiAirfield.rawValue, attributes: [
@@ -74,7 +74,7 @@ class MenuViewController: UIViewController {
                 NSFontAttributeName : UIFont.systemFont(ofSize: 12)
                 ]))
                 
-            self?.airportsLabel.attributedText = airportsString
+//            self?.airportsLabel.attributedText = airportsString
             
             let heliportsString = NSMutableAttributedString()
             heliportsString.append(NSAttributedString(string: AppIcons.MakiHeliport.rawValue, attributes: [
@@ -84,7 +84,7 @@ class MenuViewController: UIViewController {
                 NSFontAttributeName : UIFont.systemFont(ofSize: 12)
                 ]))
             
-            self?.heliportsLabel.attributedText = heliportsString
+//            self?.heliportsLabel.attributedText = heliportsString
         }
         
     }
