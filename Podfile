@@ -15,4 +15,7 @@ target 'MapsAOPA' do
     pod 'SwiftyTimer'
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'RealmSwift'
+    pod 'ObjectMapper'
+    pod 'ObjectMapper+Realm'
 end

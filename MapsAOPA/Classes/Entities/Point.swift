@@ -10,6 +10,9 @@ import Foundation
 import CoreData
 import UIKit
 import CoreLocation
+import RealmSwift
+import ObjectMapper
+import ObjectMapper_Realm
 
 enum PointType : Int
 {
@@ -66,18 +69,47 @@ enum PointBelongs : Int
     }
 }
 
-class Point: NSManagedObject {
+extension Point {
     
-    public enum Keys : String {
-        case index
-        case belongs
+    func isServiced() -> Bool {
+        return fuel.count > 0
+    }
+}
+
+class Point: Object, Mappable {
+    dynamic var active = false
+    dynamic var belongs = -1
+    dynamic var index: String = ""
+    dynamic var indexRu: String? = nil
+    dynamic var lights = 0
+    dynamic var title: String? = nil
+    dynamic var titleRu: String? = nil
+    dynamic var type = -1
+    dynamic var details: PointDetails?
+    dynamic var parent: Point?
+    dynamic var location : PointLocation?
+    dynamic var latitude : Double = 0.0
+    dynamic var longitude : Double = 0.0
+    var fuel = List<Fuel>()
+    var fuelOnRequest = List<Fuel>()
+    var runways = List<Runway>()
+    var children = List<Point>()
+    
+    dynamic var searchRegion : String? = nil
+    dynamic var searchIndex : String? = nil
+    dynamic var searchIndexRu : String? = nil
+    dynamic var searchCity : String? = nil
+    dynamic var searchTitle : String? = nil
+    dynamic var searchTitleRu : String? = nil
+    
+    enum Keys : String {
         case type
-        case runways
+        case index
         case fuel
-        case location
+        case fuelOnRequest
+        case active
         case latitude
         case longitude
-        case active
         case searchRegion
         case searchIndex
         case searchIndexRu
@@ -86,204 +118,195 @@ class Point: NSManagedObject {
         case searchTitleRu
     }
     
-    
-    func isServiced() -> Bool {
-        if let fuel = self.fuel as? Set<Fuel> {
-            return fuel.count > 0
-        }
-        return false
+    private struct JSONKeys {
+        static let index = "index"
+        static let indexRu = "index_ru"
+        static let lights = "lights"
+        static let title = "name"
+        static let titleRu = "name_ru"
+        static let belongs = "belongs"
+        static let type = "type"
+        static let fuel = "fuel"
+        static let fuelOnRequest = "fuel"
+        static let location = "location"
+        static let latitude = "lat"
+        static let longitude = "lon"
+        static let runways = "vpp"
+        static let active = "active"
+        static let searchRegion = "region"
+        static let searchIndex = "index"
+        static let searchIndexRu = "index_ru"
+        static let searchCity = "city"
+        static let searchTitle = "name"
+        static let searchTitleRu = "name_ru"
     }
     
-    class func point(fromDictionary dictionary: [String:AnyObject]?, inContext context: NSManagedObjectContext) -> Point? {
-        var dictionary = dictionary
-        if let unwrappedDictionary = dictionary, let index = dictionary?[Point.Keys.index.rawValue] as? String, let _ = dictionary?["lat"], let _ = dictionary?["lon"] {
-            
-            let point = findOrCreateObject(in: context, matching: NSPredicate(format: "%K == %@", Point.Keys.index.rawValue, index), forceConfigure: true, configure: {
-                (point: Point) in
-                _ = point.importDataFromDictionary(unwrappedDictionary)
-                let pointDetails = point.details ?? PointDetails.createObject(in: context, configure: {
-                    (details: PointDetails) in
-                    _ = details.importDataFromDictionary(unwrappedDictionary)
-                })
-                point.details = pointDetails
-                
-                point.searchRegion = pointDetails?.region?.normalizedString
-                point.searchIndex = point.index?.normalizedString
-                point.searchIndexRu = point.indexRu?.normalizedString
-                point.searchCity = pointDetails?.city?.normalizedString
-                point.searchTitle = point.title?.normalizedString
-                point.searchTitleRu = point.titleRu?.normalizedString
-                
-            })
-            return point
+    required convenience init?(map: Map) {
+        if map.JSON[JSONKeys.index] == nil || map.JSON[JSONKeys.latitude] == nil || map.JSON[JSONKeys.longitude] == nil {
+            return nil
         }
-        else
-        {
-            return nil   
-        }
+        self.init()
+    }
+    
+    func mapping(map: Map) {
+        active <- (map[JSONKeys.active, ignoreNil: true], TransformBoolValue())
+        belongs <- (map[JSONKeys.belongs, ignoreNil: true], belongsTransform)
+        index <- map[JSONKeys.index]
+        indexRu <- map[JSONKeys.indexRu]
+        lights <- (map[JSONKeys.lights, ignoreNil: true], TransformIntValue())
+        title <- map[JSONKeys.title]
+        titleRu <- map[JSONKeys.titleRu]
+        type <- (map[JSONKeys.type, ignoreNil: true], typeTransform)
+        fuel <- (map[JSONKeys.fuel, ignoreNil: true], fuelTransform)
+        fuelOnRequest <- (map[JSONKeys.fuelOnRequest, ignoreNil: true], fuelOnRequestTransform)
+        runways <- (map[JSONKeys.runways, ignoreNil: true], runwaysTransform)
+        latitude <- (map[Keys.latitude.rawValue], TransformDoubleValue())
+        longitude <- (map[Keys.longitude.rawValue], TransformDoubleValue())
+
+        searchRegion <- (map[JSONKeys.searchRegion], normalizedForSearchTransform)
+        searchIndex <- (map[JSONKeys.searchIndex], normalizedForSearchTransform)
+        searchIndexRu <- (map[JSONKeys.searchIndexRu], normalizedForSearchTransform)
+        searchCity <- (map[JSONKeys.searchCity], normalizedForSearchTransform)
+        searchTitle <- (map[JSONKeys.searchTitle], normalizedForSearchTransform)
+        searchTitleRu <- (map[JSONKeys.searchTitleRu], normalizedForSearchTransform)
+        
+        details = Mapper<PointDetails>().map(JSON: map.JSON)
+        location = Mapper<PointLocation>().map(JSON: map.JSON)
+        
+    }
+    
+    override static func primaryKey() -> String? {
+        return "index"
+    }
+    
+    var pointType : PointType {
+        return PointType(rawValue: type) ?? .unknown
+    }
+    
+    var pointBelongs : PointBelongs {
+        return PointBelongs(rawValue: belongs) ?? .unknown
     }
 }
 
-extension Point: Managed {
+class PointLocation : Object, Mappable {
+    dynamic var latitude = 0.0
+    dynamic var longitude = 0.0
     
-    public static var entityName : String {
-        return "Point"
-    }
-
-    public static var defaultSortDescriptors : [NSSortDescriptor] {
-        return [NSSortDescriptor(key: #keyPath(index), ascending: true)]
+    
+    private enum Keys : String {
+        case latitude = "lat"
+        case longitude = "lon"
     }
     
+    var location : CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+    }
+    
+    required convenience init?(map: Map) {
+        self.init()
+    }
+    
+    func mapping(map: Map) {
+        latitude <- (map[Keys.latitude.rawValue], TransformDoubleValue())
+        longitude <- (map[Keys.longitude.rawValue], TransformDoubleValue())
+    }
 }
+
 
 extension Point {
     
-    static func registerValueTransformers() {
-        let locationTransform = "LocationTransform"
-        
-        ValueTransform<PointLocation, NSData>.registerValueTransformerWithName(locationTransform, transform: { (location : PointLocation?) -> NSData? in
-            guard let location = location else {
-                return nil
-            }
-            return NSKeyedArchiver.archivedData(withRootObject: location) as NSData
-        }, reverseTransform: { (data: NSData?) -> PointLocation? in
-            guard let data = data else {
-                return nil
-            }
-            return NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? PointLocation
+    fileprivate var belongsTransform : TransformJSONOf<Int, String> {
+        return TransformJSONOf(fromJSON: { (value: String?) -> Int? in
+            return PointBelongs(string: value).rawValue
         })
-        
     }
     
+    fileprivate var typeTransform : TransformJSONOf<Int, String> {
+        return TransformJSONOf(fromJSON: { (value: String?) -> Int? in
+            return PointType(type: value).rawValue
+        })
+    }
+    
+    fileprivate var runwaysTransform : TransformPointArrayContent<List<Runway>> {
+        return TransformPointArrayContent(fromJSON: { (value) -> List<Runway>? in
+            let list = List<Runway>()
+            if let runwayDicts = value {
+                
+                for runwayDict in runwayDicts {
+                    if let runwayDict = runwayDict["item"] as? [String:Any] {
+                        
+                        if let runway = Mapper<Runway>().map(JSON: runwayDict) {
+                            list.append(runway)
+                        }
+                    }
+                }
+            }
+            return list
+        })
+    }
+    
+    fileprivate var fuelTransform : TransformPointArrayContent<List<Fuel>> {
+        return TransformPointArrayContent(fromJSON: { (value) -> List<Fuel>? in
+            return self.getFuelArray(array: value)
+        })
+    }
+    
+    fileprivate var fuelOnRequestTransform : TransformPointArrayContent<List<Fuel>> {
+        return TransformPointArrayContent(fromJSON: { (value) -> List<Fuel>? in
+            return self.getFuelArray(array: value, onRequest: true)
+        })
+    }
+    
+    private func getFuelArray(array: [[String: AnyObject]]?, onRequest: Bool = false) -> List<Fuel>? {
+        if let fuelDicts = array {
+            var fuelArray : [[String:AnyObject]] = []
+            for fuelDict in fuelDicts {
+                if let fuel = fuelDict["item"] as? [String:AnyObject], let _ = FuelType(type: fuel["type_id"] as? String ?? "") {
+                    if let existType = fuel["exists_id"] as? String, existType == "1" {
+                        if onRequest == false {
+                            fuelArray.append(fuel)
+                        }
+                    } else if onRequest == true {
+                        fuelArray.append(fuel)
+                    }
+                }
+            }
+            if let objects = Mapper<Fuel>().mapArray(JSONObject: fuelArray) {
+                let list = List<Fuel>()
+                list.append(objectsIn: objects)
+                return list
+            }
+        }
+        return nil
+    }
+    
+    fileprivate var normalizedForSearchTransform : TransformJSONOf<String, String> {
+        return TransformJSONOf(fromJSON: { (value) -> String? in
+            return value?.normalizedString
+        })
+    }
 }
 
 extension Point {
     
-    enum FuelAvailability : String {
-        case fuel
-        case fuelOnRequest
+    public class func pointsWith(predicate: NSPredicate) -> [Point] {
+        let realm = try! Realm()
+        let sortDescriptors = [ SortDescriptor(keyPath: Point.Keys.index.rawValue, ascending: true) ]
+        let points = realm.objects(Point.self).filter(predicate).sorted(by: sortDescriptors)
+        return Array(points)
     }
     
-    override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
-        switch key {
-        case Point.Keys.belongs.rawValue :
-            if let value = value as? String {
-                return PointBelongs(string: value).rawValue as NSObject?
-            }
-        case Point.Keys.type.rawValue :
-            if let value = value as? String {
-                return PointType(type: value).rawValue as NSObject?
-            }
-        case Point.Keys.runways.rawValue :
-            var dictionary = value as? [[String:AnyObject]]
-            if let runwaysDict = value as? [String:AnyObject] {
-                dictionary = [runwaysDict]
-            }
-            if let runwayDicts = dictionary, let context = self.managedObjectContext {
-                let runways : NSMutableSet = NSMutableSet()
-                for runwayDict in runwayDicts {
-                    if let runwayDict = runwayDict["item"] as? [String:AnyObject] {
-                        let runway = Runway.createObject(in: context, configure: { (runway) in
-                            _ = runway.importDataFromDictionary(runwayDict)
-                        })
-                        if let runway = runway {
-                            runways.add(runway)
-                        }
-                    }
-                }
-                return runways
-            }
-            return nil
-        case Point.Keys.fuel.rawValue :
-            var dictionary = value as? [[String: AnyObject]]
-            if let fuelDict = value as? [String:AnyObject] {
-                dictionary = [fuelDict]
-            }
-            if let fuelDicts = dictionary {
-                var fuelArray : [Fuel] = []
-                var fuelOnRequestArray : [Fuel] = []
-                for fuelDict in fuelDicts {
-                    if let fuelDict = fuelDict["item"] as? [String:AnyObject], let type = FuelType(type: fuelDict["type_id"] as? String ?? ""), let context = self.managedObjectContext {
-                        
-                        if let fuel = Fuel.findOrCreateObject(in: context, matching: NSPredicate(format: "type == %d", type.rawValue), forceConfigure: false, configure: {
-                            (fuel: Fuel) in
-                            _ = fuel.importDataFromDictionary(fuelDict)
-                        }) {
-                            if let existType = fuelDict["exists_id"] as? String, existType == "1" {
-                                fuelArray.append(fuel)
-                            } else {
-                                fuelOnRequestArray.append(fuel)
-                            }
-                        }
-                    }
-                }
-                return [FuelAvailability.fuel.rawValue : fuelArray, FuelAvailability.fuelOnRequest.rawValue : fuelOnRequestArray] as NSDictionary
-            }
-            return nil
-        case Point.Keys.location.rawValue :
-            guard let value = value as? [String : AnyObject] else {
-                return nil
-            }
-            let latitude = (value["lat"] as? NSString)?.doubleValue
-            let longitude = (value["lon"] as? NSString)?.doubleValue
-            guard let lat = latitude, let lon = longitude else {
-                return nil
-            }
-            return PointLocation(latitude: lat, longitude: lon)
-        default:
-            break
-        }
-        return super.transformImortedValue(value, for: key)
+    public class func searchPointsWith(predicate: NSPredicate) -> [Point] {
+        let realm = try! Realm()
+        let sortDescriptors = [
+            SortDescriptor(keyPath: Point.Keys.index.rawValue, ascending: true),
+            SortDescriptor(keyPath: Point.Keys.searchTitle.rawValue, ascending: true),
+            SortDescriptor(keyPath: Point.Keys.searchTitleRu.rawValue, ascending: true)
+        ]
+        let points = realm.objects(Point.self).filter(predicate).sorted(by: sortDescriptors)
+        return Array(points)
     }
     
-    override func addRelatedObject(_ object: Any, for key: String) {
-        switch key {
-        case Point.Keys.runways.rawValue :
-            if let runwaysSet = object as? NSSet, runwaysSet.count > 0 {
-                self.runways = runwaysSet
-            }
-        case Point.Keys.fuel.rawValue :
-            if let fuel = object as? [String : [Fuel]] {
-                if let fuelArray = fuel[FuelAvailability.fuel.rawValue], fuelArray.count > 0 {
-                    self.fuel = NSSet(array: fuelArray)
-                }
-                if let fuelOnRequestArray = fuel[FuelAvailability.fuelOnRequest.rawValue], fuelOnRequestArray.count > 0 {
-                    self.fuelOnRequest = NSSet(array: fuelOnRequestArray)
-                }
-            }
-        default:
-            break
-        }
-    }
-}
-
-@objc class PointLocation : NSObject, NSCoding {
-    
-    private enum CodingKey : String {
-        case latitude
-        case longitude
-    }
-    
-    let location : CLLocationCoordinate2D
-    init(_ location: CLLocationCoordinate2D) {
-        self.location = location
-        super.init()
-    }
-    
-    init(latitude: Double, longitude: Double) {
-        self.location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        super.init()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        let latitude = aDecoder.decodeDouble(forKey: CodingKey.latitude.rawValue)
-        let longitude = aDecoder.decodeDouble(forKey: CodingKey.longitude.rawValue)
-        self.location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        super.init()
-    }
-    
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(location.latitude, forKey: CodingKey.latitude.rawValue)
-        aCoder.encode(location.longitude, forKey: CodingKey.longitude.rawValue)
-    }
 }

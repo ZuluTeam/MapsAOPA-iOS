@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 import UIColor_Hex_Swift
 import CoreLocation
+import RealmSwift
+import ObjectMapper
 
 enum RunwaySurface : Int
 {
@@ -80,7 +82,7 @@ enum RunwayLights : Int
     {
         switch code ?? ""
         {
-        case "1" : self = .none
+        case "1": self = .none
         case "2": self = .always
         case "3": self = .onRequest
         case "4": self = .pilotControlled
@@ -93,108 +95,124 @@ enum RunwayLights : Int
     }
 }
 
-class Runway: NSManagedObject {
+class Runway: Object, Mappable {
+    dynamic var length = 0
+    dynamic var lightsType = -1
+    dynamic var magneticCourse: String?
+    dynamic var surfaceType = -1
+    dynamic var title: String?
+    dynamic var trafficPatterns: String?
+    dynamic var trueCourse: String?
+    dynamic var width = 0
+    
+    dynamic var thresholds: RunwayThresholds?
+    dynamic var point: Point?
+    
     fileprivate enum Keys : String {
-        case surfaceType
-        case thresholds
-        case lightsType
-    }
-}
-
-extension Runway: Managed {
-    
-    public static var entityName : String {
-        return "Runway"
+        case length
+        case lightsType = "lights_id"
+        case magneticCourse = "kurs"
+        case surfaceType = "pokr_code"
+        case title = "name"
+        case trafficPatterns = "korobochka"
+        case trueCourse = "kurs_ist"
+        case width
     }
     
-}
-
-extension Runway {
+    required convenience init?(map: Map) {
+        self.init()
+    }
     
-    static func registerValueTransformers() {
-        let locationTransform = "ThresholdsTransform"
+    func mapping(map: Map) {
+        length <- (map[Keys.length.rawValue, ignoreNil: true], TransformIntValue())
+        lightsType <- (map[Keys.lightsType.rawValue, ignoreNil: true], lightsTypeTransform)
+        magneticCourse <- map[Keys.magneticCourse.rawValue]
+        surfaceType <- (map[Keys.surfaceType.rawValue, ignoreNil: true], surfaceTransform)
+        title <- map[Keys.title.rawValue]
+        trafficPatterns <- map[Keys.trafficPatterns.rawValue]
+        trueCourse <- map[Keys.trueCourse.rawValue]
+        width <- (map[Keys.width.rawValue], TransformIntValue())
         
-        ValueTransform<RunwayThresholds, NSData>.registerValueTransformerWithName(locationTransform, transform: { (thresholds : RunwayThresholds?) -> NSData? in
-            guard let thresholds = thresholds else {
-                return nil
-            }
-            return NSKeyedArchiver.archivedData(withRootObject: thresholds) as NSData
-        }, reverseTransform: { (data: NSData?) -> RunwayThresholds? in
-            guard let data = data else {
-                return nil
-            }
-            return NSKeyedUnarchiver.unarchiveObject(with: data as Data) as? RunwayThresholds
-        })
-        
+        thresholds = Mapper<RunwayThresholds>().map(JSON: map.JSON)
     }
     
-}
-
-
-extension Runway {
-    
-    override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
-        switch key {
-        case Runway.Keys.surfaceType.rawValue :
-            if let value = value as? String {
-                return RunwaySurface(code: value).rawValue as NSNumber?
-            }
-        case Runway.Keys.thresholds.rawValue :
-            guard let value = value as? [String : String] else {
-                return nil
-            }
-            if let threshold1lat = Double(value["porog1_lat"] ?? "0"),
-                let threshold1lon = Double(value["porog1_lon"] ?? "0"),
-                let threshold2lat = Double(value["porog2_lat"] ?? "0"),
-                let threshold2lon = Double(value["porog2_lon"] ?? "0") {
-                
-                if threshold1lat != 0 && threshold2lat != 0 && threshold1lon != 0 && threshold2lon != 0 {
-                    let thresholds = RunwayThresholds(threshold1: CLLocationCoordinate2D(latitude: threshold1lat, longitude: threshold1lon), threshold2: CLLocationCoordinate2D(latitude: threshold2lat, longitude: threshold2lon))
-                    return thresholds as NSObject?
-                }
-            }
-            return nil
-        case Runway.Keys.lightsType.rawValue :
-            return RunwayLights(code: value as? String)?.rawValue as NSNumber?
-        default:
-            break
+    var runwayLength : Int? {
+        if length != 0 {
+            return length
         }
-        return super.transformImortedValue(value, for: key)
+        return nil
+    }
+    
+    var runwayWidth : Int? {
+        if width != 0 {
+            return width
+        }
+        return nil
+    }
+    
+    var runwayLights : RunwayLights? {
+        if let lights = RunwayLights(rawValue: self.lightsType), lights != .unknown {
+            return lights
+        }
+        return nil
+    }
+    
+    var runwaySurface : RunwaySurface? {
+        if let surface = RunwaySurface(rawValue: self.surfaceType), surface != .unknown {
+            return surface
+        }
+        return nil
+    }
+    
+}
+
+extension Runway {
+    
+    fileprivate var surfaceTransform : TransformJSONOf<Int, String> {
+        return TransformJSONOf(fromJSON: { (value: String?) -> Int? in
+            return RunwaySurface(code: value).rawValue
+        })
+    }
+    
+    fileprivate var lightsTypeTransform : TransformJSONOf<Int, String> {
+        return TransformJSONOf(fromJSON: { (value: String?) -> Int? in
+            return RunwayLights(code: value)?.rawValue
+        })
     }
 }
 
-@objc class RunwayThresholds : NSObject, NSCoding {
+class RunwayThresholds : Object, Mappable {
+    dynamic var latitude1 = 0.0
+    dynamic var latitude2 = 0.0
+    dynamic var longitude1 = 0.0
+    dynamic var longitude2 = 0.0
     
-    private enum CodingKey : String {
-        case latitude1
-        case longitude1
-        case latitude2
-        case longitude2
+    fileprivate enum Keys : String {
+        case latitude1 = "porog1_lat"
+        case latitude2 = "porog2_lat"
+        case longitude1 = "porog1_lon"
+        case longitude2 = "porog2_lon"
     }
     
-    let threshold1 : CLLocationCoordinate2D
-    let threshold2 : CLLocationCoordinate2D
-    init(threshold1: CLLocationCoordinate2D, threshold2: CLLocationCoordinate2D) {
-        self.threshold1 = threshold1
-        self.threshold2 = threshold2
-        super.init()
+    var threshold1 : CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: latitude1, longitude: longitude1)
+        }
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        let latitude1 = aDecoder.decodeDouble(forKey: CodingKey.latitude1.rawValue)
-        let longitude1 = aDecoder.decodeDouble(forKey: CodingKey.longitude1.rawValue)
-        let latitude2 = aDecoder.decodeDouble(forKey: CodingKey.latitude2.rawValue)
-        let longitude2 = aDecoder.decodeDouble(forKey: CodingKey.longitude2.rawValue)
+    var threshold2 : CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: latitude2, longitude: longitude2)
+        }
+    }
         
-        self.threshold1 = CLLocationCoordinate2D(latitude: latitude1, longitude: longitude1)
-        self.threshold2 = CLLocationCoordinate2D(latitude: latitude2, longitude: longitude2)
-        super.init()
+    required convenience init?(map: Map) {
+        self.init()
     }
     
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(threshold1.latitude, forKey: CodingKey.latitude1.rawValue)
-        aCoder.encode(threshold1.longitude, forKey: CodingKey.longitude1.rawValue)
-        aCoder.encode(threshold2.latitude, forKey: CodingKey.latitude2.rawValue)
-        aCoder.encode(threshold2.longitude, forKey: CodingKey.longitude2.rawValue)
+    func mapping(map: Map) {
+        latitude1 <- map[Keys.latitude1.rawValue, ignoreNil: true]
+        latitude2 <- map[Keys.latitude2.rawValue, ignoreNil: true]
+        longitude1 <- map[Keys.longitude1.rawValue, ignoreNil: true]
+        longitude2 <- map[Keys.longitude2.rawValue, ignoreNil: true]
     }
 }

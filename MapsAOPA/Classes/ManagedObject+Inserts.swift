@@ -129,7 +129,7 @@ extension Dictionary where Key: ExpressibleByStringLiteral {
     
     fileprivate func valueForKeys(_ keyPath: Array<String>) -> Any? {
         var keys = keyPath
-        guard let first = keys.first as? Key else { print("Unable use key \(keys.first), should be on type: \(Key.self)"); return nil }
+        guard let first = keys.first as? Key else { print("Unable use key \(String(describing: keys.first)), should be on type: \(Key.self)"); return nil }
         let value = self[first]
         keys.remove(at: 0)
         if !keys.isEmpty, let subDict = value as? [String : AnyObject] {

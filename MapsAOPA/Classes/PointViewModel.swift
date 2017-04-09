@@ -10,20 +10,20 @@ import Foundation
 import CoreLocation
 import ReactiveSwift
 import Result
-import CoreData
+import RealmSwift
 import Suntimes
 
-struct Frequency {
-    let callsign : String
-    let frequency : String
-    let type : String?
-}
-
-struct Contact {
-    let name : String?
-    let type : String?
-    let phone : String
-}
+//struct Frequency {
+//    let callsign : String
+//    let frequency : String
+//    let type : String?
+//}
+//
+//struct Contact {
+//    let name : String?
+//    let type : String?
+//    let phone : String
+//}
 
 class PointViewModel : Hashable, Equatable {
     let index : String
@@ -38,21 +38,21 @@ class PointViewModel : Hashable, Equatable {
     
     init(point: Point) {
         self.point = point
-        self.index = point.index ?? ""
+        self.index = point.index 
         self.location = point.location?.location ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)
         self.isServiced = point.isServiced()
-        self.isActive = point.active?.boolValue ?? false
-        self.isMilitary = PointBelongs(rawValue: point.belongs?.intValue ?? -1)?.isMilitary() ?? false
-        self.pointType = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
+        self.isActive = point.active
+        self.isMilitary = PointBelongs(rawValue: point.belongs)?.isMilitary() ?? false
+        self.pointType = PointType(rawValue: point.type) ?? .unknown
         
         if Settings.language == "ru" {
-            self.title = "\(point.titleRu ?? "") \(point.index ?? "")/\(point.indexRu ?? "")"
+            self.title = "\(point.titleRu ?? "") \(point.index )/\(point.indexRu ?? "")"
         } else {
-            self.title = "\(point.title ?? "") \(point.index ?? "")"
+            self.title = "\(point.title ?? "") \(point.index )"
         }
         
         var region = [String]()
-        if let countryId = point.details?.countryId?.intValue, let country = PointCountry(rawValue: countryId) {
+        if let countryId = point.details?.countryId, let country = PointCountry(rawValue: countryId) {
             region.append(country.localized)
         }
         if let pointRegion = point.details?.region {
@@ -115,44 +115,42 @@ class PointDetailsViewModel {
     var tableViewObjects = [(sectionTitle: String?, objects: [TableObject])]()
     
     init?(point: Point?) {
-        guard let point = point, let index = point.index else {
+        guard let point = point else {
             return nil
         }
-        self.index = index
+        self.index = point.index
         if Settings.language == "ru" {
-            self.title = "\(point.titleRu ?? "") \(point.index ?? "")/\(point.indexRu ?? "")"
+            self.title = "\(point.titleRu ?? "") \(point.index)/\(point.indexRu ?? "")"
         } else {
-            self.title = "\(point.title ?? "") \(point.index ?? "")"
+            self.title = "\(point.title ?? "") \(point.index)"
         }
         
-        self.elevation = point.details?.elevation?.intValue ?? 0
+        self.elevation = point.details?.pointElevation ?? 0
         self.email = point.details?.email
         self.website = point.details?.website
-        self.frequencies = (point.details?.frequencies as? [[String:String]] ?? []).flatMap({ (item) -> Frequency? in
-            guard let callsign = item["callsign"], let frequency = item["freq"] else {
-                return nil
-            }
-            return Frequency(callsign: callsign.transliterated(language: Settings.language).capitalized,
-                             frequency: frequency,
-                             type: item["type"])
-        })
         
-        self.contacts = (point.details?.contacts as? [[String:String]] ?? []).flatMap({ (item) -> Contact? in
-            guard let phone = item["value"] else {
-                return nil
-            }
-            return Contact(name: item["fio"]?.transliterated(language: Settings.language).capitalized,
-                           type: item["type"]?.transliterated(language: Settings.language).capitalized,
-                           phone: phone.replace(" ", with: ""))
-        })
+        if let freq = point.details?.frequencies {
+            self.frequencies = Array(freq)
+        } else {
+            self.frequencies = []
+        }
         
-        self.fuels = (point.fuel as? Set<Fuel> ?? Set())
-            .sorted(by: { $0.type?.intValue ?? 0 < $1.type?.intValue ?? 0 })
-            .flatMap({ FuelType(rawValue: $0.type?.intValue ?? 0)?.localized })
+        if let contacts = point.details?.contacts {
+            self.contacts = Array(contacts)
+        } else {
+            self.contacts = []
+        }
+        
+        let fuel = Array(point.fuel).filter({ $0.fuelType != nil })
+        
+        self.fuels = fuel
+            .sorted(by: { $0.type < $1.type })
+            .flatMap({ $0.localized })
             .joined(separator: ", ")
         
-        self.runways = (point.runways as? Set<Runway>)?.flatMap({ RunwayViewModel(runway: $0) }) ?? []
-        self.type = PointType(rawValue: point.type?.intValue ?? -1) ?? .unknown
+        let runways = Array(point.runways)
+        self.runways = runways.flatMap({ RunwayViewModel(runway: $0) })
+        self.type = point.pointType
         self.location = point.location?.location ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)
         self.initializeDataSource(with: point)
     }
@@ -166,17 +164,15 @@ class PointDetailsViewModel {
         
         commonObjects.append(TableObject(text: "Details_Title".localized, value: title))
         
-        if let active = point.active?.boolValue {
-            commonObjects.append(TableObject(text: active ? "Details_Active".localized : "Details_Inactive".localized))
-        }
+        commonObjects.append(TableObject(text: point.active ? "Details_Active".localized : "Details_Inactive".localized))
         
-        if let international = point.details?.international?.boolValue, international {
+        if let international = point.details?.international, international == true {
             commonObjects.append(TableObject(text: "Details_International".localized))
         }
         
         if let location = point.location?.location {
             var items = [(String, String)]()
-            if let countryId = point.details?.countryId?.intValue, let country = PointCountry(rawValue: countryId) {
+            if let country = point.details?.pointCountry {
                 items.append(("Details_Country".localized, country.localized))
             }
             if let region = point.details?.region {
@@ -188,17 +184,16 @@ class PointDetailsViewModel {
             commonObjects.append(TableObject(text: "Details_Location".localized, value: Converter.locationString(from: location), items: items))
         }
         
-        if let elevation = point.details?.elevation?.intValue {
+        if let elevation = point.details?.pointElevation {
             commonObjects.append(
                 TableObject(text: "Details_Elevation".localized,
                                     value: "\(Converter.localized(distanceInMeters: elevation)) (\(Converter.localized(pressureDegreeFromMeters: Double(elevation))))"))
         }
         
-        if let belongsId = point.belongs?.intValue, let belongs = PointBelongs(rawValue: belongsId) {
-            commonObjects.append(TableObject(text: "Details_Belongs".localized, value: belongs.localized))
-        }
+        let belongs = point.pointBelongs
+        commonObjects.append(TableObject(text: "Details_Belongs".localized, value: belongs.localized))
         
-        if let declination = point.details?.declination?.floatValue {
+        if let declination = point.details?.pointDeclination {
             commonObjects.append(TableObject(text: "Details_Declination".localized, value: String(format: "%.1f°", declination)))
         }
         
@@ -244,41 +239,38 @@ class PointDetailsViewModel {
         
         var runwaysObjects = [TableObject]()
         
-        if let runways = point.runways as? Set<Runway>
-        {
-            for runway in runways {
-                
-                var runwayItems = [(String, String)]()
-                if let title = runway.title {
-                    runwayItems.append(("Details_Title".localized, title))
-                }
-                if let length = runway.length?.intValue {
-                    runwayItems.append(("Details_Length".localized, Converter.localized(distanceInMeters: length)))
-                }
-                if let width = runway.width?.intValue {
-                    runwayItems.append(("Details_Width".localized, Converter.localized(distanceInMeters: width)))
-                }
-                if let magneticCources = runway.magneticCourse {
-                    runwayItems.append(("Details_Magnetic_Courses".localized, magneticCources))
-                }
-                if let trueCources = runway.trueCourse {
-                    runwayItems.append(("Details_True_Courses".localized, trueCources))
-                }
-                if let thresholds = runway.thresholds {
-                    runwayItems.append(("Details_Threshold1".localized, Converter.locationString(from: thresholds.threshold1)))
-                    runwayItems.append(("Details_Threshold2".localized, Converter.locationString(from: thresholds.threshold2)))
-                }
-                if let surfaceType = runway.surfaceType?.intValue, let surface = RunwaySurface(rawValue: surfaceType), surface != .unknown {
-                    runwayItems.append(("Details_Surface".localized, surface.localized))
-                }
-                if let lightsType = runway.lightsType?.intValue, let lights = RunwayLights(rawValue: lightsType), lights != .unknown {
-                    runwayItems.append(("Details_Lights".localized, lights.localized))
-                }
-                if let pattern = runway.trafficPatterns {
-                    runwayItems.append(("Details_Pattern".localized, pattern))
-                }
-                runwaysObjects.append(TableObject(items: runwayItems))
+        for runway in point.runways {
+            
+            var runwayItems = [(String, String)]()
+            if let title = runway.title {
+                runwayItems.append(("Details_Title".localized, title))
             }
+            if let length = runway.runwayLength {
+                runwayItems.append(("Details_Length".localized, Converter.localized(distanceInMeters: length)))
+            }
+            if let width = runway.runwayWidth {
+                runwayItems.append(("Details_Width".localized, Converter.localized(distanceInMeters: width)))
+            }
+            if let magneticCources = runway.magneticCourse {
+                runwayItems.append(("Details_Magnetic_Courses".localized, magneticCources))
+            }
+            if let trueCources = runway.trueCourse {
+                runwayItems.append(("Details_True_Courses".localized, trueCources))
+            }
+            if let thresholds = runway.thresholds {
+                runwayItems.append(("Details_Threshold1".localized, Converter.locationString(from: thresholds.threshold1)))
+                runwayItems.append(("Details_Threshold2".localized, Converter.locationString(from: thresholds.threshold2)))
+            }
+            if let surface = runway.runwaySurface {
+                runwayItems.append(("Details_Surface".localized, surface.localized))
+            }
+            if let lights = runway.runwayLights {
+                runwayItems.append(("Details_Lights".localized, lights.localized))
+            }
+            if let pattern = runway.trafficPatterns {
+                runwayItems.append(("Details_Pattern".localized, pattern))
+            }
+            runwaysObjects.append(TableObject(items: runwayItems))
         }
         
         if runwaysObjects.count > 0 {
@@ -291,17 +283,19 @@ class PointDetailsViewModel {
         
         var fuelItems = [(String, String)]()
         
-        if let fuels = (point.fuel as? Set<Fuel>)?.sorted(by: { $0.0.type?.intValue ?? 0 < $0.1.type?.intValue ?? 0 }) {
+        if point.fuel.count > 0 {
+            let fuels = point.fuel.sorted(by: { $0.type < $1.type })
             for fuel in fuels {
-                if let fuelTypeRaw = fuel.type?.intValue, let fuel = FuelType(rawValue: fuelTypeRaw) {
+                if let fuel = fuel.fuelType {
                     fuelItems.append((fuel.localized, "Details_Always".localized))
                 }
             }
         }
         
-        if let fuels = (point.fuelOnRequest as? Set<Fuel>)?.sorted(by: { $0.0.type?.intValue ?? 0 < $0.1.type?.intValue ?? 0 }) {
+        if point.fuelOnRequest.count > 0 {
+            let fuels = point.fuelOnRequest.sorted(by: { $0.type < $1.type })
             for fuel in fuels {
-                if let fuelTypeRaw = fuel.type?.intValue, let fuel = FuelType(rawValue: fuelTypeRaw) {
+                if let fuel = fuel.fuelType {
                     fuelItems.append((fuel.localized, "Details_On_Request".localized))
                 }
             }
@@ -369,10 +363,10 @@ class RunwayViewModel {
             return nil
         }
         
-        self.length = runway.length?.intValue ?? 0
-        self.width = runway.width?.intValue ?? 0
-        self.lightsType = RunwayLights(rawValue: runway.lightsType?.intValue ?? -1) ?? .unknown
-        self.surfaceType = RunwaySurface(rawValue: runway.surfaceType?.intValue ?? -1) ?? .unknown
+        self.length = runway.length
+        self.width = runway.width
+        self.lightsType = runway.runwayLights ?? .unknown
+        self.surfaceType = runway.runwaySurface ?? .unknown
         self.thresholds = runway.thresholds
         self.title = runway.title ?? ""
         self.trafficPatterns = runway.trafficPatterns ?? ""

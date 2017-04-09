@@ -8,6 +8,8 @@
 
 import Foundation
 import CoreData
+import RealmSwift
+import ObjectMapper
 
 enum FuelType : Int
 {
@@ -33,29 +35,45 @@ enum FuelType : Int
     }
 }
 
-class Fuel: NSManagedObject {
-    fileprivate enum Keys : String {
-        case type
-    }
-}
+class Fuel: Object, Mappable {
+    
+    
+    dynamic var type: Int = -1
+    let points = LinkingObjects(fromType: Point.self, property: Point.Keys.fuel.rawValue)
+    let pointsOnRequest = LinkingObjects(fromType: Point.self, property: Point.Keys.fuelOnRequest.rawValue)
 
-extension Fuel : Managed {
-    public static var entityName : String {
-        return "Fuel"
+    fileprivate enum Keys : String {
+        case type = "type_id"
     }
+    
+    required convenience init?(map: Map) {
+        self.init()
+    }
+    
+    func mapping(map: Map) {
+        type <- (map[Keys.type.rawValue], fuelTypeTransform)
+    }
+    
+    override static func primaryKey() -> String? {
+        return "type"
+    }
+    
 }
 
 extension Fuel {
     
-    override func transformImortedValue(_ value: Any, for key: String) -> NSObject? {
-        switch key {
-        case Fuel.Keys.type.rawValue :
-            if let value = value as? String {
-                return FuelType(type: value)?.rawValue as NSNumber?
-            }
-        default:
-            break
-        }
-        return super.transformImortedValue(value, for: key)
+    var fuelType : FuelType? {
+        return FuelType(rawValue: type)
     }
+    
+    var localized : String? {
+        return FuelType(rawValue: type)?.localized
+    }
+    
+    fileprivate var fuelTypeTransform : TransformJSONOf<Int, String> {
+        return TransformJSONOf(fromJSON: { (value: String?) -> Int? in
+            return FuelType(type: value)?.rawValue
+        })
+    }
+    
 }
