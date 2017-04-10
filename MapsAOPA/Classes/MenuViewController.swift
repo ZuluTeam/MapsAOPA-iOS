@@ -39,10 +39,11 @@ class MenuViewController: UIViewController {
         self.mapTypeControl.selectedSegmentIndex = Int(Settings.current.mapType.value.rawValue)
         
         self.lastUpdateLabel.reactive.text <~ Settings.current.lastUpdate.map({ [weak self] date in
-            if date.timeIntervalSince1970 <= 0 {
-                return ""
+            if let date = date, date.timeIntervalSince1970 > 0 {
+                return "Menu_Last_Update_Format".localized(arguments: self?.dateFormatter.string(from: date) ?? "")
             }
-            return "Menu_Last_Update_Format".localized(arguments: self?.dateFormatter.string(from: date) ?? "")
+            return ""
+            
         })
         
         self.mapTypeControl.removeAllSegments()

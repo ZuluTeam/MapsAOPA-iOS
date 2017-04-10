@@ -25,7 +25,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     var viewModel: MapViewModel!
     
-    fileprivate var pointDetailsViewController : PointDetailsTableViewController?
+    fileprivate var pointDetailsViewController : PointDetailsViewController?
     
     fileprivate static let zoomPercent: CLLocationDegrees = 0.5
     
@@ -76,7 +76,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
             if let point = point, point.zoomIn {
                 self?.zoom(to: point.point)
             } else {
-                self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point?.point), animated: true)
+//                self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point?.point), animated: true)
             }
         }
         
@@ -129,7 +129,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     fileprivate func select(annotationView view: MKAnnotationView) {
         if let pointViewModel = (view.annotation as? PointAnnotation)?.pointViewModel {
-            self.viewModel.selectedPoint.value = pointViewModel
+//            self.viewModel.selectedPoint.value = pointViewModel
                 /*
                 if let pointDetails = self.viewModel.pointDetailsViewModel(from: pointViewModel) {
                     //self.detailsViewContainer.userIn
@@ -170,7 +170,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     // MARK: - Actions
     
-    @IBAction func zoomInAction(_ sender: AnyObject?) {
+    @IBAction func zoomPointAction(_ sender: AnyObject?) {
         if let selectedPoint = self.viewModel.selectedPoint.value?.point {
             self.zoom(to: selectedPoint)
         }

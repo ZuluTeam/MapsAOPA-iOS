@@ -14,7 +14,7 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
     var isPresenting : Bool = false
     
     private var tapGestureRecognizer : UITapGestureRecognizer!
-    private var panGestureRecognizer : UIPanGestureRecognizer?
+    private var panGestureRecognizer : UIPanGestureRecognizer!
     private var edgePanGestureRecognizer : UIScreenEdgePanGestureRecognizer?
     
     private weak var mainViewController : MainViewController!
@@ -22,6 +22,7 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
     private var snapshotView : UIView?
     
     private var isInteractive : Bool = false
+    private var isCancelled : Bool = false
     
     init(mainViewController: MainViewController) {
         super.init()
@@ -32,13 +33,14 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
         self.mainViewController.view.addGestureRecognizer(self.edgePanGestureRecognizer!)
         
         self.tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAction(_:)))
+        self.panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panAction(_:)))
     }
     
     // MARK: - Screen edge pan gesture recognizer
     
     func edgePanAction(_ sender: UIScreenEdgePanGestureRecognizer) {
         let translation = sender.translation(in: sender.view)
-        var progress = (translation.x / 200)
+        var progress = (translation.x / MenuTransitionController.menuWidth)
         progress = min(max(progress, 0.0), 1.0)
         let shouldCompleteTransition = progress > 0.5
         switch sender.state {
@@ -52,6 +54,7 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
                 self.finish()
             } else {
                 self.cancel()
+                self.menuNavigationController = nil
             }
             
         default:
@@ -65,8 +68,32 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
     }
     
     override func cancel() {
+        self.isCancelled = true
         self.isInteractive = false
         super.cancel()
+    }
+    
+    func panAction(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: sender.view)
+        var progress = (-translation.x / MenuTransitionController.menuWidth)
+        progress = min(max(progress, 0.0), 1.0)
+        let shouldCompleteTransition = progress > 0.5
+        switch sender.state {
+        case .began:
+            self.isInteractive = true
+            self.menuNavigationController?.dismiss(animated: true, completion: nil)
+        case .changed:
+            self.update(progress)
+        case .ended:
+            if shouldCompleteTransition {
+                self.finish()
+                self.menuNavigationController = nil
+            } else {
+                self.cancel()
+            }
+        default:
+            self.cancel()
+        }
     }
     
     func tapAction(_ sender: UITapGestureRecognizer) {
@@ -87,6 +114,7 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
             let toViewController = transitionContext.viewController(forKey: .to) else {
                 return
         }
+        self.isCancelled = false
         let containerView = transitionContext.containerView
         let duration = TimeInterval(transitionContext.isAnimated) * self.transitionDuration(using: transitionContext)
         
@@ -104,6 +132,7 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
                 snapshot.shadowRadius = 3.0
                 snapshot.shadowOpacity = 1.0
                 snapshot.addGestureRecognizer(self.tapGestureRecognizer)
+                snapshot.addGestureRecognizer(self.panGestureRecognizer)
             }
             UIView.animate(withDuration: duration, animations: {
                 self.snapshotView?.x = toViewController.view.width
@@ -114,11 +143,14 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
             UIView.animate(withDuration: duration, animations: { 
                 self.snapshotView?.x = 0.0
             }, completion: { _ in
-                self.menuNavigationController?.view.removeFromSuperview()
-                fromViewController.view.removeFromSuperview()
-                self.snapshotView?.removeGestureRecognizer(self.tapGestureRecognizer)
-                self.snapshotView?.removeFromSuperview()
-                self.snapshotView = nil
+                if !self.isCancelled {
+                    self.menuNavigationController?.view.removeFromSuperview()
+                    fromViewController.view.removeFromSuperview()
+                    self.snapshotView?.removeGestureRecognizer(self.tapGestureRecognizer)
+                    self.snapshotView?.removeGestureRecognizer(self.panGestureRecognizer)
+                    self.snapshotView?.removeFromSuperview()
+                    self.snapshotView = nil
+                }
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             })
         }
