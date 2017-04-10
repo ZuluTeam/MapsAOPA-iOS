@@ -206,13 +206,17 @@ class RunwayThresholds : Object, Mappable {
     }
         
     required convenience init?(map: Map) {
+        if map.JSON[Keys.latitude1.rawValue] == nil || map.JSON[Keys.latitude2.rawValue] == nil ||
+            map.JSON[Keys.longitude1.rawValue] == nil || map.JSON[Keys.longitude2.rawValue] == nil {
+            return nil
+        }
         self.init()
     }
     
     func mapping(map: Map) {
-        latitude1 <- map[Keys.latitude1.rawValue, ignoreNil: true]
-        latitude2 <- map[Keys.latitude2.rawValue, ignoreNil: true]
-        longitude1 <- map[Keys.longitude1.rawValue, ignoreNil: true]
-        longitude2 <- map[Keys.longitude2.rawValue, ignoreNil: true]
+        latitude1 <- (map[Keys.latitude1.rawValue, ignoreNil: true], TransformDoubleValue())
+        latitude2 <- (map[Keys.latitude2.rawValue, ignoreNil: true], TransformDoubleValue())
+        longitude1 <- (map[Keys.longitude1.rawValue, ignoreNil: true], TransformDoubleValue())
+        longitude2 <- (map[Keys.longitude2.rawValue, ignoreNil: true], TransformDoubleValue())
     }
 }

@@ -53,7 +53,11 @@ open class TransformBoolValue: TransformType {
         if let number = value as? Bool {
             return number
         } else if let string = value as? String {
-            return Bool(string)
+            if let boolValue = Bool(string) {
+                return boolValue
+            } else if let intValue = Int(string) {
+                return intValue == 1 ? true : false
+            }
         }
         return nil
     }

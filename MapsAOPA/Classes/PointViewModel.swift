@@ -347,11 +347,41 @@ class PointDetailsViewModel {
     }
 }
 
+struct Thresholds {
+    let latitude1 : Double
+    let latitude2 : Double
+    let longitude1 : Double
+    let longitude2 : Double
+    
+    init?(_ thresholds: RunwayThresholds?) {
+        guard let thresholds = thresholds else {
+            return nil
+        }
+        self.latitude1 = thresholds.latitude1
+        self.latitude2 = thresholds.latitude2
+        self.longitude1 = thresholds.longitude1
+        self.longitude2 = thresholds.longitude2
+    }
+    
+    
+    var threshold1 : CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: latitude1, longitude: longitude1)
+        }
+    }
+    var threshold2 : CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2D(latitude: latitude2, longitude: longitude2)
+        }
+    }
+    
+}
+
 class RunwayViewModel {
     let length: Int
     let lightsType: RunwayLights
     let surfaceType: RunwaySurface
-    let thresholds: RunwayThresholds?
+    let thresholds: Thresholds?
     let title: String
     let trafficPatterns: String
     let magneticCourse: String
@@ -367,7 +397,7 @@ class RunwayViewModel {
         self.width = runway.width
         self.lightsType = runway.runwayLights ?? .unknown
         self.surfaceType = runway.runwaySurface ?? .unknown
-        self.thresholds = runway.thresholds
+        self.thresholds = Thresholds(runway.thresholds)
         self.title = runway.title ?? ""
         self.trafficPatterns = runway.trafficPatterns ?? ""
         self.magneticCourse = runway.magneticCourse ?? ""

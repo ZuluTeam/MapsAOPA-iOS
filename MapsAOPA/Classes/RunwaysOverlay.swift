@@ -21,10 +21,10 @@ class RunwaysOverlay : NSObject, MKOverlay {
         let coordinates : (minX: Double, minY: Double, maxX: Double, maxY: Double) =
             pointDetailsViewModel.runways.reduce((Double.infinity, Double.infinity, -Double.infinity, -Double.infinity)) { (result, runway) -> (Double, Double, Double, Double) in
                 if let thresholds = runway.thresholds {
-                    let threshold0X = thresholds.threshold1.longitude
-                    let threshold0Y = thresholds.threshold1.latitude
-                    let threshold1X = thresholds.threshold2.longitude
-                    let threshold1Y = thresholds.threshold2.latitude
+                    let threshold0X = thresholds.longitude1
+                    let threshold0Y = thresholds.latitude1
+                    let threshold1X = thresholds.longitude2
+                    let threshold1Y = thresholds.latitude2
                     return (min(threshold0X, threshold1X, result.0),
                             min(threshold0Y, threshold1Y, result.1),
                             max(threshold0X, threshold1X, result.2),

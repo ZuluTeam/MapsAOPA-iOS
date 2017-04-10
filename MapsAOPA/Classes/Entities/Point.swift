@@ -160,8 +160,8 @@ class Point: Object, Mappable {
         fuel <- (map[JSONKeys.fuel, ignoreNil: true], fuelTransform)
         fuelOnRequest <- (map[JSONKeys.fuelOnRequest, ignoreNil: true], fuelOnRequestTransform)
         runways <- (map[JSONKeys.runways, ignoreNil: true], runwaysTransform)
-        latitude <- (map[Keys.latitude.rawValue], TransformDoubleValue())
-        longitude <- (map[Keys.longitude.rawValue], TransformDoubleValue())
+        latitude <- (map[JSONKeys.latitude], TransformDoubleValue())
+        longitude <- (map[JSONKeys.longitude], TransformDoubleValue())
 
         searchRegion <- (map[JSONKeys.searchRegion], normalizedForSearchTransform)
         searchIndex <- (map[JSONKeys.searchIndex], normalizedForSearchTransform)

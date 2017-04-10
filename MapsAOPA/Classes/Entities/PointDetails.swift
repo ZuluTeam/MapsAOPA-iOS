@@ -117,7 +117,7 @@ class PointDetails: Object, Mappable {
         case countryId = "country_id"
         case countryName = "country_name"
         case declination = "delta_m"
-        case elevation = "hight"
+        case elevation = "height"
         case email
         case frequencies = "freq"
         case imageAerial = "img_aerial"
