@@ -70,15 +70,15 @@ class RunwaysOverlayRenderer : MKOverlayRenderer {
                     
                     let angle : Double
                     if mapThreshold0.x - mapThreshold1.x == 0 {
-                        angle = M_PI_2
+                        angle = Double.pi * 0.5
                     } else {
                         angle = atan((mapThreshold0.y - mapThreshold1.y) / (mapThreshold0.x - mapThreshold1.x))
                     }
                     
                     let radius = mapDeltaThreshold0.distance(from: mapThreshold0) * 0.5
 
-                    let cosLeft = cos(M_PI_2 + angle)
-                    let sinLeft = sin(M_PI_2 + angle)
+                    let cosLeft = cos(Double.pi * 0.5 + angle)
+                    let sinLeft = sin(Double.pi * 0.5 + angle)
                     let cosRight = -cosLeft
                     let sinRight = -sinLeft
                     let left = MKMapPoint(x: (radius * cosLeft), y: (radius * sinLeft))
@@ -109,7 +109,7 @@ class RunwaysOverlayRenderer : MKOverlayRenderer {
 
                     UIGraphicsPushContext(context)
                     let titleComponents = runway.title.components(separatedBy: "/")
-                    let angles = [angle + M_PI_2, angle - M_PI_2]
+                    let angles = [angle + Double.pi * 0.5, angle - Double.pi * 0.5]
                     if titleComponents.count == 2 {
                         for (index, title) in titleComponents.enumerated() {
                             context.saveGState()

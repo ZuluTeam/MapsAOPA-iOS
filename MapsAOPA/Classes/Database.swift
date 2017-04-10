@@ -31,6 +31,7 @@ class Database
         case .all: airportsFormat = "(\(Point.Keys.type.rawValue) = \(PointType.airport.rawValue))"
         case .active: airportsFormat = "(\(Point.Keys.type.rawValue) = \(PointType.airport.rawValue) AND \(Point.Keys.active.rawValue) = 1)"
         case .none: airportsFormat = "(\(Point.Keys.type.rawValue) != \(PointType.airport.rawValue))"; connection = "AND"
+        default: airportsFormat = ""; connection = ""
         }
         
         let heliportsFormat : String
@@ -38,6 +39,7 @@ class Database
         case .all: heliportsFormat = "(\(Point.Keys.type.rawValue) = \(PointType.heliport.rawValue))"
         case .active: heliportsFormat = "(\(Point.Keys.type.rawValue) = \(PointType.heliport.rawValue) AND \(Point.Keys.active.rawValue) = 1)"
         case .none: heliportsFormat = "(\(Point.Keys.type.rawValue) != \(PointType.heliport.rawValue))"; connection = "AND"
+        default: heliportsFormat = ""; connection = ""
         }
         
         format += " AND (\(airportsFormat) \(connection) \(heliportsFormat))"

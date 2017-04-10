@@ -11,8 +11,8 @@ import MapKit
 import ReactiveSwift
 
 class MenuViewController: UIViewController {
-    @IBOutlet var airportsFilterControl : UISegmentedControl!
-    @IBOutlet var heliportsFilterControl : UISegmentedControl!
+    
+    
     
     @IBOutlet var mapTypeControl : UISegmentedControl!
     @IBOutlet var distanceUnitsControl : UISegmentedControl!
@@ -20,6 +20,9 @@ class MenuViewController: UIViewController {
     @IBOutlet var reloadButton : UIButton!
     @IBOutlet var loadingIndicator : UIActivityIndicatorView!
     @IBOutlet var lastUpdateLabel : UILabel!
+    
+    @IBOutlet var airportsButton : UIButton!
+    @IBOutlet var heliportsButton : UIButton!
     
     var viewModel : MapViewModel!
     
@@ -36,28 +39,17 @@ class MenuViewController: UIViewController {
         self.mapTypeControl.selectedSegmentIndex = Int(Settings.current.mapType.value.rawValue)
         
         self.lastUpdateLabel.reactive.text <~ Settings.current.lastUpdate.map({ [weak self] date in
-            let dateString : String
-            if let date = date, let string = self?.dateFormatter.string(from: date) {
-                dateString = string
-            } else {
-                dateString = "Never".localized
+            if date.timeIntervalSince1970 <= 0 {
+                return ""
             }
-            return "Menu_Last_Update_Format".localized(arguments: dateString)
+            return "Menu_Last_Update_Format".localized(arguments: self?.dateFormatter.string(from: date) ?? "")
         })
         
-        self.airportsFilterControl.removeAllSegments()
-        self.airportsFilterControl.insertSegment(withTitle: PointsFilterState.none.localized, at: PointsFilterState.none.rawValue, animated: false)
-        self.airportsFilterControl.insertSegment(withTitle: PointsFilterState.active.localized, at: PointsFilterState.active.rawValue, animated: false)
-        self.airportsFilterControl.insertSegment(withTitle: PointsFilterState.all.localized, at: PointsFilterState.all.rawValue, animated: false)
-        
-        self.airportsFilterControl.selectedSegmentIndex = Settings.current.pointsFilter.value.airportsState.rawValue
-        
-        self.heliportsFilterControl.removeAllSegments()
-        self.heliportsFilterControl.insertSegment(withTitle: PointsFilterState.none.localized, at: PointsFilterState.none.rawValue, animated: false)
-        self.heliportsFilterControl.insertSegment(withTitle: PointsFilterState.active.localized, at: PointsFilterState.active.rawValue, animated: false)
-        self.heliportsFilterControl.insertSegment(withTitle: PointsFilterState.all.localized, at: PointsFilterState.all.rawValue, animated: false)
-        
-        self.heliportsFilterControl.selectedSegmentIndex = Settings.current.pointsFilter.value.heliportsState.rawValue
+        self.mapTypeControl.removeAllSegments()
+        self.mapTypeControl.insertSegment(withTitle: "Standard", at: Int(MKMapType.standard.rawValue), animated: false)
+        self.mapTypeControl.insertSegment(withTitle: "Satellite", at: Int(MKMapType.satellite.rawValue), animated: false)
+        self.mapTypeControl.insertSegment(withTitle: "Hybrid", at: Int(MKMapType.hybrid.rawValue), animated: false)
+        self.mapTypeControl.selectedSegmentIndex = Int(Settings.current.mapType.value.rawValue)
         
         self.distanceUnitsControl.removeAllSegments()
         self.distanceUnitsControl.insertSegment(withTitle: DistanceUnits.meter.localized, at: DistanceUnits.meter.rawValue, animated: false)
@@ -78,23 +70,60 @@ class MenuViewController: UIViewController {
                 self?.loadingIndicator.stopAnimating()
             }
         }
+        
+        self.airportsButton.titleLabel?.numberOfLines = 0
+        self.heliportsButton.titleLabel?.numberOfLines = 0
+        self.airportsButton.titleLabel?.textAlignment = .center
+        self.heliportsButton.titleLabel?.textAlignment = .center
+        
+        Settings.current.pointsFilter.producer.startWithValues { [weak self] filter in
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            
+            let airportsString = NSMutableAttributedString()
+            airportsString.append(NSAttributedString(string: AppIcons.MakiAirfield.rawValue, attributes: [
+                NSFontAttributeName : UIFont.makiFont(ofSize: 14),
+                NSParagraphStyleAttributeName : paragraphStyle
+                ]))
+            airportsString.append(NSAttributedString(string: "\n\(filter.airportsState.localized)", attributes: [
+                NSFontAttributeName : UIFont.systemFont(ofSize: 12),
+                NSParagraphStyleAttributeName : paragraphStyle
+                ]))
+                
+            self?.airportsButton.setAttributedTitle(airportsString, for: .normal)
+            
+            let heliportsString = NSMutableAttributedString()
+            heliportsString.append(NSAttributedString(string: AppIcons.MakiHeliport.rawValue, attributes: [
+                NSFontAttributeName : UIFont.makiFont(ofSize: 14),
+                NSParagraphStyleAttributeName : paragraphStyle
+                ]))
+            heliportsString.append(NSAttributedString(string: "\n\(filter.heliportsState.localized)", attributes: [
+                NSFontAttributeName : UIFont.systemFont(ofSize: 12),
+                NSParagraphStyleAttributeName : paragraphStyle
+                ]))
+            
+            self?.heliportsButton.setAttributedTitle(heliportsString, for: .normal)
+        }
+        
     }
     
     // MARK: - Actions
     
-    @IBAction func airportsFilterChanged(_ sender: UISegmentedControl!) {
-        if let state = PointsFilterState(rawValue: sender.selectedSegmentIndex) {
-            var filter = Settings.current.pointsFilter.value
-            filter.airportsState = state
-            Settings.current.pointsFilter.value = filter
-        }
+    @IBAction func airportsAction(_ sender: UIButton) {
+        var filter = Settings.current.pointsFilter.value
+        filter.airportsState = filter.airportsState.next
+        Settings.current.pointsFilter.value = filter
     }
     
-    @IBAction func heliportsFilterChanged(_ sender: UISegmentedControl!) {
-        if let state = PointsFilterState(rawValue: sender.selectedSegmentIndex) {
-            var filter = Settings.current.pointsFilter.value
-            filter.heliportsState = state
-            Settings.current.pointsFilter.value = filter
+    @IBAction func heliportsAction(_ sender: UIButton) {
+        var filter = Settings.current.pointsFilter.value
+        filter.heliportsState = filter.heliportsState.next
+        Settings.current.pointsFilter.value = filter
+    }
+    
+    @IBAction func tapAction(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            self.view.endEditing(true)
         }
     }
     
