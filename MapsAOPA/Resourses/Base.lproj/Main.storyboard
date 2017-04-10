@@ -1089,7 +1089,7 @@
         <!--Main View Controller-->
         <scene sceneID="06X-Ej-YjB">
             <objects>
-                <viewController id="wAs-Kf-YUS" customClass="MainViewController" customModule="MapsAOPA" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController definesPresentationContext="YES" providesPresentationContextTransitionStyle="YES" id="wAs-Kf-YUS" customClass="MainViewController" customModule="MapsAOPA" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xkF-UM-rXl"/>
                         <viewControllerLayoutGuide type="bottom" id="uXy-6m-irY"/>

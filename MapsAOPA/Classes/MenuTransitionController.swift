@@ -13,12 +13,15 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
     
     var isPresenting : Bool = false
     
-    private var tapGestureRecognizer : UITapGestureRecognizer?
+    private var tapGestureRecognizer : UITapGestureRecognizer!
     private var panGestureRecognizer : UIPanGestureRecognizer?
     private var edgePanGestureRecognizer : UIScreenEdgePanGestureRecognizer?
     
     private weak var mainViewController : MainViewController!
     weak var menuViewController : MenuViewController?
+    private var snapshotView : UIView?
+    
+    private var isInteractive : Bool = false
     
     init(mainViewController: MainViewController) {
         super.init()
@@ -29,8 +32,6 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
         self.mainViewController.view.addGestureRecognizer(self.edgePanGestureRecognizer!)
         
         self.tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapAction(_:)))
-        UIApplication.shared.delegate?.window??.addGestureRecognizer(self.tapGestureRecognizer!)
-        self.tapGestureRecognizer?.isEnabled = false
     }
     
     // MARK: - Screen edge pan gesture recognizer
@@ -42,6 +43,7 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
         let shouldCompleteTransition = progress > 0.5
         switch sender.state {
         case .began:
+            self.isInteractive = true
             self.mainViewController.performSegue(withIdentifier: Segue.Menu.rawValue, sender: self.mainViewController)
         case .changed:
 
@@ -56,6 +58,16 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
         default:
             self.cancel()
         }
+    }
+    
+    override func finish() {
+        self.isInteractive = false
+        super.finish()
+    }
+    
+    override func cancel() {
+        self.isInteractive = false
+        super.cancel()
     }
     
     func tapAction(_ sender: UITapGestureRecognizer) {
@@ -80,40 +92,35 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
         let duration = TimeInterval(transitionContext.isAnimated) * self.transitionDuration(using: transitionContext)
         
         if self.isPresenting {
-            if let window = fromViewController.view.window  {
-                toViewController.view.frame = window.bounds
-                toViewController.view.width = MenuTransitionController.menuWidth
-                fromViewController.view.superview?.insertSubview(toViewController.view, belowSubview: fromViewController.view)
-                fromViewController.view.shadowColor = .black
-                fromViewController.view.shadowOffset = .zero
-                fromViewController.view.shadowRadius = 3.0
-                fromViewController.view.shadowOpacity = 1.0
-                UIView.animateKeyframes(
-                    withDuration: duration,
-                    delay: 0.0,
-                    options: .calculationModeCubic,
-                    animations: {
-                        UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: {
-                            fromViewController.view.x = toViewController.view.width
-                        })
-                }, completion: { _ in
-                    transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-                    self.tapGestureRecognizer?.isEnabled = !transitionContext.transitionWasCancelled
-                })
+            toViewController.view.frame = fromViewController.view.bounds
+            toViewController.view.width = MenuTransitionController.menuWidth
+            containerView.addSubview(toViewController.view)
+            
+            self.snapshotView = fromViewController.view.snapshotView(afterScreenUpdates: false)
+            self.snapshotView?.frame = fromViewController.view.bounds
+            if let snapshot = self.snapshotView {
+                containerView.addSubview(snapshot)
+                snapshot.shadowColor = .black
+                snapshot.shadowOffset = .zero
+                snapshot.shadowRadius = 3.0
+                snapshot.shadowOpacity = 1.0
+                snapshot.addGestureRecognizer(self.tapGestureRecognizer)
             }
-        } else {
-            UIView.animateKeyframes(
-                withDuration: duration,
-                delay: 0.0,
-                options: .calculationModeCubic,
-                animations: {
-                    UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1.0, animations: {
-                        toViewController.view.x = 0.0
-                    })
+            UIView.animate(withDuration: duration, animations: {
+                self.snapshotView?.x = toViewController.view.width
             }, completion: { _ in
-                fromViewController.view.removeFromSuperview()
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
-                self.tapGestureRecognizer?.isEnabled = transitionContext.transitionWasCancelled
+            })
+        } else {
+            UIView.animate(withDuration: duration, animations: { 
+                self.snapshotView?.x = 0.0
+            }, completion: { _ in
+                self.menuViewController?.view.removeFromSuperview()
+                fromViewController.view.removeFromSuperview()
+                self.snapshotView?.removeGestureRecognizer(self.tapGestureRecognizer)
+                self.snapshotView?.removeFromSuperview()
+                self.snapshotView = nil
+                transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             })
         }
     }
@@ -131,10 +138,10 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
     }
     
     func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return self
+        return isInteractive ? self : nil
     }
     
     func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
-        return self
+        return isInteractive ? self : nil
     }
 }

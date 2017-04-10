@@ -60,7 +60,6 @@ class MainViewController: UIViewController {
             if let destination = segue.destination as? MenuViewController {
                 self.transitionController?.menuViewController = destination
                 destination.viewModel = self.viewModel
-                destination.modalPresentationStyle = .custom
                 destination.transitioningDelegate = self.transitionController
             }
         }
