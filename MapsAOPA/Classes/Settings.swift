@@ -33,8 +33,14 @@ enum PointsFilterState : Int
     case active
     case all
     
+    case count
+    
     var localized : String {
         return "Menu_Filter_\(self.rawValue)".localized
+    }
+    
+    var next : PointsFilterState {
+        return PointsFilterState(rawValue: ((self.rawValue + 1) % PointsFilterState.count.rawValue))!
     }
 }
 

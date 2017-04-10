@@ -50,6 +50,8 @@ class MainViewController: UIViewController {
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.searchBarStyle = .minimal
         self.navigationItem.titleView = searchController.searchBar
+        
+        
     }
     
     
@@ -57,10 +59,16 @@ class MainViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == Segue.Menu.rawValue {
-            if let destination = segue.destination as? MenuViewController {
-                self.transitionController?.menuViewController = destination
+            self.searchController.searchBar.resignFirstResponder()
+            if let navigationController = segue.destination as? UINavigationController,
+                let destination = navigationController.topViewController as? MenuViewController {
+                self.transitionController?.menuNavigationController = navigationController
                 destination.viewModel = self.viewModel
-                destination.transitioningDelegate = self.transitionController
+                navigationController.transitioningDelegate = self.transitionController
+            }
+        } else if segue.identifier == Segue.Map.rawValue {
+            if let destination = segue.destination as? MapViewController {
+                destination.viewModel = self.viewModel
             }
         }
     }

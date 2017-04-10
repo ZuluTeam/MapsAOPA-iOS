@@ -18,7 +18,7 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
     private var edgePanGestureRecognizer : UIScreenEdgePanGestureRecognizer?
     
     private weak var mainViewController : MainViewController!
-    weak var menuViewController : MenuViewController?
+    weak var menuNavigationController : UIViewController?
     private var snapshotView : UIView?
     
     private var isInteractive : Bool = false
@@ -46,7 +46,6 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
             self.isInteractive = true
             self.mainViewController.performSegue(withIdentifier: Segue.Menu.rawValue, sender: self.mainViewController)
         case .changed:
-
             self.update(progress)
         case .ended:
             if shouldCompleteTransition {
@@ -72,8 +71,8 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
     
     func tapAction(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
-            self.menuViewController?.dismiss(animated: true, completion: nil)
-            self.menuViewController = nil
+            self.menuNavigationController?.dismiss(animated: true, completion: nil)
+            self.menuNavigationController = nil
         }
     }
     
@@ -115,7 +114,7 @@ class MenuTransitionController : UIPercentDrivenInteractiveTransition, UIViewCon
             UIView.animate(withDuration: duration, animations: { 
                 self.snapshotView?.x = 0.0
             }, completion: { _ in
-                self.menuViewController?.view.removeFromSuperview()
+                self.menuNavigationController?.view.removeFromSuperview()
                 fromViewController.view.removeFromSuperview()
                 self.snapshotView?.removeGestureRecognizer(self.tapGestureRecognizer)
                 self.snapshotView?.removeFromSuperview()

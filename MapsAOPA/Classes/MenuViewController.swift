@@ -45,6 +45,12 @@ class MenuViewController: UIViewController {
             return "Menu_Last_Update_Format".localized(arguments: self?.dateFormatter.string(from: date) ?? "")
         })
         
+        self.mapTypeControl.removeAllSegments()
+        self.mapTypeControl.insertSegment(withTitle: "Standard", at: Int(MKMapType.standard.rawValue), animated: false)
+        self.mapTypeControl.insertSegment(withTitle: "Satellite", at: Int(MKMapType.satellite.rawValue), animated: false)
+        self.mapTypeControl.insertSegment(withTitle: "Hybrid", at: Int(MKMapType.hybrid.rawValue), animated: false)
+        self.mapTypeControl.selectedSegmentIndex = Int(Settings.current.mapType.value.rawValue)
+        
         self.distanceUnitsControl.removeAllSegments()
         self.distanceUnitsControl.insertSegment(withTitle: DistanceUnits.meter.localized, at: DistanceUnits.meter.rawValue, animated: false)
         self.distanceUnitsControl.insertSegment(withTitle: DistanceUnits.foot.localized, at: DistanceUnits.foot.rawValue, animated: false)
@@ -65,31 +71,55 @@ class MenuViewController: UIViewController {
             }
         }
         
+        self.airportsButton.titleLabel?.numberOfLines = 0
+        self.heliportsButton.titleLabel?.numberOfLines = 0
+        self.airportsButton.titleLabel?.textAlignment = .center
+        self.heliportsButton.titleLabel?.textAlignment = .center
+        
         Settings.current.pointsFilter.producer.startWithValues { [weak self] filter in
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = .center
+            
             let airportsString = NSMutableAttributedString()
             airportsString.append(NSAttributedString(string: AppIcons.MakiAirfield.rawValue, attributes: [
-                NSFontAttributeName : UIFont.makiFont(ofSize: 14)
+                NSFontAttributeName : UIFont.makiFont(ofSize: 14),
+                NSParagraphStyleAttributeName : paragraphStyle
                 ]))
             airportsString.append(NSAttributedString(string: "\n\(filter.airportsState.localized)", attributes: [
-                NSFontAttributeName : UIFont.systemFont(ofSize: 12)
+                NSFontAttributeName : UIFont.systemFont(ofSize: 12),
+                NSParagraphStyleAttributeName : paragraphStyle
                 ]))
                 
-//            self?.airportsLabel.attributedText = airportsString
+            self?.airportsButton.setAttributedTitle(airportsString, for: .normal)
             
             let heliportsString = NSMutableAttributedString()
             heliportsString.append(NSAttributedString(string: AppIcons.MakiHeliport.rawValue, attributes: [
-                NSFontAttributeName : UIFont.makiFont(ofSize: 14)
+                NSFontAttributeName : UIFont.makiFont(ofSize: 14),
+                NSParagraphStyleAttributeName : paragraphStyle
                 ]))
             heliportsString.append(NSAttributedString(string: "\n\(filter.heliportsState.localized)", attributes: [
-                NSFontAttributeName : UIFont.systemFont(ofSize: 12)
+                NSFontAttributeName : UIFont.systemFont(ofSize: 12),
+                NSParagraphStyleAttributeName : paragraphStyle
                 ]))
             
-//            self?.heliportsLabel.attributedText = heliportsString
+            self?.heliportsButton.setAttributedTitle(heliportsString, for: .normal)
         }
         
     }
     
     // MARK: - Actions
+    
+    @IBAction func airportsAction(_ sender: UIButton) {
+        var filter = Settings.current.pointsFilter.value
+        filter.airportsState = filter.airportsState.next
+        Settings.current.pointsFilter.value = filter
+    }
+    
+    @IBAction func heliportsAction(_ sender: UIButton) {
+        var filter = Settings.current.pointsFilter.value
+        filter.heliportsState = filter.heliportsState.next
+        Settings.current.pointsFilter.value = filter
+    }
     
     @IBAction func tapAction(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
