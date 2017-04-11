@@ -14,10 +14,7 @@ import MapKit
 import CoreData
 
 class MapViewModel
-{
-    var isLoading : Property<Bool> { return Property(_loading) }
-    var errorMessage : Property<String?> { return Property(_errorMessage) }
-    
+{    
     var mapRegion = Settings.current.mapRegion(withDefaultCoordinate: Settings.defaultCoordinate) {
         didSet {
             self.updateRegion(mapRegion, withFilter: self.pointsFilter)
@@ -28,16 +25,8 @@ class MapViewModel
     
     var selectedPoint = MutableProperty<(point: PointViewModel, zoomIn: Bool)?>(nil)
     
-    fileprivate let _loading = MutableProperty<Bool>(false)
-    fileprivate let _errorMessage = MutableProperty<String?>(nil)
-    
     fileprivate let _mapPoints = MutableProperty<[PointViewModel]>([])
     fileprivate let _foundedPoints = MutableProperty<[PointViewModel]>([])
-    
-    fileprivate let network : Network
-    fileprivate let loader : AOPALoader
-    
-    fileprivate var xmlParser : ArrayXMLParser?
     
     fileprivate var backgroundContext : NSManagedObjectContext {
         return Database.sharedDatabase.backgroundManagedObjectContext
@@ -50,8 +39,6 @@ class MapViewModel
     fileprivate var pointsFilter : PointsFilter = Settings.current.pointsFilter.value
     
     init() {
-        self.network = Network()
-        self.loader = AOPALoader(network: network)
         
         Settings.current.pointsFilter.producer.startWithValues { [weak self] filter in
             if let selfInstance = self {
@@ -71,53 +58,6 @@ class MapViewModel
         ]
         searchFetchRequest.fetchBatchSize = 100
         searchFetchRequest.returnsObjectsAsFaults = false
-    }
-    
-    func loadAirfields(force: Bool = false) {
-        if _loading.value {
-            return
-        }
-        let date = Date()
-        let lastUpdate = Settings.current.lastUpdate.value
-        if !force && nil != lastUpdate && date.timeIntervalSince(lastUpdate!) < Settings.reloadDataTimeInterval {
-            return
-        }
-        _loading.value = true
-        
-        self.loader.loadAirfields().flatMap(.latest, transform: { [weak self] (url : URL) -> SignalProducer<Any, AOPAError> in
-            self?.xmlParser = ArrayXMLParser(contentsOf: url, forItems: "point")
-            if let xmlParser = self?.xmlParser {
-                return xmlParser.parse().mapError({ AOPAError($0) })
-            }
-            return .empty
-        }).on(failed: { [weak self] error in
-            print(error.description)
-            self?._errorMessage.value = error.description
-            },
-              completed: { [weak self] in
-                self?.xmlParser = nil
-                self?._loading.value = false
-                Settings.current.lastUpdate.value = Date()
-                Database.sharedDatabase.saveContext(Database.sharedDatabase.backgroundManagedObjectContext)
-                if let selfInstance = self {
-                    selfInstance.updateRegion(selfInstance.mapRegion, withFilter: selfInstance.pointsFilter)
-                }
-                print("Complete savings")
-            },
-              value: { value in
-                if let pointDict = value as? [String:AnyObject] {
-                
-                    Database.sharedDatabase.backgroundManagedObjectContext.performAndWait {
-                        let _ = Point.point(fromDictionary: pointDict, inContext: Database.sharedDatabase.backgroundManagedObjectContext)
-                    
-                        Database.sharedDatabase.backgroundManagedObjectContext.delayedSaveOrRollback(completion: { (saved) in
-                            if saved {
-                                Database.sharedDatabase.backgroundManagedObjectContext.reset()
-                            }
-                        })
-                    }
-                }
-        }).start()
     }
     
     private func updateRegion(_ region: MKCoordinateRegion, withFilter filter: PointsFilter) {
