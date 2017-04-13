@@ -9,11 +9,6 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="fontawesome.ttf">
-            <string>FontAwesome</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="BIY-WV-ecD">
@@ -73,7 +68,7 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="makeCircle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="zoomInButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6YU-oU-9Qf"/>
+                                            <action selector="zoomInAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ekg-ec-abD"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Un-TN-8C0" userLabel="-" customClass="DesignableUIButton" customModule="MapsAOPA" customModuleProvider="target">
@@ -92,7 +87,7 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="makeCircle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="zoomOutButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AIh-cc-Wik"/>
+                                            <action selector="zoomOutAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RzK-g9-dgV"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -136,16 +131,6 @@
                             <constraint firstItem="wc6-86-gGA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="k3L-gO-2x1"/>
                             <constraint firstAttribute="trailing" secondItem="wc6-86-gGA" secondAttribute="trailing" constant="8" id="wMs-uD-yJk"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="wMs-uD-yJk"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="wMs-uD-yJk"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="G5q-wr-Odd"/>
@@ -173,152 +158,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="IOO-R4-kIF">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="190.5"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title / Index" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYi-ff-MAk">
-                                    <rect key="frame" x="8" y="4" width="236" height="20.5"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="mky-A8-rKH"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fgv-py-BBv" customClass="RunwaysView" customModule="MapsAOPA" customModuleProvider="target">
-                                    <rect key="frame" x="8" y="32.5" width="100" height="100"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <gestureRecognizers/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" secondItem="Fgv-py-BBv" secondAttribute="height" multiplier="1:1" id="8ET-Mj-7Jn"/>
-                                        <constraint firstAttribute="width" constant="100" id="CRJ-x7-BHQ"/>
-                                    </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                            <real key="value" value="10"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                            <real key="value" value="1"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                            <color key="value" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
-                                        </userDefinedRuntimeAttribute>
-                                    </userDefinedRuntimeAttributes>
-                                    <connections>
-                                        <outletCollection property="gestureRecognizers" destination="3dH-yf-Cct" appends="YES" id="bOh-kv-jIH"/>
-                                    </connections>
-                                </view>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="2rW-aX-Att">
-                                    <rect key="frame" x="282" y="4" width="30" height="136"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2mR-hL-kQ0">
-                                            <rect key="frame" x="4" y="0.0" width="22" height="22"/>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lxx-Oi-AZO">
-                                            <rect key="frame" x="0.0" y="26" width="30" height="34"/>
-                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
-                                            <state key="normal" title=""/>
-                                            <connections>
-                                                <action selector="mailAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="la7-Iu-CDo"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43C-i3-1Bj">
-                                            <rect key="frame" x="0.0" y="64" width="30" height="34"/>
-                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
-                                            <state key="normal" title=""/>
-                                            <connections>
-                                                <segue destination="MRN-Ny-u1C" kind="popoverPresentation" identifier="Contacts" popoverAnchorView="43C-i3-1Bj" id="Qe2-7e-dDB">
-                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                </segue>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c0t-Be-kdD">
-                                            <rect key="frame" x="0.0" y="102" width="30" height="34"/>
-                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
-                                            <state key="normal" title=""/>
-                                            <connections>
-                                                <action selector="websiteAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u21-m8-4tX"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="30" id="nEy-FV-eyw"/>
-                                    </constraints>
-                                </stackView>
-                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="SNj-V7-7BX">
-                                    <rect key="frame" x="116" y="32.5" width="158" height="150"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alt: 0m" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vi9-3f-BEf">
-                                            <rect key="frame" x="0.0" y="0.0" width="49" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Runways" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Efa-rX-tCt">
-                                            <rect key="frame" x="0.0" y="30" width="60.5" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Frequencies" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TzC-SE-gA8">
-                                            <rect key="frame" x="0.0" y="60" width="84" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QkX-rT-Yfk">
-                                            <rect key="frame" x="0.0" y="90" width="84" height="30"/>
-                                            <state key="normal" title="Frequencies"/>
-                                            <connections>
-                                                <segue destination="MRN-Ny-u1C" kind="popoverPresentation" identifier="Frequencies" popoverAnchorView="QkX-rT-Yfk" id="C7L-UQ-8bz">
-                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                </segue>
-                                            </connections>
-                                        </button>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fuel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5E-XH-SmJ">
-                                            <rect key="frame" x="0.0" y="132" width="29" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </stackView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqd-di-cOe">
-                                    <rect key="frame" x="248" y="-2" width="30" height="34"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="30" id="RHz-ke-oa3"/>
-                                        <constraint firstAttribute="height" constant="34" id="zuQ-ey-Xns"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
-                                    <state key="normal" title=""/>
-                                    <connections>
-                                        <action selector="zoomInAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cp5-we-5A0"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstItem="Fgv-py-BBv" firstAttribute="top" secondItem="WYi-ff-MAk" secondAttribute="bottom" constant="8" id="0pY-mP-yew"/>
-                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Fgv-py-BBv" secondAttribute="bottom" constant="8" id="2US-Wi-NC5"/>
-                                <constraint firstItem="WYi-ff-MAk" firstAttribute="top" secondItem="IOO-R4-kIF" secondAttribute="top" constant="4" id="2ho-sP-mqG"/>
-                                <constraint firstItem="2rW-aX-Att" firstAttribute="top" secondItem="IOO-R4-kIF" secondAttribute="top" constant="4" id="8pb-Nc-3gv"/>
-                                <constraint firstAttribute="trailing" secondItem="2rW-aX-Att" secondAttribute="trailing" constant="8" id="GlD-zD-jPh"/>
-                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2rW-aX-Att" secondAttribute="bottom" constant="8" id="MOk-fk-q8Z"/>
-                                <constraint firstAttribute="bottom" secondItem="SNj-V7-7BX" secondAttribute="bottom" constant="8" placeholder="YES" id="RUh-ap-vW1"/>
-                                <constraint firstItem="2rW-aX-Att" firstAttribute="leading" secondItem="SNj-V7-7BX" secondAttribute="trailing" constant="8" id="VcG-uk-mpA"/>
-                                <constraint firstItem="Nqd-di-cOe" firstAttribute="leading" secondItem="WYi-ff-MAk" secondAttribute="trailing" constant="4" id="WHl-Nj-yYc"/>
-                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SNj-V7-7BX" secondAttribute="bottom" constant="8" id="ZJ2-1Q-ArJ"/>
-                                <constraint firstItem="Nqd-di-cOe" firstAttribute="centerY" secondItem="WYi-ff-MAk" secondAttribute="centerY" id="bZA-hB-iwL"/>
-                                <constraint firstItem="SNj-V7-7BX" firstAttribute="leading" secondItem="Fgv-py-BBv" secondAttribute="trailing" constant="8" id="gPn-kF-9IB"/>
-                                <constraint firstItem="2rW-aX-Att" firstAttribute="leading" secondItem="Nqd-di-cOe" secondAttribute="trailing" constant="4" id="i9d-eG-XBP"/>
-                                <constraint firstItem="SNj-V7-7BX" firstAttribute="top" secondItem="WYi-ff-MAk" secondAttribute="bottom" constant="8" id="pvj-ar-mhr"/>
-                                <constraint firstItem="WYi-ff-MAk" firstAttribute="leading" secondItem="IOO-R4-kIF" secondAttribute="leading" constant="8" id="r0l-Me-zJz"/>
-                                <constraint firstItem="Fgv-py-BBv" firstAttribute="leading" secondItem="IOO-R4-kIF" secondAttribute="leading" constant="8" id="sq8-R1-cuh"/>
-                            </constraints>
-                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TextDetailsCell" rowHeight="27" id="cQa-oG-kuN" customClass="TextDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="246" width="320" height="27"/>
+                                <rect key="frame" x="0.0" y="55.5" width="320" height="27"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cQa-oG-kuN" id="o8T-nH-KOx">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="26.5"/>
@@ -361,7 +203,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailedDetailsCell" rowHeight="52" id="cxQ-6R-udh" customClass="DetailedDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="273" width="320" height="52"/>
+                                <rect key="frame" x="0.0" y="82.5" width="320" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxQ-6R-udh" id="xxh-fE-aJ0">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="51.5"/>
@@ -403,7 +245,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ValueDetailsCell" rowHeight="52" id="FP1-R4-eGi" customClass="ValueDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="325" width="320" height="52"/>
+                                <rect key="frame" x="0.0" y="134.5" width="320" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FP1-R4-eGi" id="eOP-t9-5ox">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="51.5"/>
@@ -458,7 +300,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailsOnlyDetailsCell" rowHeight="52" id="BXp-rP-Wgz" customClass="ValueDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="377" width="320" height="52"/>
+                                <rect key="frame" x="0.0" y="186.5" width="320" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BXp-rP-Wgz" id="drq-ot-bR6">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="51.5"/>
@@ -500,7 +342,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ItemsDetailsCell" rowHeight="62" id="cr2-CQ-IXR" customClass="ItemsDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="429" width="320" height="62"/>
+                                <rect key="frame" x="0.0" y="238.5" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cr2-CQ-IXR" id="CrS-Xw-l8g">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="61.5"/>
@@ -536,7 +378,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImageDetailsCell" rowHeight="450" id="MUg-te-y7l" customClass="ImageDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="491" width="320" height="450"/>
+                                <rect key="frame" x="0.0" y="300.5" width="320" height="450"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MUg-te-y7l" id="Jtk-EQ-ib0">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="449.5"/>
@@ -582,7 +424,7 @@
             <objects>
                 <tableViewController id="MRN-Ny-u1C" customClass="DetailsTableViewController" customModule="MapsAOPA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xYS-M7-aay">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
@@ -1151,7 +993,4 @@ Cg
             <point key="canvasLocation" x="1523" y="-1709"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="Qe2-7e-dDB"/>
-    </inferredMetricsTieBreakers>
 </document>

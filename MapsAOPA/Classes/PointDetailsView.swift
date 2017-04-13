@@ -10,7 +10,6 @@ import UIKit
 import UCCTransliteration
 import ReactiveSwift
 
-@IBDesignable
 class PointDetailsView: UIView
 {
     @IBOutlet weak var titleLabel : UILabel?
@@ -26,9 +25,10 @@ class PointDetailsView: UIView
     
     private let transliteration = UCCTransliteration()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
+    static func view(model: PointDetailsViewModel) -> PointDetailsView? {
+        let view = Bundle.main.loadNibNamed("PointDetailsView", owner: nil, options: nil)?.first as? PointDetailsView
+        view?.pointDetailsViewModel = model
+        return view
     }
     
     var pointDetailsViewModel : PointDetailsViewModel? {

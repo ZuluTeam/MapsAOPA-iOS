@@ -14,26 +14,6 @@ class MainViewController: UIViewController {
     
     fileprivate lazy var viewModel : MapViewModel = MapViewModel()
     fileprivate lazy var loadingViewModel : LoadingViewModel = LoadingViewModel()
-    
-    var statusBarStyle: UIStatusBarStyle = .default {
-        didSet {
-            UIView.animate(withDuration: 0.25) { 
-                self.setNeedsStatusBarAppearanceUpdate()
-            }
-        }
-    }
-    
-    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return .fade
-    }
-    
-    override public var prefersStatusBarHidden: Bool {
-        return false
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return self.statusBarStyle
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

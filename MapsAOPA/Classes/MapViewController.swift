@@ -27,7 +27,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     var loadingViewModel : LoadingViewModel!
     var viewModel: MapViewModel!
     
-    fileprivate var pointDetailsViewController : PointDetailsViewController?
+    fileprivate var pointDetails = [String:PointDetailsView]()
     
     fileprivate static let zoomPercent: CLLocationDegrees = 0.5
     
@@ -37,15 +37,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     fileprivate var keyboardObserver : KeyboardObserver?
     fileprivate var searchTimer : Timer?
-    
-    override public var preferredStatusBarStyle: UIStatusBarStyle {
-        get {
-            if self.mapView?.mapType != MKMapType.standard {
-                return .lightContent
-            }
-            return .default
-        }
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,22 +83,22 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationViewController = segue.destination as? DetailsTableViewController {
-            switch segue.identifier ?? "" {
-            case Segue.Contacts.rawValue:
-                destinationViewController.viewModel = DetailsViewModel(contacts: self.pointDetailsViewController?.viewModel?.contacts ?? [])
-            case Segue.Frequencies.rawValue:
-                destinationViewController.viewModel = DetailsViewModel(frequencies: self.pointDetailsViewController?.viewModel?.frequencies ?? [])
-            default: break
-            }
-            destinationViewController.popoverPresentationController?.delegate = self
-            destinationViewController.title = self.pointDetailsViewController?.viewModel?.title
-            let height : CGFloat = 300.0
-            destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
-        }
-        if segue.identifier == Segue.PointDetails.rawValue {
-            self.pointDetailsViewController = segue.destination as? PointDetailsViewController
-        }
+//        if let destinationViewController = segue.destination as? DetailsTableViewController {
+//            switch segue.identifier ?? "" {
+//            case Segue.Contacts.rawValue:
+//                destinationViewController.viewModel = DetailsViewModel(contacts: self.pointDetailsViewController?.viewModel?.contacts ?? [])
+//            case Segue.Frequencies.rawValue:
+//                destinationViewController.viewModel = DetailsViewModel(frequencies: self.pointDetailsViewController?.viewModel?.frequencies ?? [])
+//            default: break
+//            }
+//            destinationViewController.popoverPresentationController?.delegate = self
+//            destinationViewController.title = self.pointDetailsViewController?.viewModel?.title
+//            let height : CGFloat = 300.0
+//            destinationViewController.preferredContentSize = CGSize(width: self.view.width, height: height)
+//        }
+//        if segue.identifier == Segue.PointDetails.rawValue {
+//            self.pointDetailsViewController = segue.destination as? PointDetailsViewController
+//        }
     }
     
     // MARK: - Private
@@ -137,26 +128,39 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     fileprivate func select(annotationView view: MKAnnotationView) {
         if let pointViewModel = (view.annotation as? PointAnnotation)?.pointViewModel {
-//            self.viewModel.selectedPoint.value = pointViewModel
-                /*
-                if let pointDetails = self.viewModel.pointDetailsViewModel(from: pointViewModel) {
-                    //self.detailsViewContainer.userIn
-                    self.mapView.add(RunwaysOverlay(pointDetailsViewModel: pointDetails))
-                    let pointDetailsViewController = self.storyboard?.instantiateViewController(withIdentifier: "PointDetailsViewController") as? PointDetailsViewController
-                    self.pointDetailsViewControllers[view] = pointDetailsViewController
-                    pointDetailsViewController?.tableView.isScrollEnabled = false
-                    if let detailsViewController = pointDetailsViewController, let detailsView = detailsViewController.view {
-                        detailsViewController.viewModel = pointDetails
-                        self.addChildViewController(detailsViewController)
-                        self.detailsViewContainer.addSubview(detailsView)
-                        detailsViewController.didMove(toParentViewController: self)
-                    }
-                }*/
+            let index = pointViewModel.index
+            if self.pointDetails[index] != nil {
+                return
+            }
+            if let detailsViewModel = self.viewModel.pointDetailsViewModel(from: pointViewModel),
+                let detailsView = PointDetailsView.view(model: detailsViewModel) {
+                detailsView.translatesAutoresizingMaskIntoConstraints = false
+                self.pointDetails[index] = detailsView
+                self.view.addSubview(detailsView)
+                self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: detailsView, attribute: .leading, multiplier: 1.0, constant: 0.0))
+                self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: detailsView, attribute: .trailing, multiplier: 1.0, constant: 0.0))
+                self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: detailsView, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+                self.view.setNeedsLayout()
+                detailsView.y = self.view.height
+                UIView.animate(withDuration: 0.25, animations: { 
+                    self.view.setNeedsLayout()
+                })
+            }
         }
     }
     
     fileprivate func deselect(annotationView view: MKAnnotationView) {
-        self.viewModel.selectedPoint.value = nil
+        if let pointViewModel = (view.annotation as? PointAnnotation)?.pointViewModel {
+            let index = pointViewModel.index
+            if let view = self.pointDetails[index] {
+                UIView.animate(withDuration: 0.25, animations: { 
+                    view.alpha = 0.0
+                }, completion: { _ in
+                    view.removeFromSuperview()
+                })
+                self.pointDetails[index] = nil
+            }
+        }
         /*
         if let pointDetailsViewController = self.pointDetailsViewControllers[view] {
             pointDetailsViewController.view.alpha = 1.0

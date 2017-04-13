@@ -115,8 +115,6 @@ class PointDetailsViewModel {
     var tableViewObjects = [(sectionTitle: String?, objects: [TableObject])]()
     
     init?(point: Point?) {
-        print(point)
-        print(point?.index)
         guard let point = point, let index = point.index else {
             return nil
         }
