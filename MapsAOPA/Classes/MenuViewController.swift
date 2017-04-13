@@ -24,7 +24,7 @@ class MenuViewController: UIViewController {
     @IBOutlet var airportsButton : UIButton!
     @IBOutlet var heliportsButton : UIButton!
     
-    var viewModel : MapViewModel!
+    var viewModel : LoadingViewModel!
     
     private let dateFormatter : DateFormatter = {
         let formatter = DateFormatter()

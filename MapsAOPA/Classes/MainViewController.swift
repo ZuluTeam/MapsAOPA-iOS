@@ -13,6 +13,7 @@ class MainViewController: UIViewController {
     fileprivate var transitionController : MenuTransitionController?
     
     fileprivate lazy var viewModel : MapViewModel = MapViewModel()
+    fileprivate lazy var loadingViewModel : LoadingViewModel = LoadingViewModel()
     
     var statusBarStyle: UIStatusBarStyle = .default {
         didSet {
@@ -36,6 +37,8 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.loadingViewModel.loadAirfields()
         
         self.transitionController = MenuTransitionController(mainViewController: self)
         
@@ -63,12 +66,13 @@ class MainViewController: UIViewController {
             if let navigationController = segue.destination as? UINavigationController,
                 let destination = navigationController.topViewController as? MenuViewController {
                 self.transitionController?.menuNavigationController = navigationController
-                destination.viewModel = self.viewModel
+                destination.viewModel = self.loadingViewModel
                 navigationController.transitioningDelegate = self.transitionController
             }
         } else if segue.identifier == Segue.Map.rawValue {
             if let destination = segue.destination as? MapViewController {
                 destination.viewModel = self.viewModel
+                destination.loadingViewModel = self.loadingViewModel
             }
         }
     }

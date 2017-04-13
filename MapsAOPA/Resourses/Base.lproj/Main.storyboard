@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -56,7 +55,7 @@
                                 </connections>
                             </mapView>
                             <view autoresizesSubviews="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="wc6-86-gGA" userLabel="Overlay Buttons View" customClass="DesignableUIView" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="262" y="194" width="50" height="116"/>
+                                <rect key="frame" x="262" y="198" width="50" height="108"/>
                                 <subviews>
                                     <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bZP-et-vVm" customClass="DesignableUIButton" customModule="MapsAOPA" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -78,7 +77,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Un-TN-8C0" userLabel="-" customClass="DesignableUIButton" customModule="MapsAOPA" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="50" height="50"/>
+                                        <rect key="frame" x="0.0" y="58" width="50" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="0Un-TN-8C0" secondAttribute="height" multiplier="1:1" id="hQK-at-Hfp"/>
@@ -102,7 +101,7 @@
                                     <constraint firstAttribute="trailing" secondItem="bZP-et-vVm" secondAttribute="trailing" id="FJt-Ol-JcP"/>
                                     <constraint firstAttribute="trailing" secondItem="0Un-TN-8C0" secondAttribute="trailing" id="H6S-rU-ie8"/>
                                     <constraint firstAttribute="width" constant="50" id="cCA-TG-i8F"/>
-                                    <constraint firstItem="0Un-TN-8C0" firstAttribute="top" secondItem="bZP-et-vVm" secondAttribute="bottom" constant="16" id="gcc-25-CNC"/>
+                                    <constraint firstItem="0Un-TN-8C0" firstAttribute="top" secondItem="bZP-et-vVm" secondAttribute="bottom" constant="8" id="gcc-25-CNC"/>
                                     <constraint firstAttribute="bottom" secondItem="0Un-TN-8C0" secondAttribute="bottom" id="iGy-bl-4Jh"/>
                                     <constraint firstItem="0Un-TN-8C0" firstAttribute="leading" secondItem="wc6-86-gGA" secondAttribute="leading" id="oua-1e-rbI"/>
                                     <constraint firstItem="bZP-et-vVm" firstAttribute="top" secondItem="wc6-86-gGA" secondAttribute="top" id="tmf-h1-YhX"/>
@@ -122,274 +121,36 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZtX-Ye-bTp" customClass="PointDetailsView" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="313.5" width="320" height="190.5"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IOO-R4-kIF">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="190.5"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0bE-IY-GEc">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="12"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jKM-G1-CkL">
-                                                        <rect key="frame" x="135.5" y="2" width="50" height="8"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="50" id="Gto-Xn-TWn"/>
-                                                            <constraint firstAttribute="height" constant="8" id="bcF-sy-nRY"/>
-                                                        </constraints>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <real key="value" value="4"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </view>
-                                                </subviews>
-                                                <color key="backgroundColor" white="0.75" alpha="1" colorSpace="calibratedWhite"/>
-                                                <constraints>
-                                                    <constraint firstItem="jKM-G1-CkL" firstAttribute="top" secondItem="0bE-IY-GEc" secondAttribute="top" constant="2" id="Rqs-fs-bA2"/>
-                                                    <constraint firstAttribute="bottom" secondItem="jKM-G1-CkL" secondAttribute="bottom" constant="2" id="Y1W-Aa-J5E"/>
-                                                    <constraint firstItem="jKM-G1-CkL" firstAttribute="centerX" secondItem="0bE-IY-GEc" secondAttribute="centerX" id="cSG-wR-LPD"/>
-                                                </constraints>
-                                            </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title / Index" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYi-ff-MAk">
-                                                <rect key="frame" x="8" y="20" width="236" height="20.5"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="mky-A8-rKH"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fgv-py-BBv" customClass="RunwaysView" customModule="MapsAOPA" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="48.5" width="100" height="100"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <gestureRecognizers/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" secondItem="Fgv-py-BBv" secondAttribute="height" multiplier="1:1" id="8ET-Mj-7Jn"/>
-                                                    <constraint firstAttribute="width" constant="100" id="CRJ-x7-BHQ"/>
-                                                </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="10"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <real key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                                <connections>
-                                                    <outletCollection property="gestureRecognizers" destination="3dH-yf-Cct" appends="YES" id="bOh-kv-jIH"/>
-                                                </connections>
-                                            </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="2rW-aX-Att">
-                                                <rect key="frame" x="282" y="20" width="30" height="148"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2mR-hL-kQ0">
-                                                        <rect key="frame" x="4" y="0.0" width="22" height="22"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lxx-Oi-AZO">
-                                                        <rect key="frame" x="0.0" y="26" width="30" height="38"/>
-                                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
-                                                        <state key="normal" title=""/>
-                                                        <connections>
-                                                            <action selector="mailAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="la7-Iu-CDo"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43C-i3-1Bj">
-                                                        <rect key="frame" x="0.0" y="68" width="30" height="38"/>
-                                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
-                                                        <state key="normal" title=""/>
-                                                        <connections>
-                                                            <segue destination="MRN-Ny-u1C" kind="popoverPresentation" identifier="Contacts" popoverAnchorView="43C-i3-1Bj" id="Qe2-7e-dDB">
-                                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                            </segue>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c0t-Be-kdD">
-                                                        <rect key="frame" x="0.0" y="110" width="30" height="38"/>
-                                                        <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
-                                                        <state key="normal" title=""/>
-                                                        <connections>
-                                                            <action selector="websiteAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u21-m8-4tX"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="30" id="nEy-FV-eyw"/>
-                                                </constraints>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="SNj-V7-7BX">
-                                                <rect key="frame" x="116" y="48.5" width="158" height="134"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alt: 0m" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vi9-3f-BEf">
-                                                        <rect key="frame" x="0.0" y="0.0" width="49" height="18"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Runways" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Efa-rX-tCt">
-                                                        <rect key="frame" x="0.0" y="26" width="60.5" height="18"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Frequencies" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TzC-SE-gA8">
-                                                        <rect key="frame" x="0.0" y="52" width="84" height="18"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QkX-rT-Yfk">
-                                                        <rect key="frame" x="0.0" y="78" width="84" height="30"/>
-                                                        <state key="normal" title="Frequencies"/>
-                                                        <connections>
-                                                            <segue destination="MRN-Ny-u1C" kind="popoverPresentation" identifier="Frequencies" popoverAnchorView="QkX-rT-Yfk" id="C7L-UQ-8bz">
-                                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
-                                                            </segue>
-                                                        </connections>
-                                                    </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fuel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5E-XH-SmJ">
-                                                        <rect key="frame" x="0.0" y="116" width="29" height="18"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                            </stackView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqd-di-cOe">
-                                                <rect key="frame" x="248" y="14" width="30" height="34"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="30" id="RHz-ke-oa3"/>
-                                                    <constraint firstAttribute="height" constant="34" id="zuQ-ey-Xns"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
-                                                <state key="normal" title=""/>
-                                                <connections>
-                                                    <action selector="zoomInAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cp5-we-5A0"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="Fgv-py-BBv" firstAttribute="top" secondItem="WYi-ff-MAk" secondAttribute="bottom" constant="8" id="0pY-mP-yew"/>
-                                            <constraint firstItem="WYi-ff-MAk" firstAttribute="top" secondItem="0bE-IY-GEc" secondAttribute="bottom" constant="8" id="1QE-Qx-sHp"/>
-                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Fgv-py-BBv" secondAttribute="bottom" constant="8" id="2US-Wi-NC5"/>
-                                            <constraint firstItem="0bE-IY-GEc" firstAttribute="top" secondItem="IOO-R4-kIF" secondAttribute="top" id="7zx-Ca-6dU"/>
-                                            <constraint firstItem="0bE-IY-GEc" firstAttribute="leading" secondItem="IOO-R4-kIF" secondAttribute="leading" id="D01-NL-vDK"/>
-                                            <constraint firstAttribute="trailing" secondItem="2rW-aX-Att" secondAttribute="trailing" constant="8" id="GlD-zD-jPh"/>
-                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2rW-aX-Att" secondAttribute="bottom" constant="8" id="MOk-fk-q8Z"/>
-                                            <constraint firstAttribute="bottom" secondItem="SNj-V7-7BX" secondAttribute="bottom" constant="8" placeholder="YES" id="RUh-ap-vW1"/>
-                                            <constraint firstItem="2rW-aX-Att" firstAttribute="top" secondItem="0bE-IY-GEc" secondAttribute="bottom" constant="8" id="T6U-nC-QJP"/>
-                                            <constraint firstItem="2rW-aX-Att" firstAttribute="leading" secondItem="SNj-V7-7BX" secondAttribute="trailing" constant="8" id="VcG-uk-mpA"/>
-                                            <constraint firstItem="Nqd-di-cOe" firstAttribute="leading" secondItem="WYi-ff-MAk" secondAttribute="trailing" constant="4" id="WHl-Nj-yYc"/>
-                                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SNj-V7-7BX" secondAttribute="bottom" constant="8" id="ZJ2-1Q-ArJ"/>
-                                            <constraint firstAttribute="trailing" secondItem="0bE-IY-GEc" secondAttribute="trailing" id="b4a-UW-3np"/>
-                                            <constraint firstItem="Nqd-di-cOe" firstAttribute="centerY" secondItem="WYi-ff-MAk" secondAttribute="centerY" id="bZA-hB-iwL"/>
-                                            <constraint firstItem="SNj-V7-7BX" firstAttribute="leading" secondItem="Fgv-py-BBv" secondAttribute="trailing" constant="8" id="gPn-kF-9IB"/>
-                                            <constraint firstItem="2rW-aX-Att" firstAttribute="leading" secondItem="Nqd-di-cOe" secondAttribute="trailing" constant="4" id="i9d-eG-XBP"/>
-                                            <constraint firstItem="SNj-V7-7BX" firstAttribute="top" secondItem="WYi-ff-MAk" secondAttribute="bottom" constant="8" id="pvj-ar-mhr"/>
-                                            <constraint firstItem="WYi-ff-MAk" firstAttribute="leading" secondItem="IOO-R4-kIF" secondAttribute="leading" constant="8" id="r0l-Me-zJz"/>
-                                            <constraint firstItem="Fgv-py-BBv" firstAttribute="leading" secondItem="IOO-R4-kIF" secondAttribute="leading" constant="8" id="sq8-R1-cuh"/>
-                                        </constraints>
-                                    </view>
-                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T28-Ca-Hkc">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="190.5"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <segue destination="g7K-2U-p0H" kind="embed" identifier="PointDetails" id="mth-VN-h7t"/>
-                                        </connections>
-                                    </containerView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="T28-Ca-Hkc" secondAttribute="trailing" id="8bH-Zy-LAi"/>
-                                    <constraint firstAttribute="bottom" secondItem="T28-Ca-Hkc" secondAttribute="bottom" id="Frf-xi-zgr"/>
-                                    <constraint firstAttribute="trailing" secondItem="IOO-R4-kIF" secondAttribute="trailing" id="MI0-5V-GHs"/>
-                                    <constraint firstItem="IOO-R4-kIF" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="top" id="RGZ-rA-SSq"/>
-                                    <constraint firstItem="T28-Ca-Hkc" firstAttribute="leading" secondItem="ZtX-Ye-bTp" secondAttribute="leading" id="WXQ-oc-pkU"/>
-                                    <constraint firstItem="T28-Ca-Hkc" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="top" id="ZTZ-A1-c5F"/>
-                                    <constraint firstItem="IOO-R4-kIF" firstAttribute="leading" secondItem="ZtX-Ye-bTp" secondAttribute="leading" id="tDJ-Pa-bJs"/>
-                                    <constraint firstAttribute="bottom" secondItem="IOO-R4-kIF" secondAttribute="bottom" id="xqN-1D-jmf"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="callButton" destination="43C-i3-1Bj" id="lY3-sq-E2s"/>
-                                    <outlet property="elevationLabel" destination="vi9-3f-BEf" id="7rV-yn-JXO"/>
-                                    <outlet property="emailButton" destination="lxx-Oi-AZO" id="Ef9-hw-wG6"/>
-                                    <outlet property="frequenciesButton" destination="QkX-rT-Yfk" id="gSs-hw-B9i"/>
-                                    <outlet property="frequencyLabel" destination="TzC-SE-gA8" id="DEX-8X-eMN"/>
-                                    <outlet property="fuelLabel" destination="h5E-XH-SmJ" id="yaE-Kb-pmJ"/>
-                                    <outlet property="longestRunwayLabel" destination="Efa-rX-tCt" id="AxW-aQ-0PF"/>
-                                    <outlet property="runwaysView" destination="Fgv-py-BBv" id="Iwp-rA-ftq"/>
-                                    <outlet property="titleLabel" destination="WYi-ff-MAk" id="d07-hu-kPa"/>
-                                    <outlet property="websiteButton" destination="c0t-Be-kdD" id="RdI-Hb-BKE"/>
-                                </connections>
-                            </view>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZJN-MG-PlH">
+                                <rect key="frame" x="8" y="8" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ZtX-Ye-bTp" firstAttribute="leading" secondItem="wc6-86-gGA" secondAttribute="trailing" constant="8" id="3W6-Er-3CJ"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="c1Z-jM-aBk" secondAttribute="bottom" id="6J3-o1-NUL"/>
                             <constraint firstAttribute="trailing" secondItem="c1Z-jM-aBk" secondAttribute="trailing" id="76L-Yf-MLC"/>
-                            <constraint firstItem="ZtX-Ye-bTp" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.4" id="Csq-hd-eh4"/>
-                            <constraint firstItem="ZtX-Ye-bTp" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="EGy-GG-0Gr"/>
-                            <constraint firstItem="ZtX-Ye-bTp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Mm6-Sm-hjr"/>
+                            <constraint firstItem="ZJN-MG-PlH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="Jm3-wc-S6I"/>
+                            <constraint firstItem="ZJN-MG-PlH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="Mwd-u6-Orz"/>
                             <constraint firstItem="c1Z-jM-aBk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NKt-Lc-fm7"/>
                             <constraint firstItem="c1Z-jM-aBk" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gsP-cD-YDx"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="bottom" id="jXz-mt-rVr"/>
                             <constraint firstItem="wc6-86-gGA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="k3L-gO-2x1"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ZtX-Ye-bTp" secondAttribute="bottom" identifier="DetailsBottom" id="osf-7E-Yfg"/>
-                            <constraint firstAttribute="trailing" secondItem="ZtX-Ye-bTp" secondAttribute="trailing" identifier="DetailsLeft" id="spP-aE-ZVe"/>
                             <constraint firstAttribute="trailing" secondItem="wc6-86-gGA" secondAttribute="trailing" constant="8" id="wMs-uD-yJk"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="3W6-Er-3CJ"/>
-                                <exclude reference="Csq-hd-eh4"/>
-                                <exclude reference="EGy-GG-0Gr"/>
-                                <exclude reference="Mm6-Sm-hjr"/>
                                 <exclude reference="wMs-uD-yJk"/>
-                                <exclude reference="jXz-mt-rVr"/>
-                                <exclude reference="osf-7E-Yfg"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=compact-widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="3W6-Er-3CJ"/>
-                                <include reference="Csq-hd-eh4"/>
-                                <include reference="EGy-GG-0Gr"/>
-                                <include reference="jXz-mt-rVr"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=compact-widthClass=regular">
-                            <mask key="constraints">
-                                <include reference="3W6-Er-3CJ"/>
-                                <include reference="Csq-hd-eh4"/>
-                                <include reference="EGy-GG-0Gr"/>
-                                <include reference="jXz-mt-rVr"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
-                                <include reference="Mm6-Sm-hjr"/>
                                 <include reference="wMs-uD-yJk"/>
-                                <include reference="osf-7E-Yfg"/>
-                            </mask>
-                        </variation>
-                        <variation key="heightClass=regular-widthClass=regular">
-                            <mask key="constraints">
-                                <include reference="3W6-Er-3CJ"/>
-                                <include reference="Csq-hd-eh4"/>
-                                <include reference="EGy-GG-0Gr"/>
-                                <include reference="jXz-mt-rVr"/>
                             </mask>
                         </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="G5q-wr-Odd"/>
                     <connections>
-                        <outlet property="detailsView" destination="ZtX-Ye-bTp" id="fiC-Gz-4vb"/>
+                        <outlet property="loadingIndicator" destination="ZJN-MG-PlH" id="DdC-fE-7r0"/>
                         <outlet property="mapView" destination="c1Z-jM-aBk" id="W5o-xO-GJs"/>
                     </connections>
                 </viewController>
@@ -404,17 +165,160 @@
             </objects>
             <point key="canvasLocation" x="1523" y="-976"/>
         </scene>
-        <!--Point Details Table View Controller-->
+        <!--Point Details View Controller-->
         <scene sceneID="oPD-ee-2HN">
             <objects>
-                <tableViewController id="g7K-2U-p0H" customClass="PointDetailsTableViewController" customModule="MapsAOPA" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PointDetailsViewController" id="g7K-2U-p0H" customClass="PointDetailsViewController" customModule="MapsAOPA" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="6mi-3h-JVN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="190.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="0.75" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="IOO-R4-kIF">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="190.5"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title / Index" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WYi-ff-MAk">
+                                    <rect key="frame" x="8" y="4" width="236" height="20.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="10" id="mky-A8-rKH"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fgv-py-BBv" customClass="RunwaysView" customModule="MapsAOPA" customModuleProvider="target">
+                                    <rect key="frame" x="8" y="32.5" width="100" height="100"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <gestureRecognizers/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="Fgv-py-BBv" secondAttribute="height" multiplier="1:1" id="8ET-Mj-7Jn"/>
+                                        <constraint firstAttribute="width" constant="100" id="CRJ-x7-BHQ"/>
+                                    </constraints>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                            <real key="value" value="10"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                            <real key="value" value="1"/>
+                                        </userDefinedRuntimeAttribute>
+                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                            <color key="value" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <outletCollection property="gestureRecognizers" destination="3dH-yf-Cct" appends="YES" id="bOh-kv-jIH"/>
+                                    </connections>
+                                </view>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="2rW-aX-Att">
+                                    <rect key="frame" x="282" y="4" width="30" height="136"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2mR-hL-kQ0">
+                                            <rect key="frame" x="4" y="0.0" width="22" height="22"/>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lxx-Oi-AZO">
+                                            <rect key="frame" x="0.0" y="26" width="30" height="34"/>
+                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
+                                            <state key="normal" title=""/>
+                                            <connections>
+                                                <action selector="mailAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="la7-Iu-CDo"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43C-i3-1Bj">
+                                            <rect key="frame" x="0.0" y="64" width="30" height="34"/>
+                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
+                                            <state key="normal" title=""/>
+                                            <connections>
+                                                <segue destination="MRN-Ny-u1C" kind="popoverPresentation" identifier="Contacts" popoverAnchorView="43C-i3-1Bj" id="Qe2-7e-dDB">
+                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                </segue>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c0t-Be-kdD">
+                                            <rect key="frame" x="0.0" y="102" width="30" height="34"/>
+                                            <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
+                                            <state key="normal" title=""/>
+                                            <connections>
+                                                <action selector="websiteAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="u21-m8-4tX"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="30" id="nEy-FV-eyw"/>
+                                    </constraints>
+                                </stackView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="SNj-V7-7BX">
+                                    <rect key="frame" x="116" y="32.5" width="158" height="150"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alt: 0m" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vi9-3f-BEf">
+                                            <rect key="frame" x="0.0" y="0.0" width="49" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Runways" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Efa-rX-tCt">
+                                            <rect key="frame" x="0.0" y="30" width="60.5" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Frequencies" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TzC-SE-gA8">
+                                            <rect key="frame" x="0.0" y="60" width="84" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QkX-rT-Yfk">
+                                            <rect key="frame" x="0.0" y="90" width="84" height="30"/>
+                                            <state key="normal" title="Frequencies"/>
+                                            <connections>
+                                                <segue destination="MRN-Ny-u1C" kind="popoverPresentation" identifier="Frequencies" popoverAnchorView="QkX-rT-Yfk" id="C7L-UQ-8bz">
+                                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                                </segue>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fuel" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h5E-XH-SmJ">
+                                            <rect key="frame" x="0.0" y="132" width="29" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nqd-di-cOe">
+                                    <rect key="frame" x="248" y="-2" width="30" height="34"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="30" id="RHz-ke-oa3"/>
+                                        <constraint firstAttribute="height" constant="34" id="zuQ-ey-Xns"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="FontAwesome" family="FontAwesome" pointSize="22"/>
+                                    <state key="normal" title=""/>
+                                    <connections>
+                                        <action selector="zoomInAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cp5-we-5A0"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="Fgv-py-BBv" firstAttribute="top" secondItem="WYi-ff-MAk" secondAttribute="bottom" constant="8" id="0pY-mP-yew"/>
+                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Fgv-py-BBv" secondAttribute="bottom" constant="8" id="2US-Wi-NC5"/>
+                                <constraint firstItem="WYi-ff-MAk" firstAttribute="top" secondItem="IOO-R4-kIF" secondAttribute="top" constant="4" id="2ho-sP-mqG"/>
+                                <constraint firstItem="2rW-aX-Att" firstAttribute="top" secondItem="IOO-R4-kIF" secondAttribute="top" constant="4" id="8pb-Nc-3gv"/>
+                                <constraint firstAttribute="trailing" secondItem="2rW-aX-Att" secondAttribute="trailing" constant="8" id="GlD-zD-jPh"/>
+                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="2rW-aX-Att" secondAttribute="bottom" constant="8" id="MOk-fk-q8Z"/>
+                                <constraint firstAttribute="bottom" secondItem="SNj-V7-7BX" secondAttribute="bottom" constant="8" placeholder="YES" id="RUh-ap-vW1"/>
+                                <constraint firstItem="2rW-aX-Att" firstAttribute="leading" secondItem="SNj-V7-7BX" secondAttribute="trailing" constant="8" id="VcG-uk-mpA"/>
+                                <constraint firstItem="Nqd-di-cOe" firstAttribute="leading" secondItem="WYi-ff-MAk" secondAttribute="trailing" constant="4" id="WHl-Nj-yYc"/>
+                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="SNj-V7-7BX" secondAttribute="bottom" constant="8" id="ZJ2-1Q-ArJ"/>
+                                <constraint firstItem="Nqd-di-cOe" firstAttribute="centerY" secondItem="WYi-ff-MAk" secondAttribute="centerY" id="bZA-hB-iwL"/>
+                                <constraint firstItem="SNj-V7-7BX" firstAttribute="leading" secondItem="Fgv-py-BBv" secondAttribute="trailing" constant="8" id="gPn-kF-9IB"/>
+                                <constraint firstItem="2rW-aX-Att" firstAttribute="leading" secondItem="Nqd-di-cOe" secondAttribute="trailing" constant="4" id="i9d-eG-XBP"/>
+                                <constraint firstItem="SNj-V7-7BX" firstAttribute="top" secondItem="WYi-ff-MAk" secondAttribute="bottom" constant="8" id="pvj-ar-mhr"/>
+                                <constraint firstItem="WYi-ff-MAk" firstAttribute="leading" secondItem="IOO-R4-kIF" secondAttribute="leading" constant="8" id="r0l-Me-zJz"/>
+                                <constraint firstItem="Fgv-py-BBv" firstAttribute="leading" secondItem="IOO-R4-kIF" secondAttribute="leading" constant="8" id="sq8-R1-cuh"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TextDetailsCell" rowHeight="27" id="cQa-oG-kuN" customClass="TextDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="55.5" width="320" height="27"/>
+                                <rect key="frame" x="0.0" y="246" width="320" height="27"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cQa-oG-kuN" id="o8T-nH-KOx">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="26.5"/>
@@ -450,14 +354,14 @@
                                         <constraint firstItem="bKu-BO-6fS" firstAttribute="top" secondItem="o8T-nH-KOx" secondAttribute="top" constant="8" id="y26-MW-bwn"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <connections>
                                     <outlet property="mainTextLabel" destination="bKu-BO-6fS" id="Vh0-mt-4RO"/>
                                     <outlet property="valueLabel" destination="wld-4H-ctu" id="mkx-cU-1b1"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailedDetailsCell" rowHeight="52" id="cxQ-6R-udh" customClass="DetailedDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="82.5" width="320" height="52"/>
+                                <rect key="frame" x="0.0" y="273" width="320" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cxQ-6R-udh" id="xxh-fE-aJ0">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="51.5"/>
@@ -492,14 +396,14 @@
                                         <constraint firstItem="PfJ-Ou-rBs" firstAttribute="top" secondItem="xIu-NE-kIO" secondAttribute="bottom" constant="4" id="ob4-x4-uf2"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <connections>
                                     <outlet property="detailsLabel" destination="PfJ-Ou-rBs" id="D7d-Wo-xgw"/>
                                     <outlet property="mainTextLabel" destination="xIu-NE-kIO" id="5bq-Go-XHU"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ValueDetailsCell" rowHeight="52" id="FP1-R4-eGi" customClass="ValueDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="134.5" width="320" height="52"/>
+                                <rect key="frame" x="0.0" y="325" width="320" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FP1-R4-eGi" id="eOP-t9-5ox">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="51.5"/>
@@ -546,7 +450,7 @@
                                         <constraint firstItem="fFN-UQ-31E" firstAttribute="top" secondItem="bbt-kh-L4N" secondAttribute="bottom" constant="4" id="yHf-Pc-bum"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <connections>
                                     <outlet property="detailsLabel" destination="fFN-UQ-31E" id="Arp-KU-Nja"/>
                                     <outlet property="mainTextLabel" destination="bbt-kh-L4N" id="GzO-K0-Fye"/>
@@ -554,7 +458,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="DetailsOnlyDetailsCell" rowHeight="52" id="BXp-rP-Wgz" customClass="ValueDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="186.5" width="320" height="52"/>
+                                <rect key="frame" x="0.0" y="377" width="320" height="52"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BXp-rP-Wgz" id="drq-ot-bR6">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="51.5"/>
@@ -589,14 +493,14 @@
                                         <constraint firstAttribute="trailing" secondItem="hVD-BO-WZq" secondAttribute="trailing" constant="8" id="mge-eB-ZSu"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <connections>
                                     <outlet property="detailsLabel" destination="hEj-sC-NNv" id="NOD-Jk-0KL"/>
                                     <outlet property="valueLabel" destination="hVD-BO-WZq" id="EZc-sn-PJ3"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ItemsDetailsCell" rowHeight="62" id="cr2-CQ-IXR" customClass="ItemsDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="238.5" width="320" height="62"/>
+                                <rect key="frame" x="0.0" y="429" width="320" height="62"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cr2-CQ-IXR" id="CrS-Xw-l8g">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="61.5"/>
@@ -625,14 +529,14 @@
                                         <constraint firstAttribute="trailing" secondItem="aXp-AR-Y0V" secondAttribute="trailing" constant="8" id="sLm-tO-2EA"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <connections>
                                     <outlet property="itemsView" destination="YgX-Hi-4Gm" id="sgU-Ls-kNC"/>
                                     <outlet property="mainTextLabel" destination="aXp-AR-Y0V" id="Pwu-Cx-pw4"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ImageDetailsCell" rowHeight="450" id="MUg-te-y7l" customClass="ImageDetailsCell" customModule="MapsAOPA" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="300.5" width="320" height="450"/>
+                                <rect key="frame" x="0.0" y="491" width="320" height="450"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MUg-te-y7l" id="Jtk-EQ-ib0">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="449.5"/>
@@ -657,7 +561,7 @@
                                         <constraint firstItem="dDY-q9-b6Z" firstAttribute="leading" secondItem="Jtk-EQ-ib0" secondAttribute="leading" constant="8" id="heW-UO-tsE"/>
                                     </constraints>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" white="1" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <connections>
                                     <outlet property="mainImageView" destination="dDY-q9-b6Z" id="Lhz-n9-ezC"/>
                                 </connections>
@@ -671,7 +575,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zDD-sb-lP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2486" y="-1209"/>
+            <point key="canvasLocation" x="2483" y="-1013"/>
         </scene>
         <!--Details Table View Controller-->
         <scene sceneID="dY7-Vd-d3g">
@@ -817,7 +721,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s05-4F-omX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2486" y="-862"/>
+            <point key="canvasLocation" x="3268" y="-1013"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="06X-Ej-YjB">
@@ -907,92 +811,14 @@
                                                                             <attributes>
                                                                                 <real key="NSBaselineOffset" value="-3"/>
                                                                                 <font key="NSFont" size="14" name="maki"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                                    <tabStops>
-                                                                                        <textTab alignment="left" location="28">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="56">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="84">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="112">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="140">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="168">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="196">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="224">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="252">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="280">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="308">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="336">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                    </tabStops>
-                                                                                </paragraphStyle>
+                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                                             </attributes>
                                                                         </fragment>
                                                                         <fragment content=" ">
                                                                             <attributes>
                                                                                 <real key="NSBaselineOffset" value="-3"/>
                                                                                 <font key="NSFont" size="14" name="LucidaGrande"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                                    <tabStops>
-                                                                                        <textTab alignment="left" location="28">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="56">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="84">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="112">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="140">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="168">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="196">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="224">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="252">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="280">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="308">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="336">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                    </tabStops>
-                                                                                </paragraphStyle>
+                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                                             </attributes>
                                                                         </fragment>
                                                                         <fragment>
@@ -1002,46 +828,7 @@ Cg
                                                                             <attributes>
                                                                                 <real key="NSBaselineOffset" value="-3"/>
                                                                                 <font key="NSFont" size="14" name="maki"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                                    <tabStops>
-                                                                                        <textTab alignment="left" location="28">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="56">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="84">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="112">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="140">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="168">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="196">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="224">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="252">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="280">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="308">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="336">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                    </tabStops>
-                                                                                </paragraphStyle>
+                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                                             </attributes>
                                                                         </fragment>
                                                                         <fragment content="None">
@@ -1071,46 +858,7 @@ Cg
                                                                             <attributes>
                                                                                 <real key="NSBaselineOffset" value="-3"/>
                                                                                 <font key="NSFont" size="14" name="maki"/>
-                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                                                    <tabStops>
-                                                                                        <textTab alignment="left" location="28">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="56">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="84">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="112">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="140">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="168">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="196">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="224">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="252">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="280">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="308">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                        <textTab alignment="left" location="336">
-                                                                                            <options/>
-                                                                                        </textTab>
-                                                                                    </tabStops>
-                                                                                </paragraphStyle>
+                                                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
                                                                             </attributes>
                                                                         </fragment>
                                                                         <fragment content="Active">
@@ -1404,6 +1152,6 @@ Cg
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="C7L-UQ-8bz"/>
+        <segue reference="Qe2-7e-dDB"/>
     </inferredMetricsTieBreakers>
 </document>

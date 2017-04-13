@@ -20,9 +20,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
 
     @IBOutlet var mapView : MKMapView!
     @IBOutlet var detailsView : PointDetailsView!
+    @IBOutlet var loadingIndicator : UIActivityIndicatorView!
     
     fileprivate static let zoomToPointSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     
+    var loadingViewModel : LoadingViewModel!
     var viewModel: MapViewModel!
     
     fileprivate var pointDetailsViewController : PointDetailsViewController?
@@ -52,7 +54,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
             self?.mapView.mapType = mapType
         }
         
-        let _ = self.viewModel.errorMessage.signal.on(value: { [weak self] message in
+        let _ = self.loadingViewModel.isLoading.producer.startWithValues { [weak self] isLoading in
+            if isLoading {
+                self?.loadingIndicator.startAnimating()
+            } else {
+                self?.loadingIndicator.stopAnimating()
+            }
+        }
+        
+        let _ = self.loadingViewModel.errorMessage.signal.on(value: { [weak self] message in
             self?.displayError(message: message)
         })
         
@@ -79,8 +89,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
 //                self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point?.point), animated: true)
             }
         }
-        
-        self.viewModel.loadAirfields()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
