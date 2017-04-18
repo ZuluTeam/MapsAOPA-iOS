@@ -9,6 +9,11 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Material-Design-Iconic-Font.ttf">
+            <string>Material-Design-Iconic-Font</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="BIY-WV-ecD">
@@ -116,6 +121,51 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view autoresizesSubviews="NO" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="D5m-n9-Lwm" userLabel="Overlay Buttons View" customClass="DesignableUIView" customModule="MapsAOPA" customModuleProvider="target">
+                                <rect key="frame" x="262" y="446" width="50" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wph-hG-fcj" customClass="DesignableUIButton" customModule="MapsAOPA" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Wph-hG-fcj" secondAttribute="height" multiplier="1:1" id="9zo-RB-cLI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Material-Design-Iconic-Font" family="Material-Design-Iconic-Font" pointSize="24"/>
+                                        <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="4"/>
+                                        <state key="normal" title=""/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="makeCircle" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="centerUserLocationAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="r9B-fF-wKt"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Wph-hG-fcj" firstAttribute="leading" secondItem="D5m-n9-Lwm" secondAttribute="leading" id="22h-Au-n4T"/>
+                                    <constraint firstItem="Wph-hG-fcj" firstAttribute="top" secondItem="D5m-n9-Lwm" secondAttribute="top" id="NIg-dE-6AO"/>
+                                    <constraint firstAttribute="trailing" secondItem="Wph-hG-fcj" secondAttribute="trailing" id="YFe-1C-ccp"/>
+                                    <constraint firstAttribute="width" constant="50" id="dN5-hr-yHl"/>
+                                    <constraint firstAttribute="bottom" secondItem="Wph-hG-fcj" secondAttribute="bottom" id="l8P-c1-r1d"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="3"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZJN-MG-PlH">
                                 <rect key="frame" x="8" y="8" width="20" height="20"/>
                             </activityIndicatorView>
@@ -125,8 +175,10 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="c1Z-jM-aBk" secondAttribute="bottom" id="6J3-o1-NUL"/>
                             <constraint firstAttribute="trailing" secondItem="c1Z-jM-aBk" secondAttribute="trailing" id="76L-Yf-MLC"/>
                             <constraint firstItem="ZJN-MG-PlH" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="Jm3-wc-S6I"/>
+                            <constraint firstItem="D5m-n9-Lwm" firstAttribute="trailing" secondItem="wc6-86-gGA" secondAttribute="trailing" id="Jrx-PP-ySM"/>
                             <constraint firstItem="ZJN-MG-PlH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="Mwd-u6-Orz"/>
                             <constraint firstItem="c1Z-jM-aBk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="NKt-Lc-fm7"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="D5m-n9-Lwm" secondAttribute="bottom" constant="8" id="YQ9-ib-lsX"/>
                             <constraint firstItem="c1Z-jM-aBk" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="gsP-cD-YDx"/>
                             <constraint firstItem="wc6-86-gGA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="k3L-gO-2x1"/>
                             <constraint firstAttribute="trailing" secondItem="wc6-86-gGA" secondAttribute="trailing" constant="8" id="wMs-uD-yJk"/>
@@ -135,6 +187,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="G5q-wr-Odd"/>
                     <connections>
+                        <outlet property="centerUserLocationButton" destination="Wph-hG-fcj" id="LWm-lR-kq6"/>
                         <outlet property="loadingIndicator" destination="ZJN-MG-PlH" id="DdC-fE-7r0"/>
                         <outlet property="mapView" destination="c1Z-jM-aBk" id="W5o-xO-GJs"/>
                     </connections>

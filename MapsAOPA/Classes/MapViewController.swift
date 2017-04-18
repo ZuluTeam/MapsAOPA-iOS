@@ -21,6 +21,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     @IBOutlet var mapView : MKMapView!
     @IBOutlet var detailsView : PointDetailsView!
     @IBOutlet var loadingIndicator : UIActivityIndicatorView!
+    @IBOutlet var centerUserLocationButton : UIButton!
     
     fileprivate static let zoomToPointSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     
@@ -35,8 +36,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         super.init(coder: aDecoder)
     }
     
-    fileprivate var keyboardObserver : KeyboardObserver?
-    fileprivate var searchTimer : Timer?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +79,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
 //                self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point?.point), animated: true)
             }
         }
+        
+        self.centerUserLocationButton.titleEdgeInsets = UIEdgeInsets(top: 3.0, left: 0.0, bottom: 0.0, right: 0.0)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -180,6 +181,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         self.mapView.setRegion(region, animated: true)
     }
     
+    fileprivate func zoom(in isIn: Bool) {
+        let k : CLLocationDegrees = isIn ? -1 : 1
+        let camera = mapView.camera
+        camera.altitude = camera.altitude * (1.0 + k * MapViewController.zoomPercent)
+        mapView.setCamera(camera, animated: true)
+    }
+    
     // MARK: - Actions
     
     @IBAction func zoomPointAction(_ sender: AnyObject?) {
@@ -197,11 +205,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     }
 
     @IBAction func zoomInAction(_ sender: UIButton) {
-        zoomInMap()
+        zoom(in: true)
     }
     
     @IBAction func zoomOutAction(_ sender: UIButton) {
-        zoomOutMap()
+        zoom(in: false)
+    }
+    
+    @IBAction func centerUserLocationAction(_ sender: UIButton) {
+        var mapRegion = self.mapView.region
+        let center = self.mapView.userLocation
+        mapRegion.center = center.coordinate
+        self.mapView.setRegion(mapRegion, animated: true)
     }
     
     
@@ -236,27 +251,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return RunwaysOverlayRenderer(overlay: overlay)
-    }
-    
-    
-    // MARK: Zoom Buttons Action
-    
-    func zoomInMap() {
-        var region = mapView.region
-        var span = MKCoordinateSpan()
-        span.latitudeDelta = region.span.latitudeDelta * (1.0 - MapViewController.zoomPercent)
-        span.longitudeDelta = region.span.longitudeDelta * (1.0 - MapViewController.zoomPercent)
-        region.span = span
-        mapView.setRegion(region, animated: true);
-    }
-    
-    func zoomOutMap() {
-        var region = mapView.region
-        var span = MKCoordinateSpan()
-        span.latitudeDelta = region.span.latitudeDelta * (1.0 + MapViewController.zoomPercent)
-        span.longitudeDelta = region.span.longitudeDelta * (1.0 + MapViewController.zoomPercent)
-        region.span = span
-        mapView.setRegion(region, animated: true);
     }
 
     
