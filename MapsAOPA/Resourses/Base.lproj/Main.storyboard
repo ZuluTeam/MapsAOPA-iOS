@@ -76,7 +76,7 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="makeCircle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="zoomInButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6YU-oU-9Qf"/>
+                                            <action selector="zoomInAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WAH-fs-wFH"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Un-TN-8C0" userLabel="-" customClass="DesignableUIButton" customModule="MapsAOPA" customModuleProvider="target">
@@ -95,7 +95,7 @@
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="makeCircle" value="YES"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="zoomOutButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AIh-cc-Wik"/>
+                                            <action selector="zoomOutAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MV5-7H-B4K"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -133,7 +133,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Wph-hG-fcj" secondAttribute="height" multiplier="1:1" id="9zo-RB-cLI"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Material-Design-Iconic-Font" family="Material-Design-Iconic-Font" pointSize="28"/>
+                                        <fontDescription key="fontDescription" name="Material-Design-Iconic-Font" family="Material-Design-Iconic-Font" pointSize="24"/>
                                         <inset key="contentEdgeInsets" minX="1" minY="0.0" maxX="0.0" maxY="4"/>
                                         <state key="normal" title=""/>
                                         <userDefinedRuntimeAttributes>

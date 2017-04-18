@@ -36,9 +36,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         super.init(coder: aDecoder)
     }
     
-    fileprivate var keyboardObserver : KeyboardObserver?
-    fileprivate var searchTimer : Timer?
-    
     override public var preferredStatusBarStyle: UIStatusBarStyle {
         get {
             if self.mapView?.mapType != MKMapType.standard {
@@ -179,6 +176,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         self.mapView.setRegion(region, animated: true)
     }
     
+    fileprivate func zoom(in isIn: Bool) {
+        let k : CLLocationDegrees = isIn ? -1 : 1
+        let camera = mapView.camera
+        camera.altitude = camera.altitude * (1.0 + k * MapViewController.zoomPercent)
+        mapView.setCamera(camera, animated: true)
+    }
+    
     // MARK: - Actions
     
     @IBAction func zoomPointAction(_ sender: AnyObject?) {
@@ -196,11 +200,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     }
 
     @IBAction func zoomInAction(_ sender: UIButton) {
-        zoomInMap()
+        zoom(in: true)
     }
     
     @IBAction func zoomOutAction(_ sender: UIButton) {
-        zoomOutMap()
+        zoom(in: false)
     }
     
     @IBAction func centerUserLocationAction(_ sender: UIButton) {
@@ -242,27 +246,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         return RunwaysOverlayRenderer(overlay: overlay)
-    }
-    
-    
-    // MARK: Zoom Buttons Action
-    
-    func zoomInMap() {
-        var region = mapView.region
-        var span = MKCoordinateSpan()
-        span.latitudeDelta = region.span.latitudeDelta * (1.0 - MapViewController.zoomPercent)
-        span.longitudeDelta = region.span.longitudeDelta * (1.0 - MapViewController.zoomPercent)
-        region.span = span
-        mapView.setRegion(region, animated: true);
-    }
-    
-    func zoomOutMap() {
-        var region = mapView.region
-        var span = MKCoordinateSpan()
-        span.latitudeDelta = region.span.latitudeDelta * (1.0 + MapViewController.zoomPercent)
-        span.longitudeDelta = region.span.longitudeDelta * (1.0 + MapViewController.zoomPercent)
-        region.span = span
-        mapView.setRegion(region, animated: true);
     }
 
     
