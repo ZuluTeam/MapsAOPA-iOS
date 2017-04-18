@@ -17,6 +17,10 @@ extension UIFont {
     static func awesomeFont(ofSize size: CGFloat) -> UIFont {
         return UIFont(name: "FontAwesome", size: size)!
     }
+    
+    static func materialFont(ofSize size: CGFloat) -> UIFont {
+        return UIFont(name: "Material-Design-Iconic-Font", size: size)!
+    }
 }
 
 enum AppIcons : String {

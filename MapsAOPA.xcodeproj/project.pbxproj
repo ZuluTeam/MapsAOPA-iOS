@@ -14,6 +14,7 @@
 		44D3E8DA1E65B801000B52E9 /* Point+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D3E8D91E65B801000B52E9 /* Point+Search.swift */; };
 		44D3E8DC1E6712E0000B52E9 /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44D3E8DB1E6712E0000B52E9 /* ValueTransformer.swift */; };
 		44DAAE671E5DDD1F00A9EFB6 /* ManagedObject+Inserts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DAAE661E5DDD1F00A9EFB6 /* ManagedObject+Inserts.swift */; };
+		B51A314D1EA60EE9008DC6FF /* Material-Design-Iconic-Font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B51A314C1EA60EE3008DC6FF /* Material-Design-Iconic-Font.ttf */; };
 		B52AA6631E545E8100D96767 /* AOPAError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52AA6621E545E8100D96767 /* AOPAError.swift */; };
 		B52AA6651E5481FD00D96767 /* AOPALoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52AA6641E5481FD00D96767 /* AOPALoader.swift */; };
 		B52AA6671E54823900D96767 /* AOPANetwork.Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = B52AA6661E54823900D96767 /* AOPANetwork.Config.swift */; };
@@ -85,6 +86,7 @@
 		44DAAE661E5DDD1F00A9EFB6 /* ManagedObject+Inserts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ManagedObject+Inserts.swift"; sourceTree = "<group>"; };
 		759E18A16619C4DE65F04C3A /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7BCF0BB8DB91F229929E579 /* Pods_MapsAOPA.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MapsAOPA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B51A314C1EA60EE3008DC6FF /* Material-Design-Iconic-Font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Material-Design-Iconic-Font.ttf"; sourceTree = "<group>"; };
 		B52AA6621E545E8100D96767 /* AOPAError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AOPAError.swift; sourceTree = "<group>"; };
 		B52AA6641E5481FD00D96767 /* AOPALoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AOPALoader.swift; sourceTree = "<group>"; };
 		B52AA6661E54823900D96767 /* AOPANetwork.Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AOPANetwork.Config.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 		B5B9B6661E64953400BAD840 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				B51A314C1EA60EE3008DC6FF /* Material-Design-Iconic-Font.ttf */,
 				B5B9B6671E64953400BAD840 /* maki.ttf */,
 				B564C0DB1E7969B6000DAC6F /* fontawesome.ttf */,
 			);
@@ -476,6 +479,7 @@
 				B550117A1E76DCB600ABB184 /* DetailsItemView.xib in Resources */,
 				B5447D3F1CC12ECA0041B579 /* Localizable.strings in Resources */,
 				1B8B20581E6F5AEA0050F381 /* Main.storyboard in Resources */,
+				B51A314D1EA60EE9008DC6FF /* Material-Design-Iconic-Font.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

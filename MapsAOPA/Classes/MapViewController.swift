@@ -21,6 +21,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     @IBOutlet var mapView : MKMapView!
     @IBOutlet var detailsView : PointDetailsView!
     @IBOutlet var loadingIndicator : UIActivityIndicatorView!
+    @IBOutlet var centerUserLocationButton : UIButton!
     
     fileprivate static let zoomToPointSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     
@@ -89,6 +90,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
 //                self?.showPointInfo(self?.viewModel.pointDetailsViewModel(from: point?.point), animated: true)
             }
         }
+        
+        self.centerUserLocationButton.titleEdgeInsets = UIEdgeInsets(top: 3.0, left: 0.0, bottom: 0.0, right: 0.0)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -198,6 +201,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
     
     @IBAction func zoomOutAction(_ sender: UIButton) {
         zoomOutMap()
+    }
+    
+    @IBAction func centerUserLocationAction(_ sender: UIButton) {
+        var mapRegion = self.mapView.region
+        let center = self.mapView.userLocation
+        mapRegion.center = center.coordinate
+        self.mapView.setRegion(mapRegion, animated: true)
     }
     
     
