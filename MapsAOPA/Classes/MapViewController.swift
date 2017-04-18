@@ -83,6 +83,21 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
         self.centerUserLocationButton.titleEdgeInsets = UIEdgeInsets(top: 3.0, left: 0.0, bottom: 0.0, right: 0.0)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        for constraint in self.view.constraints {
+            if constraint.identifier == "details_top", let detailsView = constraint.secondItem as? UIView {
+                UIView.animate(withDuration: 0.25, delay: 0.0, animations: {
+                    detailsView.y = self.view.height - detailsView.height
+                }, completion: { _ in
+                    constraint.constant = detailsView.height
+                    constraint.identifier = nil
+                    self.view.setNeedsLayout()
+                })
+            }
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 //        if let destinationViewController = segue.destination as? DetailsTableViewController {
 //            switch segue.identifier ?? "" {
@@ -140,12 +155,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, UIPopoverPresentat
                 self.view.addSubview(detailsView)
                 self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: detailsView, attribute: .leading, multiplier: 1.0, constant: 0.0))
                 self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: detailsView, attribute: .trailing, multiplier: 1.0, constant: 0.0))
-                self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: detailsView, attribute: .bottom, multiplier: 1.0, constant: 0.0))
+                let topConstraint = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: detailsView, attribute: .top, multiplier: 1.0, constant: 0.0)
+                topConstraint.identifier = "details_top"
+                self.view.addConstraint(topConstraint)
                 self.view.setNeedsLayout()
-                detailsView.y = self.view.height
-                UIView.animate(withDuration: 0.25, animations: { 
-                    self.view.setNeedsLayout()
-                })
             }
         }
     }

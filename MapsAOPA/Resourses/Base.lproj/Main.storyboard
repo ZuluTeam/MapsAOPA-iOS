@@ -201,7 +201,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1523" y="-976"/>
+            <point key="canvasLocation" x="1523" y="-979"/>
         </scene>
         <!--Point Details View Controller-->
         <scene sceneID="oPD-ee-2HN">
@@ -616,7 +616,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s05-4F-omX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3268" y="-1013"/>
+            <point key="canvasLocation" x="3276" y="-1013"/>
         </scene>
         <!--Main View Controller-->
         <scene sceneID="06X-Ej-YjB">
@@ -655,7 +655,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OTF-ZR-AfU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="705" y="-1009.8591549295775"/>
+            <point key="canvasLocation" x="703" y="-1013"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="gwX-bZ-F0Z">
