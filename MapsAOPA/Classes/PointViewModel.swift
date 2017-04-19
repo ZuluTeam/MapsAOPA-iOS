@@ -34,10 +34,23 @@ class PointViewModel : Hashable, Equatable {
     let pointType : PointType
     let title : String
     let region : String
-    let point : Point
+    let pointID : NSManagedObjectID
+    var _point : Point?
+    
+    var point : Point? {
+        get {
+            if _point == nil {
+                if let point = try? Database.sharedDatabase.managedObjectContext.existingObject(with: pointID) as? Point {
+                    _point = point
+                }
+            }
+            return _point
+        }
+    }
+    
     
     init(point: Point) {
-        self.point = point
+        self.pointID = point.objectID
         self.index = point.index ?? ""
         self.location = point.location?.location ?? CLLocationCoordinate2D(latitude: 0, longitude: 0)
         self.isServiced = point.isServiced()
